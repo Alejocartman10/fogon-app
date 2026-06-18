@@ -1985,33 +1985,70 @@ function sendAsk(){
   askQuestion(txt);
 }
 
-function askQuestion(pregunta){
+async function askQuestion(pregunta){
   const body = document.getElementById('ask-body');
-  // quitar las sugerencias una vez que se hace la primera pregunta
   const sugg = body.querySelector('.ask-suggestions');
   if (sugg) sugg.remove();
-  // mensaje del usuario
   body.innerHTML += `<div class="ask-msg user">${pregunta}</div>`;
-  // buscar respuesta
-  const respuesta = buscarRespuesta(pregunta);
-  body.innerHTML += `<div class="ask-msg bot">${respuesta}</div>`;
+  const loadingId = 'ask-loading-' + Date.now();
+  body.innerHTML += `<div class="ask-msg bot" id="${loadingId}">Pensando…</div>`;
+  body.scrollTop = body.scrollHeight;
+
+  const respuesta = await preguntarIA(pregunta);
+  const loadingEl = document.getElementById(loadingId);
+  if (loadingEl) loadingEl.innerHTML = respuesta;
   body.scrollTop = body.scrollHeight;
 }
 
-function buscarRespuesta(pregunta){
-  const faq = getFAQ(askDishId);
-  const pregLower = pregunta.toLowerCase();
-  if (faq){
-    // buscar la entrada con más coincidencias de keywords
-    let mejor = null, mejorScore = 0;
-    faq.qa.forEach(entry=>{
-      const score = entry.k.filter(kw=>pregLower.includes(kw)).length;
-      if (score > mejorScore){ mejorScore = score; mejor = entry; }
+// Construye el contexto de la receta actual para que la IA responda con
+// conocimiento específico de lo que el usuario está cocinando, no genérico.
+function construirContextoReceta(receta){
+  const ingredientesTexto = receta.ingredientes
+    .map(i => i.c===0 ? i.n : `${i.c}${i.u} de ${i.n}`)
+    .join(', ');
+  const pasosTexto = receta.pasos
+    .map((p,i) => `${i+1}. ${p.t.replace(/\{[\d.]+\|([^}]+)\}/g, (m,w)=>w)}`)
+    .join('\n');
+  return `Eres el asistente de cocina de la app Fogón. El usuario está preparando "${receta.nombre}" (${receta.pais}).
+
+Ingredientes de la receta: ${ingredientesTexto}
+
+Pasos de la receta:
+${pasosTexto}
+
+Responde la duda del usuario de forma breve (2-4 frases), cálida y directa, como si estuvieras a su lado en la cocina. Si la pregunta no tiene relación con esta receta o con cocina en general, dilo amablemente y redirige a dudas de la receta. No uses markdown ni listas, solo texto corrido. Puedes usar **negrita** para una palabra clave si ayuda a la claridad.`;
+}
+
+// Llama a la API de Claude (Anthropic) con el contexto de la receta actual.
+// Requiere que la app esté desplegada (Vercel u otro entorno con acceso a
+// internet); no funciona dentro de la vista previa de Claude.ai por razones
+// de seguridad del sandbox.
+async function preguntarIA(pregunta){
+  const receta = RECETAS_PASAPORTE[askDishId];
+  if (!receta) return 'No encuentro el contexto de esta receta. Intenta de nuevo.';
+  const systemPrompt = construirContextoReceta(receta);
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 300,
+        system: systemPrompt,
+        messages: [{ role: "user", content: pregunta }]
+      })
     });
-    if (mejor) return mejor.r;
+    if (!response.ok) throw new Error('API error ' + response.status);
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === 'text');
+    let texto = textBlock ? textBlock.text : 'No pude generar una respuesta. Intenta de nuevo.';
+    // convertir **negrita** a <strong> para el render del chat
+    texto = texto.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    return texto;
+  } catch (err) {
+    console.error('Error consultando la IA:', err);
+    return 'No pude conectarme con el asistente en este momento. Si estás viendo esta app dentro de Claude.ai (vista previa), esta función solo funciona en la versión publicada en Vercel. Intenta de nuevo en unos segundos si ya estás en la app publicada.';
   }
-  // sin coincidencia: respuesta honesta
-  return 'Buena pregunta. En esta versión de prueba todavía no tengo respuesta para eso, pero cuando el asistente esté completo podré ayudarte con cualquier duda sobre la receta. Por ahora puedo responder las dudas más comunes — prueba con las sugerencias.';
 }
 
 // ════════════════════════════════════════════════
