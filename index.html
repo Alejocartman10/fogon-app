@@ -50,6 +50,41 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .ing-portion-val{color:#2B2620!important}
 .ing-name{color:#2B2620!important}
 .ing-amount{color:#C4633F!important}
+.ask-sheet,.ask-input-row{background:#FBF6EE!important}
+.ask-header-title{color:#2B2620!important}
+.ask-sugg-chip,.ask-input{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
+.ask-msg.bot{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
+.ask-msg.user{background:#C4633F!important;color:#fff!important}
+
+/* ── ASISTENTE DE DUDAS ── */
+.ask-btn{margin:0 22px 18px;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#3D5A45,#4a6b53);border:none;border-radius:16px;padding:15px 18px;cursor:pointer;width:calc(100% - 44px)}
+.ask-btn-icon{font-size:1.3em;flex-shrink:0}
+.ask-btn-text{flex:1;text-align:left}
+.ask-btn-title{font-family:'Sora',sans-serif;font-weight:600;font-size:.82em;color:#fff}
+.ask-btn-sub{font-size:.64em;color:rgba(255,255,255,0.7);margin-top:1px}
+.ask-btn-arrow{color:rgba(255,255,255,0.8);font-size:1.1em}
+
+.ask-overlay{display:none;position:fixed;inset:0;background:rgba(43,38,32,0.5);z-index:200;align-items:flex-end;justify-content:center}
+.ask-overlay.visible{display:flex;animation:fadeUp .25s ease}
+.ask-sheet{width:100%;max-width:460px;background:var(--crema);border-radius:26px 26px 0 0;height:82vh;display:flex;flex-direction:column;overflow:hidden}
+.ask-header{padding:20px 22px 14px;border-bottom:1px solid var(--linea);flex-shrink:0;position:relative}
+.ask-header-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.15em;color:var(--tinta)}
+.ask-header-sub{font-size:.66em;color:var(--tinta-dim);margin-top:2px}
+.ask-close{position:absolute;top:18px;right:20px;background:none;border:none;font-size:1.1em;color:var(--tinta-dim);cursor:pointer}
+.ask-body{flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.ask-suggestions{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.ask-sugg-label{font-size:.6em;letter-spacing:2px;text-transform:uppercase;color:var(--tinta-faint);font-weight:700;margin-bottom:2px}
+.ask-sugg-chip{text-align:left;background:var(--card);border:1px solid var(--linea);border-radius:12px;padding:11px 14px;font-size:.76em;color:var(--tinta);cursor:pointer;font-family:'Sora',sans-serif}
+.ask-sugg-chip:active{background:var(--crema2)}
+.ask-msg{max-width:85%;padding:12px 15px;border-radius:16px;font-size:.8em;line-height:1.5}
+.ask-msg.user{align-self:flex-end;background:var(--terracota);color:#fff;border-bottom-right-radius:5px}
+.ask-msg.bot{align-self:flex-start;background:var(--card);border:1px solid var(--linea);color:var(--tinta);border-bottom-left-radius:5px}
+.ask-msg.bot strong{color:var(--salvia)}
+.ask-input-row{flex-shrink:0;padding:12px 16px 20px;border-top:1px solid var(--linea);display:flex;gap:10px;align-items:center;background:var(--crema)}
+.ask-input{flex:1;border:1px solid var(--linea);border-radius:14px;padding:12px 14px;font-family:'Sora',sans-serif;font-size:.8em;color:var(--tinta);background:var(--card);-webkit-appearance:none}
+.ask-input:focus{outline:none;border-color:var(--salvia-line)}
+.ask-send{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--salvia);border:none;color:#fff;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ask-disclaimer{font-size:.58em;color:var(--tinta-faint);text-align:center;padding:0 20px 8px;line-height:1.4}
 .serif{font-family:'Fraunces',serif}
 .mono{font-family:'JetBrains Mono',monospace}
 
@@ -420,6 +455,23 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
     <div class="country-hero-desc" id="ch-desc"></div>
   </div>
   <div class="dish-grid" id="dish-grid"></div>
+</div>
+
+<!-- ══ ASISTENTE DE DUDAS ══ -->
+<div class="ask-overlay" id="ask-overlay" onclick="closeAsk(event)">
+  <div class="ask-sheet" onclick="event.stopPropagation()">
+    <div class="ask-header">
+      <div class="ask-header-title" id="ask-title">¿Tienes una duda?</div>
+      <div class="ask-header-sub" id="ask-sub">Pregunta lo que sea sobre esta receta</div>
+      <button class="ask-close" onclick="closeAsk()">✕</button>
+    </div>
+    <div class="ask-body" id="ask-body"></div>
+    <div class="ask-disclaimer">Asistente en versión de prueba · respuestas a las dudas más comunes</div>
+    <div class="ask-input-row">
+      <input class="ask-input" id="ask-input" placeholder="Escribe tu duda..." onkeydown="if(event.key==='Enter')sendAsk()">
+      <button class="ask-send" onclick="sendAsk()">↑</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ MODE SWITCH SHEET ══ -->
@@ -1317,6 +1369,47 @@ const RECETAS_PASAPORTE = {
 };
 
 // ════════════════════════════════════════════════
+// ASISTENTE DE DUDAS — banco de preguntas frecuentes (versión simulada)
+// Cada entrada: keywords que disparan la respuesta + el texto de respuesta.
+// 'sugeridas' son las que aparecen como botones al abrir el chat.
+// ════════════════════════════════════════════════
+const FAQ = {
+  'carbonara':{
+    sugeridas:['¿El parmesano de bolsa sirve?','¿Por qué no lleva crema?','Se me cuajó el huevo, ¿qué pasó?'],
+    qa:[
+      {k:['parmesano','queso','bolsa','rallado','bloque','pecorino'], r:'Mejor en bloque y rállalo tú. El queso ya rallado de bolsa suele traer antiaglomerantes (como celulosa) que impiden que se derrita bien y cremoso — con la carbonara quedaría arenoso en vez de sedoso. Si solo tienes de bolsa, funciona pero la textura no será la ideal.'},
+      {k:['crema','nata','leche'], r:'La carbonara romana auténtica <strong>no lleva crema</strong>. La textura cremosa viene del huevo y el queso emulsionados con el agua caliente de la pasta. Agregar crema es un atajo común fuera de Italia, pero cambia el plato — y una vez que dominas la técnica del huevo, no la echas de menos.'},
+      {k:['cuajó','cuajado','revuelto','huevo','grumos'], r:'El huevo se cocinó de más por exceso de calor. La clave es mezclar el huevo <strong>fuera del fuego</strong>: el calor residual de la pasta y la sartén basta. Si lo haces sobre la llama, se convierte en huevo revuelto. La próxima vez, apaga el fuego antes de añadir la mezcla.'},
+      {k:['guanciale','panceta','tocino','bacon'], r:'El guanciale (papada de cerdo curada) es lo tradicional, pero la panceta o tocineta funcionan bien. Evita el bacon ahumado si puedes — el humo tapa el sabor delicado del plato. Lo importante es que suelte su grasa lentamente en sartén frío.'}
+    ]
+  },
+  'risotto':{
+    sugeridas:['¿Puedo usar otro arroz?','¿El caldo tiene que estar caliente?','¿Cuándo paro de cocinar?'],
+    qa:[
+      {k:['arroz','arborio','carnaroli','tipo'], r:'Necesitas un arroz de grano corto y alto en almidón: <strong>Arborio o Carnaroli</strong> son los ideales. El almidón es lo que da la cremosidad. Un arroz largo tipo basmati no sirve para risotto — no suelta almidón y queda suelto en vez de cremoso.'},
+      {k:['caldo','caliente','frío','temperatura'], r:'Sí, el caldo <strong>debe estar caliente</strong>. Si agregas caldo frío, bajas la temperatura del arroz de golpe y cortas la cocción pareja, lo que da un risotto desigual. Mantenlo a fuego muy bajo al lado mientras cocinas.'},
+      {k:['cuándo','listo','punto','parar','terminar'], r:'El risotto está listo cuando el arroz está cremoso por fuera pero con un mínimo de resistencia al centro (al dente), normalmente a los 18-20 minutos. Debe quedar fluido, no compacto — los italianos dicen "all\'onda", que se mueva como una ola en el plato.'}
+    ]
+  },
+  'pan-base':{ // genérico de panadería
+    sugeridas:['¿Qué pasa si no tengo la harina exacta?','¿Cómo sé si fermentó bien?'],
+    qa:[
+      {k:['harina','fuerza','fuerte','tipo'], r:'Para pan necesitas harina con buena cantidad de proteína (de fuerza o panadera). Si solo tienes harina común, el pan funcionará pero tendrá menos volumen y una miga más cerrada. Para repostería es al revés: harina floja.'},
+      {k:['fermentó','fermentación','leudó','creció','duplicó'], r:'Señales de buena fermentación: la masa <strong>casi duplica su tamaño</strong>, se ve esponjada y al presionar con un dedo la marca vuelve lentamente. Si la marca se queda hundida, se pasó; si rebota de inmediato, le falta.'}
+    ]
+  }
+};
+
+// Mapea cada receta a su set de FAQ (o uno genérico)
+function getFAQ(dishId){
+  if (FAQ[dishId]) return FAQ[dishId];
+  // recetas de panadería usan el set genérico
+  const panaderia = ['naan','arepas-huevo','focaccia'];
+  if (panaderia.includes(dishId)) return FAQ['pan-base'];
+  return null;
+}
+
+// ════════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════════
 let globalMode = 'copiloto';
@@ -1835,6 +1928,15 @@ function openDishPreview(dishId, pid){
       ${receta.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
     </div>`;
   }
+  // Botón del asistente de dudas
+  html += `<button class="ask-btn" onclick="openAsk()">
+    <span class="ask-btn-icon">💬</span>
+    <span class="ask-btn-text">
+      <span class="ask-btn-title">¿Tienes una duda?</span>
+      <span class="ask-btn-sub">Pregúntame mientras cocinas</span>
+    </span>
+    <span class="ask-btn-arrow">›</span>
+  </button>`;
   el.innerHTML = html;
   // Progress content: pasos con cantidades escaladas según porciones
   renderPasajePasos(receta);
@@ -1842,6 +1944,74 @@ function openDishPreview(dishId, pid){
   resetTimer();
   document.getElementById('detail-back').onclick = ()=>openCountry(pid);
   goTo('screen-detail');
+}
+
+// ════════════════════════════════════════════════
+// ASISTENTE DE DUDAS — lógica (versión simulada)
+// ════════════════════════════════════════════════
+let askDishId = null;
+
+function openAsk(){
+  askDishId = currentPassportDish;
+  const receta = RECETAS_PASAPORTE[askDishId];
+  document.getElementById('ask-title').textContent = '¿Dudas con ' + receta.nombre + '?';
+  document.getElementById('ask-sub').textContent = 'Pregunta lo que sea sobre esta receta';
+  document.getElementById('ask-input').value = '';
+  renderAskWelcome();
+  document.getElementById('ask-overlay').classList.add('visible');
+}
+
+function closeAsk(e){ document.getElementById('ask-overlay').classList.remove('visible'); }
+
+function renderAskWelcome(){
+  const faq = getFAQ(askDishId);
+  const body = document.getElementById('ask-body');
+  let html = `<div class="ask-msg bot">¡Hola! Soy tu asistente de cocina. Pregúntame cualquier duda mientras preparas esta receta.</div>`;
+  if (faq && faq.sugeridas){
+    html += `<div class="ask-suggestions"><div class="ask-sugg-label">Dudas frecuentes</div>`;
+    faq.sugeridas.forEach(s=>{
+      html += `<button class="ask-sugg-chip" onclick="askQuestion(this.textContent)">${s}</button>`;
+    });
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+}
+
+function sendAsk(){
+  const input = document.getElementById('ask-input');
+  const txt = input.value.trim();
+  if (!txt) return;
+  input.value = '';
+  askQuestion(txt);
+}
+
+function askQuestion(pregunta){
+  const body = document.getElementById('ask-body');
+  // quitar las sugerencias una vez que se hace la primera pregunta
+  const sugg = body.querySelector('.ask-suggestions');
+  if (sugg) sugg.remove();
+  // mensaje del usuario
+  body.innerHTML += `<div class="ask-msg user">${pregunta}</div>`;
+  // buscar respuesta
+  const respuesta = buscarRespuesta(pregunta);
+  body.innerHTML += `<div class="ask-msg bot">${respuesta}</div>`;
+  body.scrollTop = body.scrollHeight;
+}
+
+function buscarRespuesta(pregunta){
+  const faq = getFAQ(askDishId);
+  const pregLower = pregunta.toLowerCase();
+  if (faq){
+    // buscar la entrada con más coincidencias de keywords
+    let mejor = null, mejorScore = 0;
+    faq.qa.forEach(entry=>{
+      const score = entry.k.filter(kw=>pregLower.includes(kw)).length;
+      if (score > mejorScore){ mejorScore = score; mejor = entry; }
+    });
+    if (mejor) return mejor.r;
+  }
+  // sin coincidencia: respuesta honesta
+  return 'Buena pregunta. En esta versión de prueba todavía no tengo respuesta para eso, pero cuando el asistente esté completo podré ayudarte con cualquier duda sobre la receta. Por ahora puedo responder las dudas más comunes — prueba con las sugerencias.';
 }
 
 // ════════════════════════════════════════════════
