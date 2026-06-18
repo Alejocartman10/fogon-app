@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FBF6EE">
+<title>Fogón — Cocina Adaptativa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crema:#FBF6EE; --crema2:#F3ECDD;
+  --tinta:#2B2620; --tinta-dim:rgba(43,38,32,0.5); --tinta-faint:rgba(43,38,32,0.28);
+  --salvia:#3D5A45; --salvia-dim:rgba(61,90,69,0.12); --salvia-line:rgba(61,90,69,0.3);
+  --terracota:#C4633F; --terracota-dim:rgba(196,99,63,0.12); --terracota-line:rgba(196,99,63,0.35);
+  --mantequilla:#E8B94A; --mantequilla-dim:rgba(232,185,74,0.18); --mantequilla-line:rgba(232,185,74,0.45);
+  --linea:rgba(43,38,32,0.1);
+  --card:#FFFDF8;
+  /* mode accents */
+  --m-sos:#E8B94A; --m-sos-dim:rgba(232,185,74,0.16); --m-sos-line:rgba(232,185,74,0.4);
+  --m-copi:#3D5A45; --m-copi-dim:rgba(61,90,69,0.1); --m-copi-line:rgba(61,90,69,0.32);
+  --m-lab:#6B4A8C; --m-lab-dim:rgba(107,74,140,0.1); --m-lab-line:rgba(107,74,140,0.32);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:#FBF6EE!important;color-scheme:light}
+body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-family:'Sora',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){
+  html,body{background:#FBF6EE!important;color:#2B2620!important}
+  input,textarea{background:#FFFDF8!important;color:#2B2620!important;-webkit-appearance:none;appearance:none}
+  .screen{background:#FBF6EE!important}
+}
+/* Global hard overrides so dark-mode viewers never invert these */
+.step-text{color:#2B2620!important}
+.step-row.done .step-text{color:rgba(43,38,32,0.5)!important}
+.step-dur{color:rgba(43,38,32,0.28)!important}
+.rchip,.timer-box,.hydration-box,.sub-box{background:#FFFDF8!important;border-color:rgba(43,38,32,0.1)!important}
+.rchip-name,.timer-info .timer-step,.detail-name,.sheet-title{color:#2B2620!important}
+.rtag,.dpill,.cat-count{background:#F3ECDD!important;color:rgba(43,38,32,0.5)!important}
+.hyd-label,.sub-item{color:rgba(43,38,32,0.5)!important}
+.hyd-val,.sub-item strong,.dpill span{color:#2B2620!important}
+.hero-title,.brand-word{color:#2B2620!important}
+.hero-sub{color:rgba(43,38,32,0.5)!important}
+.mode-card{background:#FFFDF8!important}
+.mode-card .mode-name{color:#2B2620!important}
+.mode-card .mode-desc{color:rgba(43,38,32,0.5)!important}
+.topbar-title{color:rgba(43,38,32,0.5)!important}
+.ing-box{background:#FFFDF8!important;border-color:rgba(43,38,32,0.1)!important}
+.ing-title{color:rgba(43,38,32,0.5)!important}
+.ing-portion-ctrl{background:#F3ECDD!important}
+.ing-portion-btn{background:#FFFDF8!important;color:#C4633F!important}
+.ing-portion-val{color:#2B2620!important}
+.ing-name{color:#2B2620!important}
+.ing-amount{color:#C4633F!important}
+.serif{font-family:'Fraunces',serif}
+.mono{font-family:'JetBrains Mono',monospace}
+
+.screen{display:none;min-height:100vh;padding-bottom:60px;animation:fadeUp .35s ease both}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;padding:22px 22px 0;gap:12px;position:relative}
+.btn-back{background:none;border:none;color:var(--terracota);font-family:'Sora',sans-serif;font-weight:600;font-size:.78em;letter-spacing:.3px;cursor:pointer;padding:0;display:flex;align-items:center;gap:5px}
+.topbar-title{font-size:.68em;letter-spacing:2.5px;color:var(--tinta-dim);text-transform:uppercase;font-weight:600;position:absolute;left:50%;transform:translateX(-50%)}
+
+/* ── HOME ── */
+#screen-home{padding:0 0 60px}
+.home-hero{padding:52px 26px 28px;position:relative;overflow:hidden}
+.home-hero::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(232,185,74,0.25),transparent 70%);pointer-events:none}
+.brand-mark{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.flame{width:22px;height:28px}
+.brand-word{font-family:'Fraunces',serif;font-weight:600;font-size:1.3em;letter-spacing:-.3px}
+.hero-title{font-family:'Fraunces',serif;font-weight:600;font-size:2.3em;line-height:1.08;letter-spacing:-.5px;margin-bottom:10px}
+.hero-title em{font-style:italic;font-weight:500;color:var(--terracota)}
+.hero-sub{font-size:.85em;color:var(--tinta-dim);line-height:1.55;max-width:320px}
+
+.section-eyebrow{font-size:.62em;letter-spacing:3px;color:var(--tinta-dim);text-transform:uppercase;font-weight:700;padding:0 26px;margin-bottom:12px;display:block;margin-top:8px}
+
+/* mode picker */
+.mode-rail{display:flex;gap:10px;padding:0 22px;margin-bottom:30px;overflow-x:auto}
+.mode-card{flex:1;min-width:0;border-radius:18px;padding:16px 14px;border:1.5px solid var(--linea);background:var(--card);cursor:pointer;transition:all .2s;text-align:left;position:relative}
+.mode-card.active{border-color:var(--accent-line);background:var(--accent-dim);box-shadow:0 4px 18px -6px rgba(43,38,32,0.18)}
+.mode-card[data-mode="sos"]{--accent:var(--m-sos);--accent-dim:var(--m-sos-dim);--accent-line:var(--m-sos-line)}
+.mode-card[data-mode="copiloto"]{--accent:var(--m-copi);--accent-dim:var(--m-copi-dim);--accent-line:var(--m-copi-line)}
+.mode-card[data-mode="laboratorio"]{--accent:var(--m-lab);--accent-dim:var(--m-lab-dim);--accent-line:var(--m-lab-line)}
+.mode-card .mode-icon{font-size:1.3em;margin-bottom:8px;display:block}
+.mode-card .mode-name{font-family:'Fraunces',serif;font-weight:600;font-size:.95em;display:block;margin-bottom:3px}
+.mode-card.active .mode-name{color:var(--accent)}
+.mode-card .mode-desc{font-size:.62em;color:var(--tinta-dim);line-height:1.4;display:block}
+.mode-card .mode-check{position:absolute;top:10px;right:10px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:.55em;display:none;align-items:center;justify-content:center}
+.mode-card.active .mode-check{display:flex}
+
+/* recipe rows by category */
+.cat-row{padding:0 22px;margin-bottom:8px}
+.cat-label{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.cat-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.15em}
+.cat-count{font-size:.65em;color:var(--tinta-faint);letter-spacing:.5px}
+.rscroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0 -22px;padding-left:22px;padding-right:22px}
+.rscroll::-webkit-scrollbar{display:none}
+.rchip{flex-shrink:0;width:190px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:14px;cursor:pointer;transition:transform .15s}
+.rchip:active{transform:scale(.97)}
+.rchip-emoji{font-size:1.6em;margin-bottom:8px;display:block}
+.rchip-name{font-family:'Fraunces',serif;font-weight:600;font-size:1em;line-height:1.2;margin-bottom:5px}
+.rchip-meta{display:flex;gap:6px;flex-wrap:wrap}
+.rtag{font-size:.58em;padding:3px 8px;border-radius:7px;background:var(--crema2);color:var(--tinta-dim);letter-spacing:.3px;font-weight:600}
+
+.section-gap{height:26px}
+
+/* ── RECIPE DETAIL ── */
+#screen-detail{padding-bottom:40px}
+.detail-hero{padding:8px 24px 22px;position:relative}
+.mode-banner{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 12px;border-radius:12px;background:var(--accent-dim);border:1px solid var(--accent-line);width:fit-content}
+.mode-banner-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.mode-banner-text{font-size:.65em;letter-spacing:1px;color:var(--accent);font-weight:700;text-transform:uppercase}
+.mode-banner-switch{margin-left:6px;font-size:.6em;color:var(--tinta-faint);text-decoration:underline;cursor:pointer;font-weight:600}
+.detail-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.9em;line-height:1.12;margin-bottom:8px}
+.detail-desc{font-size:.82em;color:var(--tinta-dim);line-height:1.6;margin-bottom:16px}
+.detail-pills{display:flex;gap:8px;flex-wrap:wrap}
+.dpill{font-size:.65em;padding:6px 12px;border-radius:9px;background:var(--crema2);color:var(--tinta-dim);letter-spacing:.3px;font-weight:600}
+.dpill span{color:var(--terracota)}
+
+/* SOS video loop block */
+.sos-video{margin:0 22px 18px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,var(--mantequilla-dim),var(--crema2));border:1px solid var(--mantequilla-line);padding:0;position:relative;aspect-ratio:9/11;display:flex;flex-direction:column;justify-content:flex-end}
+.sos-video-loop{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3.5em;animation:loopPulse 1.8s ease-in-out infinite}
+@keyframes loopPulse{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.08) rotate(4deg)}}
+.sos-video-cap{position:relative;background:linear-gradient(to top,rgba(43,38,32,0.85),transparent);padding:30px 18px 16px;color:#fff}
+.sos-video-tag{font-size:.6em;letter-spacing:2px;text-transform:uppercase;font-weight:700;opacity:.85;margin-bottom:4px}
+.sos-video-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.1em}
+.sos-replay{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1em;cursor:pointer}
+
+/* copiloto hydration table */
+.hydration-box{margin:0 22px 18px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:18px}
+.hydration-title{font-size:.62em;letter-spacing:2px;color:var(--salvia);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.hyd-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--linea)}
+.hyd-row:last-child{border-bottom:none}
+.hyd-label{font-size:.78em;color:var(--tinta-dim)}
+.hyd-val{font-family:'JetBrains Mono',monospace;font-size:.85em;font-weight:600;color:var(--tinta)}
+.hyd-bar-wrap{margin-top:14px}
+.hyd-bar-label{display:flex;justify-content:space-between;font-size:.62em;color:var(--tinta-faint);margin-bottom:8px;letter-spacing:.5px}
+.hyd-slider{width:100%;appearance:none;height:5px;border-radius:5px;background:linear-gradient(90deg,var(--salvia-line),var(--salvia));outline:none;cursor:pointer}
+.hyd-slider::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:var(--salvia);border:3px solid var(--crema);box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer}
+.hyd-result{margin-top:12px;padding:12px 14px;background:var(--salvia-dim);border-radius:12px;font-size:.72em;line-height:1.6;color:var(--tinta)}
+.hyd-result strong{color:var(--salvia)}
+
+.sub-box{margin:0 22px 18px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:16px 18px}
+.sub-title{font-size:.62em;letter-spacing:2px;color:var(--salvia);text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.sub-item{display:flex;gap:10px;padding:7px 0;font-size:.76em;color:var(--tinta-dim);align-items:flex-start}
+.sub-item .arrow{color:var(--terracota);flex-shrink:0}
+.sub-item strong{color:var(--tinta)}
+
+/* laboratorio panel */
+.lab-panel{margin:0 22px 18px;background:#2B2620;border-radius:18px;padding:18px;color:var(--crema)}
+.lab-title{font-size:.6em;letter-spacing:2.5px;color:var(--mantequilla);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.lab-stat{background:rgba(255,255,255,0.06);border-radius:12px;padding:11px 12px}
+.lab-stat-label{font-size:.58em;letter-spacing:1px;color:rgba(251,246,238,0.45);margin-bottom:4px}
+.lab-stat-val{font-family:'JetBrains Mono',monospace;font-size:1.05em;font-weight:600;color:var(--mantequilla)}
+.lab-notes{margin-top:8px}
+.lab-notes-label{font-size:.6em;letter-spacing:1.5px;color:rgba(251,246,238,0.5);margin-bottom:8px}
+.lab-textarea{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--crema);font-family:'Sora',sans-serif;font-size:.78em;padding:10px 12px;min-height:60px;resize:vertical}
+.lab-textarea::placeholder{color:rgba(251,246,238,0.35)}
+.lab-save{margin-top:10px;width:100%;padding:11px;background:var(--mantequilla);border:none;border-radius:10px;color:#2B2620;font-weight:700;font-size:.72em;letter-spacing:1px;cursor:pointer}
+
+/* ── BAKING TIMELINE (signature element) ── */
+.timeline-wrap{padding:6px 22px 18px}
+.timeline-title{font-size:.62em;letter-spacing:2px;color:var(--tinta-dim);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.timeline-track{display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:8px;margin:0 -22px;padding-left:22px;padding-right:22px;gap:0}
+.timeline-track::-webkit-scrollbar{display:none}
+.tl-phase{flex-shrink:0;width:128px;position:relative;padding-right:8px}
+.tl-phase-line{height:4px;border-radius:4px;background:var(--linea);margin-bottom:10px;position:relative}
+.tl-phase.done .tl-phase-line{background:var(--salvia)}
+.tl-phase.active .tl-phase-line{background:linear-gradient(90deg,var(--salvia),var(--terracota))}
+.tl-phase-dot{width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--linea);position:absolute;top:-4px;left:0}
+.tl-phase.done .tl-phase-dot,.tl-phase.active .tl-phase-dot{border-color:var(--salvia);background:var(--salvia)}
+.tl-phase-name{font-family:'Fraunces',serif;font-weight:600;font-size:.88em;margin-bottom:3px;line-height:1.2}
+.tl-phase.active .tl-phase-name{color:var(--terracota)}
+.tl-phase-dur{font-size:.6em;color:var(--tinta-faint);font-weight:600;letter-spacing:.3px}
+
+/* ── STEPS (sal/postre style, simpler than baking) ── */
+.steps-list{padding:6px 22px 18px}
+.step-row{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--linea)}
+.step-row:last-child{border-bottom:none}
+.step-row.done{opacity:.4}
+.step-row.active{background:var(--terracota-dim);margin:0 -14px;padding:16px 14px;border-radius:14px;border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--crema2);display:flex;align-items:center;justify-content:center;font-size:.7em;font-weight:700;color:var(--tinta-dim);flex-shrink:0}
+.step-row.active .step-num{background:var(--terracota);color:#fff}
+.step-row.done .step-num{background:var(--salvia);color:#fff}
+.step-body{flex:1}
+.step-text{font-size:.85em;line-height:1.55;color:var(--tinta)}
+.step-row.done .step-text{color:var(--tinta-dim)}
+.step-dur{font-size:.62em;color:var(--tinta-faint);margin-top:5px;font-weight:600;letter-spacing:.3px}
+
+/* timer control */
+.timer-box{margin:8px 22px 18px;background:var(--card);border:1.5px solid var(--linea);border-radius:20px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.timer-info .timer-label{font-size:.6em;letter-spacing:2px;color:var(--tinta-faint);text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.timer-info .timer-step{font-family:'Fraunces',serif;font-weight:600;font-size:1em}
+.timer-display{font-family:'JetBrains Mono',monospace;font-size:2.1em;font-weight:600;color:var(--terracota);flex-shrink:0}
+.timer-actions{display:flex;gap:8px;padding:0 22px 18px}
+.btn-timer{flex:2;padding:15px;background:var(--terracota);border:none;border-radius:14px;color:#fff;font-weight:700;font-size:.78em;letter-spacing:1px;cursor:pointer}
+.btn-timer.paused{background:var(--salvia)}
+.btn-reset{flex:1;padding:15px;background:var(--crema2);border:none;border-radius:14px;color:var(--tinta-dim);font-weight:600;font-size:.72em;letter-spacing:.5px;cursor:pointer}
+
+.finish-box{margin:0 22px 18px;background:var(--salvia-dim);border:1px solid var(--salvia-line);border-radius:18px;padding:20px;text-align:center;display:none}
+.finish-box.visible{display:block}
+.finish-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.15em;color:var(--salvia)}
+.finish-sub{font-size:.68em;color:var(--tinta-dim);margin-top:4px;letter-spacing:.5px}
+
+/* ── PASAPORTE GASTRONÓMICO ── */
+.passport-link{margin:0 22px 8px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#2B2620,#3D372E);border-radius:20px;padding:18px 18px;cursor:pointer;position:relative;overflow:hidden}
+.passport-link::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(232,185,74,0.22),transparent 70%)}
+.passport-link-icon{font-size:1.8em;flex-shrink:0;z-index:1}
+.passport-link-text{flex:1;z-index:1}
+.passport-link-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.05em;color:var(--crema)}
+.passport-link-sub{font-size:.68em;color:rgba(251,246,238,0.55);margin-top:2px}
+.passport-link-arrow{color:var(--mantequilla);font-size:1.2em;z-index:1}
+
+#screen-passport{padding-bottom:60px}
+.passport-hero{padding:8px 24px 18px}
+.passport-hero-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.7em;line-height:1.15;margin-bottom:8px}
+.passport-hero-sub{font-size:.8em;color:var(--tinta-dim);line-height:1.55}
+.passport-progress{margin:14px 22px 4px;background:var(--card);border:1px solid var(--linea);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.passport-progress-stamp{font-size:1.4em}
+.passport-progress-text{flex:1;font-size:.72em;color:var(--tinta-dim)}
+.passport-progress-text strong{color:var(--terracota);font-family:'JetBrains Mono',monospace}
+
+.continent-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 22px}
+.continent-card{background:var(--card);border:1.5px solid var(--linea);border-radius:20px;padding:18px 14px;cursor:pointer;text-align:left;transition:transform .15s}
+.continent-card:active{transform:scale(.97)}
+.continent-emoji{font-size:1.8em;display:block;margin-bottom:8px}
+.continent-name{font-family:'Fraunces',serif;font-weight:600;font-size:1em;margin-bottom:3px}
+.continent-count{font-size:.62em;color:var(--tinta-faint);letter-spacing:.3px}
+
+.country-list{padding:8px 22px}
+.country-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--linea);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+.country-flag{font-size:1.8em;flex-shrink:0}
+.country-info{flex:1}
+.country-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.02em}
+.country-meta{font-size:.65em;color:var(--tinta-faint);margin-top:2px}
+.country-stamps{display:flex;gap:3px;flex-shrink:0}
+.stamp-dot{width:8px;height:8px;border-radius:50%;background:var(--linea)}
+.stamp-dot.earned{background:var(--terracota)}
+.country-arrow{color:var(--tinta-faint);flex-shrink:0}
+
+.country-hero{padding:8px 24px 16px;text-align:center}
+.country-hero-flag{font-size:3em;margin-bottom:10px;display:block}
+.country-hero-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.8em;margin-bottom:6px}
+.country-hero-desc{font-size:.78em;color:var(--tinta-dim);line-height:1.6;max-width:320px;margin:0 auto}
+.dish-grid{padding:10px 22px}
+.dish-card{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:16px;margin-bottom:12px;cursor:pointer}
+.dish-card.earned{border-color:var(--terracota-line);background:var(--terracota-dim)}
+.dish-emoji{font-size:1.8em;flex-shrink:0}
+.dish-info{flex:1}
+.dish-name{font-family:'Fraunces',serif;font-weight:600;font-size:1em;margin-bottom:3px}
+.dish-desc{font-size:.68em;color:var(--tinta-dim);line-height:1.4}
+.dish-stamp{font-size:1.3em;flex-shrink:0;opacity:.3}
+.dish-card.earned .dish-stamp{opacity:1}
+
+/* ── INGREDIENTES (porciones ajustables) ── */
+.ing-box{margin:0 22px 18px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:18px}
+.ing-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ing-title{font-size:.62em;letter-spacing:2px;color:var(--tinta-dim);text-transform:uppercase;font-weight:700}
+.ing-portion-ctrl{display:flex;align-items:center;gap:10px;background:var(--crema2);border-radius:12px;padding:5px 6px}
+.ing-portion-btn{width:26px;height:26px;border-radius:8px;border:none;background:var(--card);color:var(--terracota);font-weight:700;font-size:.95em;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ing-portion-val{font-family:'JetBrains Mono',monospace;font-size:.82em;font-weight:600;min-width:54px;text-align:center}
+.ing-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--linea);font-size:.8em}
+.ing-row:last-child{border-bottom:none}
+.ing-name{color:var(--tinta)}
+.ing-amount{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--terracota);flex-shrink:0;margin-left:10px;text-align:right}
+
+/* mode switch sheet */
+.sheet-overlay{display:none;position:fixed;inset:0;background:rgba(43,38,32,0.45);z-index:200;align-items:flex-end;justify-content:center}
+.sheet-overlay.visible{display:flex;animation:fadeUp .2s ease}
+.sheet{width:100%;max-width:460px;background:var(--crema);border-radius:26px 26px 0 0;padding:24px 22px 38px}
+.sheet-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.25em;margin-bottom:4px}
+.sheet-sub{font-size:.75em;color:var(--tinta-dim);margin-bottom:18px}
+.sheet-close{position:absolute;top:18px;right:20px;background:none;border:none;font-size:1.1em;color:var(--tinta-dim);cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME ══ -->
+<div class="screen active" id="screen-home">
+  <div class="home-hero">
+    <div class="brand-mark">
+      <svg class="flame" viewBox="0 0 24 32" fill="none"><path d="M12 1C12 1 4 11 4 19C4 25 8 30 12 30C16 30 20 25 20 19C20 14 17 11 16 9C16 13 13 14 13 17C13 19 14 20 14 20C12 20 10 17 10 14C10 9 12 5 12 1Z" fill="#C4633F"/></svg>
+      <span class="brand-word">Fogón</span>
+    </div>
+    <div class="hero-title">Cocina que <em>se adapta</em><br>a cómo estás hoy.</div>
+    <div class="hero-sub">No eres el mismo cocinero un martes agotado que un domingo con tiempo. Fogón tampoco debería serlo.</div>
+  </div>
+
+  <span class="section-eyebrow">Tu modo ahora</span>
+  <div class="mode-rail" id="mode-rail">
+    <button class="mode-card" data-mode="sos" onclick="setGlobalMode('sos', this)">
+      <span class="mode-check">✓</span>
+      <span class="mode-icon">🆘</span>
+      <span class="mode-name">S.O.S.</span>
+      <span class="mode-desc">Poco tiempo, cero tecnicismos, te guío paso a paso</span>
+    </button>
+    <button class="mode-card" data-mode="copiloto" onclick="setGlobalMode('copiloto', this)">
+      <span class="mode-check">✓</span>
+      <span class="mode-icon">🧭</span>
+      <span class="mode-name">Copiloto</span>
+      <span class="mode-desc">Sabes cocinar, quieres eficiencia y datos útiles</span>
+    </button>
+    <button class="mode-card" data-mode="laboratorio" onclick="setGlobalMode('laboratorio', this)">
+      <span class="mode-check">✓</span>
+      <span class="mode-icon">🔬</span>
+      <span class="mode-name">Laboratorio</span>
+      <span class="mode-desc">Precisión total, porcentajes, tus propias notas</span>
+    </button>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <div class="passport-link" onclick="openPassport()">
+    <span class="passport-link-icon">🌍</span>
+    <div class="passport-link-text">
+      <div class="passport-link-title">Pasaporte Gastronómico</div>
+      <div class="passport-link-sub" id="passport-link-sub">Viaja por el mundo, un plato a la vez</div>
+    </div>
+    <span class="passport-link-arrow">›</span>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <div class="cat-row">
+    <div class="cat-label"><span class="cat-name">De sal</span><span class="cat-count">RÁPIDAS</span></div>
+    <div class="rscroll" id="cat-sal"></div>
+  </div>
+  <div class="section-gap"></div>
+  <div class="cat-row">
+    <div class="cat-label"><span class="cat-name">El Rincón del Trigo</span><span class="cat-count">PANADERÍA</span></div>
+    <div class="rscroll" id="cat-pan"></div>
+  </div>
+  <div class="section-gap"></div>
+  <div class="cat-row">
+    <div class="cat-label"><span class="cat-name">Para el final</span><span class="cat-count">POSTRES</span></div>
+    <div class="rscroll" id="cat-postre"></div>
+  </div>
+</div>
+
+<!-- ══ DETAIL ══ -->
+<div class="screen" id="screen-detail">
+  <div class="topbar">
+    <button class="btn-back" id="detail-back" onclick="goHome()">← Inicio</button>
+    <span class="topbar-title" id="d-cat-label"></span>
+  </div>
+  <div class="detail-hero">
+    <div class="mode-banner" id="mode-banner">
+      <span class="mode-banner-dot"></span>
+      <span class="mode-banner-text" id="mode-banner-text">MODO</span>
+      <span class="mode-banner-switch" onclick="openModeSheet()">cambiar</span>
+    </div>
+    <div class="detail-name" id="d-name"></div>
+    <div class="detail-desc" id="d-desc"></div>
+    <div class="detail-pills" id="d-pills"></div>
+  </div>
+
+  <!-- mode-specific content injected here -->
+  <div id="mode-content"></div>
+
+  <!-- timeline (baking only) or steps (sal/postre) -->
+  <div id="progress-content"></div>
+
+  <div class="timer-box">
+    <div class="timer-info">
+      <div class="timer-label">Paso actual</div>
+      <div class="timer-step" id="t-step-name">—</div>
+    </div>
+    <div class="timer-display" id="t-display">00:00</div>
+  </div>
+  <div class="timer-actions">
+    <button class="btn-timer" id="t-start" onclick="toggleTimer()">EMPEZAR</button>
+    <button class="btn-reset" onclick="resetTimer()">REINICIAR</button>
+  </div>
+  <div class="finish-box" id="finish-box">
+    <div class="finish-title" id="finish-title">¡Listo!</div>
+    <div class="finish-sub" id="finish-sub">BUEN PROVECHO</div>
+  </div>
+</div>
+
+<!-- ══ PASAPORTE: CONTINENTES ══ -->
+<div class="screen" id="screen-passport">
+  <div class="topbar">
+    <button class="btn-back" onclick="goHome()">← Inicio</button>
+    <span class="topbar-title">PASAPORTE</span>
+  </div>
+  <div class="passport-hero">
+    <div class="passport-hero-title">Cocina con pasaporte en mano.</div>
+    <div class="passport-hero-sub">Elige un continente, luego un país. Cada plato que termines te gana un sello.</div>
+  </div>
+  <div class="passport-progress">
+    <span class="passport-progress-stamp">🛂</span>
+    <span class="passport-progress-text">Sellos conseguidos: <strong id="stamp-count">0</strong> / <span id="stamp-total">0</span></span>
+  </div>
+  <div class="continent-grid" id="continent-grid"></div>
+</div>
+
+<!-- ══ PASAPORTE: PAÍSES DE UN CONTINENTE ══ -->
+<div class="screen" id="screen-countries">
+  <div class="topbar">
+    <button class="btn-back" onclick="goTo('screen-passport')">← Continentes</button>
+    <span class="topbar-title" id="countries-title">CONTINENTE</span>
+  </div>
+  <div class="passport-hero">
+    <div class="passport-hero-title" id="countries-hero-title"></div>
+  </div>
+  <div class="country-list" id="country-list"></div>
+</div>
+
+<!-- ══ PASAPORTE: PLATOS DE UN PAÍS ══ -->
+<div class="screen" id="screen-country-dishes">
+  <div class="topbar">
+    <button class="btn-back" id="country-back-btn">← Países</button>
+    <span class="topbar-title">PLATOS EMBLEMÁTICOS</span>
+  </div>
+  <div class="country-hero">
+    <span class="country-hero-flag" id="ch-flag"></span>
+    <div class="country-hero-name" id="ch-name"></div>
+    <div class="country-hero-desc" id="ch-desc"></div>
+  </div>
+  <div class="dish-grid" id="dish-grid"></div>
+</div>
+
+<!-- ══ MODE SWITCH SHEET ══ -->
+<div class="sheet-overlay" id="mode-sheet" onclick="closeModeSheet(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <button class="sheet-close" onclick="closeModeSheet()">✕</button>
+    <div class="sheet-title">Cambiar de modo</div>
+    <div class="sheet-sub">Esto solo cambia cómo ves esta receta, no la receta en sí.</div>
+    <div class="mode-rail" style="padding:0;margin:0">
+      <button class="mode-card" data-mode="sos" onclick="setDetailMode('sos', this)">
+        <span class="mode-check">✓</span><span class="mode-icon">🆘</span>
+        <span class="mode-name">S.O.S.</span><span class="mode-desc">Video en bucle, sin tecnicismos</span>
+      </button>
+      <button class="mode-card" data-mode="copiloto" onclick="setDetailMode('copiloto', this)">
+        <span class="mode-check">✓</span><span class="mode-icon">🧭</span>
+        <span class="mode-name">Copiloto</span><span class="mode-desc">Datos, tablas, sustituciones</span>
+      </button>
+      <button class="mode-card" data-mode="laboratorio" onclick="setDetailMode('laboratorio', this)">
+        <span class="mode-check">✓</span><span class="mode-icon">🔬</span>
+        <span class="mode-name">Laboratorio</span><span class="mode-desc">Porcentajes y notas propias</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════
+const RECETAS = {
+  'pasta-ajo': {
+    cat:'sal', catLabel:'DE SAL', emoji:'🍝', nombre:'Pasta al Ajo y Chile',
+    desc:'Lista en el tiempo que tarda el agua en hervir. Cinco ingredientes, sartén y listo.',
+    pills:['15 min','2 porciones','Fácil'],
+    sugerido:'sos',
+    sustituciones:[
+      {falta:'Pasta larga', usa:'Cualquier pasta corta — el tiempo de cocción cambia, revisa el paquete'},
+      {falta:'Chile en hojuela', usa:'Una pizca de pimienta + unas gotas de salsa picante'},
+      {falta:'Perejil fresco', usa:'Perejil seco, usa un tercio de la cantidad'}
+    ],
+    sosVideo:{emoji:'🔥', tag:'TÉCNICA EN BUCLE', titulo:'Cómo dorar el ajo sin quemarlo'},
+    pasos:[
+      {t:'Pon agua a hervir con sal abundante (sabe a mar). Mientras hierve, pica 4 dientes de ajo bien finito.', s:240},
+      {t:'En una sartén fría, pon 4 cucharadas de aceite de oliva y el ajo. Prende a fuego medio-bajo. El ajo nunca debe saltar ni dorarse de golpe — eso significa que está muy alto el fuego.', s:180},
+      {t:'Agrega una pizca de chile en hojuela cuando el ajo apenas empiece a dorarse en los bordes. Apaga el fuego — el aceite caliente sigue cocinando.', s:30},
+      {t:'Cuando la pasta esté lista, reserva media taza del agua de cocción antes de escurrir. Pasa la pasta directo a la sartén.', s:60},
+      {t:'Agrega un chorrito del agua reservada y mezcla fuerte — esto liga la salsa. Termina con perejil picado y un toque más de aceite en crudo.', s:60}
+    ]
+  },
+  'pollo-salteado': {
+    cat:'sal', catLabel:'DE SAL', emoji:'🍗', nombre:'Pollo Salteado Express',
+    desc:'Tu nevera tiene esto casi siempre: pollo, alguna verdura, salsa de soya.',
+    pills:['18 min','3 porciones','Fácil'],
+    sugerido:'sos',
+    sustituciones:[
+      {falta:'Salsa de soya', usa:'Sal + un toque de vinagre, no es igual pero funciona'},
+      {falta:'Jengibre fresco', usa:'1/4 cucharadita de jengibre en polvo'},
+      {falta:'Brócoli', usa:'Cualquier verdura que tengas — zanahoria, pimiento, ejotes'}
+    ],
+    sosVideo:{emoji:'🥢', tag:'TÉCNICA EN BUCLE', titulo:'El movimiento correcto del salteado'},
+    pasos:[
+      {t:'Corta el pollo en tiras delgadas, todas del mismo tamaño — así se cocinan parejo. Sazona con sal y pimienta.', s:180},
+      {t:'Calienta el sartén o wok hasta que humee ligeramente antes de poner el aceite. Esto evita que el pollo se pegue.', s:60},
+      {t:'Agrega el pollo sin amontonar — si no entra todo, hazlo en dos tandas. No muevas los primeros 30 segundos, deja que dore.', s:240},
+      {t:'Agrega las verduras más duras primero (zanahoria), las blandas al final (brócoli ya blanqueado). Mueve constantemente.', s:180},
+      {t:'Agrega la salsa de soya, una pizca de azúcar y el jengibre. Mezcla 30 segundos más y sirve de inmediato.', s:60}
+    ]
+  },
+  'pan-masa-madre': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🍞', nombre:'Pan de Masa Madre',
+    desc:'El pan que requiere tiempo, no esfuerzo. La paciencia hace el trabajo.',
+    pills:['~18 horas', '1 hogaza', 'Avanzado'],
+    sugerido:'laboratorio',
+    hidratacionBase: 75,
+    formula:{harina:500, agua:375, sal:10, masaMadre:100},
+    sustituciones:[
+      {falta:'Masa madre activa', usa:'No hay sustituto real — necesitas un cultivo vivo y alimentado'},
+      {falta:'Harina de fuerza', usa:'Harina todo uso, pero la miga será menos abierta'}
+    ],
+    timeline:[
+      {fase:'Autólisis', dur:'30 min', desc:'Mezcla solo harina y agua (sin sal ni masa madre). Deja reposar tapado. Esto desarrolla el gluten sin esfuerzo de amasado.', s:1800},
+      {fase:'Mezclado', dur:'15 min', desc:'Agrega la masa madre y la sal a la autólisis. Mezcla con las manos hasta integrar todo, sin amasar agresivamente.', s:900},
+      {fase:'Fermentación en bloque', dur:'4-6 h', desc:'Pliega la masa sobre sí misma cada 30 minutos durante la primera hora (esto reemplaza el amasado tradicional). Luego deja fermentar hasta que crezca 50%.', s:18000},
+      {fase:'Formado', dur:'15 min', desc:'Vuelca la masa, dale tensión formando una bola tirante sin desgasificarla de más.', s:900},
+      {fase:'Fermentación final', dur:'8-12 h', desc:'En un bowl con harina, en refrigeración. Esto desarrolla sabor y facilita el horneado al día siguiente.', s:32400},
+      {fase:'Horneado', dur:'45 min', desc:'Horno a máxima temperatura con una olla tapada los primeros 20 min (genera vapor), luego destapado hasta dorar.', s:2700}
+    ]
+  },
+  'focaccia': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🫓', nombre:'Focaccia de Romero',
+    desc:'Panadería sin masa madre. Perdona errores, premia la paciencia del reposo.',
+    pills:['~3 horas', '1 bandeja', 'Intermedio'],
+    sugerido:'copiloto',
+    hidratacionBase: 80,
+    formula:{harina:500, agua:400, sal:10, levadura:5},
+    sustituciones:[
+      {falta:'Romero fresco', usa:'Romero seco, la mitad de la cantidad'},
+      {falta:'Levadura fresca', usa:'Levadura seca instantánea, usa un tercio de la cantidad'}
+    ],
+    timeline:[
+      {fase:'Mezclado', dur:'10 min', desc:'Mezcla harina, agua, levadura y sal hasta formar una masa pegajosa y sin grumos. No necesita amasado tradicional.', s:600},
+      {fase:'Primer reposo', dur:'1 h', desc:'Tapada, a temperatura ambiente, hasta que duplique su tamaño.', s:3600},
+      {fase:'Estirado en bandeja', dur:'10 min', desc:'Vuelca en una bandeja aceitada, estira con los dedos sin desgasificar del todo.', s:600},
+      {fase:'Segundo reposo', dur:'45 min', desc:'Deja que vuelva a crecer en la bandeja. Aquí se forma la textura alveolada característica.', s:2700},
+      {fase:'Horneado', dur:'25 min', desc:'Hunde los dedos para hacer los hoyuelos típicos, agrega aceite, romero y sal gruesa. Horno fuerte.', s:1500}
+    ]
+  },
+  'tarta-manzana': {
+    cat:'postre', catLabel:'POSTRES', emoji:'🥧', nombre:'Tarta de Manzana Rústica',
+    desc:'Sin molde especial, sin precisión milimétrica. El postre que impresiona sin estrés.',
+    pills:['1h 10min', '6 porciones', 'Intermedio'],
+    sugerido:'copiloto',
+    sustituciones:[
+      {falta:'Manzanas Granny Smith', usa:'Cualquier manzana firme y ácida — evita las muy dulces y blandas'},
+      {falta:'Mantequilla', usa:'No hay buen sustituto para la textura de la masa, es clave'}
+    ],
+    pasos:[
+      {t:'Mezcla harina, una pizca de sal y mantequilla fría en cubos hasta que parezca arena gruesa con grumos del tamaño de un garbanzo.', s:300},
+      {t:'Agrega agua helada de cucharada en cucharada, solo hasta que la masa se una sin desmoronarse. No amases de más — eso la endurece.', s:180},
+      {t:'Envuelve en plástico y refrigera al menos 30 minutos. La masa fría es más fácil de estirar y da mejor textura.', s:1800},
+      {t:'Pela y corta las manzanas en láminas finas. Mézclalas con azúcar, canela y un poco de jugo de limón.', s:300},
+      {t:'Estira la masa en un círculo irregular sobre papel para hornear. Coloca las manzanas en el centro dejando un borde de 5cm.', s:300},
+      {t:'Dobla el borde sobre las manzanas formando pliegues rústicos. Pincela con huevo batido y espolvorea azúcar.', s:300},
+      {t:'Hornea a 200°C hasta que la masa esté dorada y las manzanas burbujeen, alrededor de 35-40 minutos.', s:2100}
+    ]
+  },
+  'mousse-chocolate': {
+    cat:'postre', catLabel:'POSTRES', emoji:'🍫', nombre:'Mousse de Chocolate',
+    desc:'Tres ingredientes, técnica precisa. Aquí la ciencia importa más que la receta.',
+    pills:['20 min + 4h frío', '4 porciones', 'Intermedio'],
+    sugerido:'laboratorio',
+    sustituciones:[
+      {falta:'Chocolate 70%', usa:'Chocolate con leche, pero reduce el azúcar de la receta a la mitad'},
+      {falta:'Crema para batir', usa:'No hay sustituto real — necesita al menos 30% de grasa para montar'}
+    ],
+    pasos:[
+      {t:'Derrite el chocolate a baño maría o en microondas en intervalos cortos, revolviendo entre cada uno. No debe quemarse ni separarse.', s:300},
+      {t:'Separa las claras de las yemas. Bate las claras a punto de nieve firme — debes poder voltear el bowl sin que se caigan.', s:240},
+      {t:'Mezcla las yemas con el chocolate tibio (no caliente, o cuajarán). Esto da cuerpo y brillo a la mousse.', s:120},
+      {t:'Bate la crema para batir a punto medio, ni líquida ni demasiado firme. Incorpórala al chocolate en dos tandas con movimientos envolventes.', s:240},
+      {t:'Incorpora las claras en tres tandas, con movimientos suaves de abajo hacia arriba. El objetivo es no perder el aire que le da la textura esponjosa.', s:240},
+      {t:'Reparte en copas y refrigera mínimo 4 horas antes de servir.', s:14400}
+    ]
+  }
+};
+
+// ════════════════════════════════════════════════
+// PASAPORTE GASTRONÓMICO — DATA
+// ════════════════════════════════════════════════
+const CONTINENTES = {
+  europa:{nombre:'Europa', emoji:'🏰', paises:['espana','italia','francia','grecia']},
+  asia:{nombre:'Asia', emoji:'🏯', paises:['japon','tailandia','india']},
+  americas:{nombre:'Américas', emoji:'🌎', paises:['mexico','peru','colombia']},
+  africa:{nombre:'África', emoji:'🐪', paises:['marruecos']}
+};
+
+const PAISES = {
+  espana:{nombre:'España', bandera:'🇪🇸', desc:'Del sofrito lento al fuego vivo de la paella.', platos:[
+    {id:'tortilla-espanola', emoji:'🍳', nombre:'Tortilla Española', desc:'Huevo y papa, técnica de volteo perfecta.'},
+    {id:'paella-valenciana', emoji:'🥘', nombre:'Paella Valenciana', desc:'El socarrat es el secreto: el fondo tostado.'},
+    {id:'gazpacho', emoji:'🍅', nombre:'Gazpacho Andaluz', desc:'Sopa fría de tomate, sin encender la estufa.'}
+  ]},
+  italia:{nombre:'Italia', bandera:'🇮🇹', desc:'Pocos ingredientes, técnica impecable.', platos:[
+    {id:'carbonara', emoji:'🍝', nombre:'Carbonara Romana', desc:'Sin crema. El huevo es la salsa.'},
+    {id:'risotto', emoji:'🍚', nombre:'Risotto al Parmesano', desc:'El arroz que se abraza con caldo, cucharón a cucharón.'},
+    {id:'tiramisu', emoji:'🍰', nombre:'Tiramisú', desc:'Capas de café, mascarpone y paciencia en frío.'}
+  ]},
+  francia:{nombre:'Francia', bandera:'🇫🇷', desc:'La técnica clásica que fundó la cocina moderna.', platos:[
+    {id:'ratatouille', emoji:'🍆', nombre:'Ratatouille', desc:'Verduras de temporada, cocción lenta y respetuosa.'},
+    {id:'crepes', emoji:'🥞', nombre:'Crêpes Saladas', desc:'La muñeca correcta para esparcir la masa.'},
+    {id:'creme-brulee', emoji:'🔥', nombre:'Crème Brûlée', desc:'Crema al horno con costra de azúcar quemada al soplete.'}
+  ]},
+  grecia:{nombre:'Grecia', bandera:'🇬🇷', desc:'Sol, aceite de oliva y yogur espeso.', platos:[
+    {id:'tzatziki', emoji:'🥒', nombre:'Tzatziki', desc:'Yogur, pepino y ajo — la base de mil platos griegos.'},
+    {id:'souvlaki', emoji:'🍢', nombre:'Souvlaki', desc:'Brochetas marinadas, fuego directo y rápido.'},
+    {id:'moussaka', emoji:'🍆', nombre:'Moussaka', desc:'Capas de berenjena, carne y bechamel gratinada.'}
+  ]},
+  japon:{nombre:'Japón', bandera:'🇯🇵', desc:'Precisión, respeto al ingrediente, mínima intervención.', platos:[
+    {id:'onigiri', emoji:'🍙', nombre:'Onigiri', desc:'Bolas de arroz, la técnica de moldeado con las manos.'},
+    {id:'ramen-casero', emoji:'🍜', nombre:'Ramen Casero', desc:'Caldo profundo construido en capas durante horas.'},
+    {id:'tempura', emoji:'🍤', nombre:'Tempura', desc:'La fritura ligera depende del agua helada y la mezcla mínima.'}
+  ]},
+  tailandia:{nombre:'Tailandia', bandera:'🇹🇭', desc:'El equilibrio entre dulce, ácido, salado y picante.', platos:[
+    {id:'pad-thai', emoji:'🍤', nombre:'Pad Thai', desc:'Fideos de arroz, el balance exacto de tamarindo y lima.'},
+    {id:'tom-yum', emoji:'🍲', nombre:'Tom Yum', desc:'Sopa picante y ácida, perfumada con galanga y limoncillo.'},
+    {id:'curry-verde', emoji:'🍛', nombre:'Curry Verde', desc:'Pasta de curry fresca, leche de coco, fuego controlado.'}
+  ]},
+  india:{nombre:'India', bandera:'🇮🇳', desc:'Especias tostadas en capas, no todas de golpe.', platos:[
+    {id:'dal', emoji:'🍛', nombre:'Dal Tadka', desc:'Lentejas con el tadka final de especias en mantequilla caliente.'},
+    {id:'butter-chicken', emoji:'🍗', nombre:'Butter Chicken', desc:'Marinado en yogur, salsa de tomate cremosa y especiada.'},
+    {id:'naan', emoji:'🫓', nombre:'Naan Casero', desc:'Pan plano con yogur en la masa, cocido a fuego muy alto.'}
+  ]},
+  mexico:{nombre:'México', bandera:'🇲🇽', desc:'El maíz como eje, el chile como acento, no como castigo.', platos:[
+    {id:'tacos-al-pastor', emoji:'🌮', nombre:'Tacos al Pastor', desc:'Marinado con achiote y piña, capas finas apiladas.'},
+    {id:'mole', emoji:'🍫', nombre:'Mole Negro', desc:'Decenas de ingredientes, horas de paciencia, chocolate y chile.'},
+    {id:'guacamole', emoji:'🥑', nombre:'Guacamole', desc:'El punto exacto del aguacate y la textura que no es puré.'}
+  ]},
+  peru:{nombre:'Perú', bandera:'🇵🇪', desc:'El cebiche enseñó al mundo que el limón también cocina.', platos:[
+    {id:'cebiche', emoji:'🐟', nombre:'Cebiche Clásico', desc:'El tiempo exacto de "cocción" en limón es la técnica entera.'},
+    {id:'lomo-saltado', emoji:'🥩', nombre:'Lomo Saltado', desc:'Fusión chino-peruana, wok a fuego altísimo.'},
+    {id:'aji-de-gallina', emoji:'🍗', nombre:'Ají de Gallina', desc:'Pollo deshebrado en salsa cremosa de ají amarillo.'}
+  ]},
+  colombia:{nombre:'Colombia', bandera:'🇨🇴', desc:'Maíz, fríjol y caldo lento — el sabor de casa en cada región.', platos:[
+    {id:'bandeja-paisa', emoji:'🍖', nombre:'Bandeja Paisa', desc:'El plato más completo del país, cada componente cocido por separado.'},
+    {id:'ajiaco', emoji:'🍲', nombre:'Ajiaco Santafereño', desc:'Tres papas distintas y guascas — el caldo que define a Bogotá.'},
+    {id:'arepas-huevo', emoji:'🫓', nombre:'Arepa de Huevo', desc:'Doble fritura: la arepa primero, el huevo dentro después.'}
+  ]},
+  marruecos:{nombre:'Marruecos', bandera:'🇲🇦', desc:'Cocción lenta bajo cono de barro, especias profundas.', platos:[
+    {id:'tagine-cordero', emoji:'🍖', nombre:'Tagine de Cordero', desc:'Cocción lentísima en barro, ciruelas y especias dulces.'},
+    {id:'cuscus', emoji:'🍚', nombre:'Cuscús', desc:'La técnica de hidratar el grano al vapor, sin hervirlo.'},
+    {id:'harira', emoji:'🍲', nombre:'Harira', desc:'Sopa espesa de lentejas y garbanzo, perfecta para romper el ayuno.'}
+  ]}
+};
+
+// ════════════════════════════════════════════════
+// RECETAS DEL PASAPORTE — Modo Copiloto (contenido real)
+// ════════════════════════════════════════════════
+const RECETAS_PASAPORTE = {
+  // ESPAÑA
+  'tortilla-espanola':{
+    nombre:'Tortilla Española', pais:'España', emoji:'🍳',
+    desc:'Huevo y papa nada más. El volteo es la única técnica que de verdad importa.',
+    pills:['35 min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Papas', c:4, u:'unidad'},{n:'Huevos', c:6, u:'unidad'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Aceite de oliva', c:200, u:'ml'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Cebolla', usa:'Se puede omitir, es opcional según la región — la versión "con cebolla" es la más extendida'}],
+    pasos:[
+      {t:'Pela y corta 4 papas medianas en láminas finas e irregulares. Sazona con sal.', s:300},
+      {t:'Fríe las papas en abundante aceite de oliva a fuego medio-bajo, sin que doren, hasta que estén tiernas. Deben "cocerse" en el aceite, no tostarse.', s:900},
+      {t:'Si usas cebolla, pochala aparte a fuego bajo hasta que esté transparente y dulce, sin dorar.', s:600},
+      {t:'Escurre bien las papas del exceso de aceite. Bate 6 huevos en un bowl grande y mezcla con las papas y la cebolla. Deja reposar 5 minutos.', s:300},
+      {t:'En sartén antiadherente con un poco de aceite bien caliente, vierte la mezcla. Baja el fuego a medio y cocina 2-3 minutos sin tocar.', s:180},
+      {t:'El momento clave: coloca un plato grande sobre la sartén, voltea de un solo movimiento firme y decidido. Desliza la tortilla de vuelta a la sartén por el otro lado.', s:30},
+      {t:'Cocina el segundo lado 2 minutos más. El centro debe quedar jugoso, no cuajado del todo.', s:120}
+    ]
+  },
+  'paella-valenciana':{
+    nombre:'Paella Valenciana', pais:'España', emoji:'🥘',
+    desc:'El socarrat —la costra tostada del fondo— es lo que separa una buena paella de una excelente.',
+    pills:['1h','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Pollo troceado', c:400, u:'g'},{n:'Conejo troceado', c:300, u:'g'},
+      {n:'Arroz bomba', c:400, u:'g'},{n:'Judía verde plana', c:150, u:'g'},
+      {n:'Garrofón', c:100, u:'g'},{n:'Tomate rallado', c:2, u:'unidad'},
+      {n:'Pimentón dulce', c:1, u:'cucharadita'},{n:'Azafrán', c:1, u:'pizca'},
+      {n:'Caldo de pollo', c:1000, u:'ml'},{n:'Aceite de oliva', c:80, u:'ml'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Conejo', usa:'Pollo, es la sustitución más común fuera de Valencia'},{falta:'Garrofón', usa:'Judías blancas grandes tipo lima'}],
+    pasos:[
+      {t:'En la paellera, dora el pollo y el conejo troceados en aceite de oliva a fuego medio-alto hasta dorar bien por todos lados.', s:600},
+      {t:'Agrega las judías verdes planas y el garrofón. Sofríe 3 minutos más.', s:180},
+      {t:'Agrega el tomate rallado y el pimentón. Sofríe hasta que el tomate pierda el agua y se concentre el sabor.', s:300},
+      {t:'Agrega el caldo caliente (el doble de volumen que el arroz que usarás) y el azafrán. Deja hervir 10 minutos antes de añadir el arroz.', s:600},
+      {t:'Esparce el arroz de forma pareja por toda la paellera, sin revolver después de esto. A partir de aquí no se mueve más.', s:30},
+      {t:'Cocina a fuego medio-alto los primeros 10 minutos, luego baja a fuego bajo otros 8 minutos hasta que el caldo se absorba.', s:1080},
+      {t:'Sube el fuego al máximo los últimos 60-90 segundos para formar el socarrat. Escucharás un leve chisporroteo — esa es la señal.', s:75},
+      {t:'Retira del fuego, cubre con un paño limpio y deja reposar 5 minutos antes de servir.', s:300}
+    ]
+  },
+  'gazpacho':{
+    nombre:'Gazpacho Andaluz', pais:'España', emoji:'🍅',
+    desc:'Sopa fría de tomate. Toda la técnica está en la licuadora, no en la estufa.',
+    pills:['20 min + frío','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Tomates maduros', c:1000, u:'g'},{n:'Pimiento verde', c:0.5, u:'unidad'},
+      {n:'Pepino', c:1, u:'unidad'},{n:'Ajo', c:1, u:'diente'},
+      {n:'Pan duro', c:50, u:'g'},{n:'Aceite de oliva', c:60, u:'ml'},
+      {n:'Vinagre de jerez', c:2, u:'cucharada'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Pan duro', usa:'Se puede omitir, da cuerpo pero no es esencial'},{falta:'Vinagre de jerez', usa:'Vinagre de vino blanco'}],
+    pasos:[
+      {t:'Corta en trozos grandes 1kg de tomates maduros, medio pimiento verde, medio pepino y un diente de ajo.', s:300},
+      {t:'Remoja un trozo de pan duro en agua unos minutos si lo vas a usar — esto da cuerpo a la sopa.', s:180},
+      {t:'Licúa todos los vegetales junto con el pan remojado, 4 cucharadas de aceite de oliva, vinagre y sal hasta lograr una textura completamente lisa.', s:180},
+      {t:'Prueba y ajusta sal y vinagre. Si queda muy espeso, agrega agua fría poco a poco hasta la consistencia deseada.', s:120},
+      {t:'Pasa por un colador fino para una textura más sedosa (opcional pero recomendado).', s:180},
+      {t:'Refrigera mínimo 2 horas. Sirve bien frío con trocitos de pepino, pimiento y aceite de oliva por encima.', s:7200}
+    ]
+  },
+
+  // ITALIA
+  'carbonara':{
+    nombre:'Carbonara Romana', pais:'Italia', emoji:'🍝',
+    desc:'Sin crema, nunca. El huevo y el queso son la salsa entera.',
+    pills:['20 min','2 porciones','Intermedio'], porcionesBase:2,
+    ingredientes:[
+      {n:'Espagueti', c:200, u:'g'},{n:'Guanciale', c:150, u:'g'},
+      {n:'Huevos enteros', c:2, u:'unidad'},{n:'Yemas extra', c:2, u:'unidad'},
+      {n:'Pecorino romano', c:80, u:'g'},{n:'Pimienta negra', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Guanciale', usa:'Panceta o tocineta, aunque el sabor cambia notablemente'},{falta:'Pecorino Romano', usa:'Parmesano, más suave pero funcional'}],
+    pasos:[
+      {t:'Corta 150g de guanciale en tiras. Cocina en sartén fría a fuego medio-bajo hasta que suelte la grasa y quede crujiente, sin quemarse.', s:480},
+      {t:'Mientras, hierve agua con sal para 200g de espagueti. Cocina la pasta al dente.', s:600},
+      {t:'Bate 2 huevos enteros y 2 yemas extra con 80g de pecorino rallado y abundante pimienta negra recién molida. No debe quedar líquido aguado.', s:120},
+      {t:'Reserva una taza del agua de cocción de la pasta antes de escurrir. Esto es crítico para la textura final.', s:30},
+      {t:'Apaga el fuego del guanciale. Agrega la pasta caliente directo a la sartén con la grasa, fuera del fuego.', s:30},
+      {t:'Agrega la mezcla de huevo y queso fuera del fuego, mezclando rápido y constante. El calor residual cuaja el huevo suavemente sin que se convierta en revuelto.', s:60},
+      {t:'Agrega agua de cocción poco a poco hasta lograr una salsa cremosa y brillante. Sirve de inmediato.', s:60}
+    ]
+  },
+  'risotto':{
+    nombre:'Risotto al Parmesano', pais:'Italia', emoji:'🍚',
+    desc:'El arroz se abraza con caldo, cucharón a cucharón, sin prisa.',
+    pills:['35 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Arroz Arborio', c:300, u:'g'},{n:'Caldo de pollo o vegetal', c:1000, u:'ml'},
+      {n:'Cebolla', c:0.5, u:'unidad'},{n:'Vino blanco', c:1, u:'copa'},
+      {n:'Mantequilla', c:50, u:'g'},{n:'Parmesano', c:80, u:'g'}
+    ],
+    sustituciones:[{falta:'Arroz Arborio', usa:'Carnaroli, incluso mejor para principiantes porque perdona más el exceso de cocción'}],
+    pasos:[
+      {t:'Calienta 1 litro de caldo de pollo o vegetales y mantenlo caliente a fuego muy bajo durante toda la preparación.', s:120},
+      {t:'En otra olla, sofríe media cebolla picada fina en mantequilla hasta transparente, sin dorar.', s:300},
+      {t:'Agrega 300g de arroz Arborio y tuesta 2 minutos revolviendo, hasta que los granos se vuelvan translúcidos en los bordes.', s:120},
+      {t:'Agrega una copa de vino blanco y deja que se evapore por completo, revolviendo.', s:90},
+      {t:'Agrega caldo caliente de cucharón en cucharón, esperando que se absorba casi por completo antes de añadir el siguiente. Revuelve constantemente.', s:1200},
+      {t:'Después de 18-20 minutos de este proceso, prueba el arroz: debe estar cremoso por fuera y con un mínimo de resistencia al centro (al dente).', s:60},
+      {t:'Apaga el fuego, agrega mantequilla fría y parmesano rallado. Mezcla vigorosamente —esto se llama "mantecare"— hasta que quede brillante y untuoso.', s:90}
+    ]
+  },
+  'tiramisu':{
+    nombre:'Tiramisú', pais:'Italia', emoji:'🍰',
+    desc:'Capas de café, mascarpone y paciencia en frío. No se hornea nada.',
+    pills:['30 min + 4h frío','6 porciones','Intermedio'], porcionesBase:6,
+    ingredientes:[
+      {n:'Mascarpone', c:500, u:'g'},{n:'Huevos', c:4, u:'unidad'},
+      {n:'Azúcar', c:100, u:'g'},{n:'Bizcochos de soletilla', c:24, u:'unidad'},
+      {n:'Café espresso', c:1, u:'taza'},{n:'Cacao en polvo', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Mascarpone', usa:'No hay buen sustituto, es el ingrediente central'},{falta:'Bizcochos de soletilla', usa:'Pan de molde tostado y cortado, en caso de emergencia'}],
+    pasos:[
+      {t:'Prepara una taza de café espresso fuerte y déjalo enfriar a temperatura ambiente.', s:300},
+      {t:'Separa 4 huevos. Bate las yemas con 100g de azúcar hasta que blanqueen y dupliquen su volumen.', s:240},
+      {t:'Incorpora 500g de mascarpone a las yemas con movimientos suaves, sin batir de más para no perder aire.', s:180},
+      {t:'Bate las claras a punto de nieve firme por separado. Incorpóralas a la mezcla de mascarpone con movimientos envolventes, de abajo hacia arriba.', s:240},
+      {t:'Moja rápidamente cada bizcocho de soletilla en el café (1 segundo por lado, no más, o se desarman) y forma una primera capa en el molde.', s:300},
+      {t:'Cubre con una capa de la crema de mascarpone. Repite con otra capa de bizcochos mojados y otra capa de crema.', s:300},
+      {t:'Refrigera mínimo 4 horas, idealmente toda la noche. Justo antes de servir, espolvorea generosamente con cacao en polvo.', s:14400}
+    ]
+  },
+
+  // FRANCIA
+  'ratatouille':{
+    nombre:'Ratatouille', pais:'Francia', emoji:'🍆',
+    desc:'Verduras de temporada cocidas por separado y luego unidas — el respeto por cada ingrediente es la técnica.',
+    pills:['1h','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Berenjena', c:1, u:'unidad'},{n:'Calabacín', c:1, u:'unidad'},
+      {n:'Pimiento', c:1, u:'unidad'},{n:'Cebolla', c:1, u:'unidad'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Aceite de oliva', c:60, u:'ml'},{n:'Hierbas de Provenza', c:1, u:'cucharadita'}
+    ],
+    sustituciones:[{falta:'Calabacín', usa:'Cualquier verdura de verano firme funciona si mantienes las proporciones'}],
+    pasos:[
+      {t:'Corta en cubos berenjena, calabacín, pimiento y cebolla por separado. No los mezcles todavía.', s:600},
+      {t:'Saltea cada verdura por separado en aceite de oliva, a fuego medio-alto, hasta que cada una esté apenas dorada. Reserva cada una en un plato distinto.', s:900},
+      {t:'En la misma sartén, sofríe ajo picado y agrega tomate triturado. Cocina a fuego medio hasta que espese, unos 10 minutos.', s:600},
+      {t:'Agrega todas las verduras reservadas a la salsa de tomate. Mezcla con cuidado para no deshacerlas.', s:120},
+      {t:'Cocina a fuego bajo 15 minutos más, con tapa, para que los sabores se integren sin que las verduras se deshagan del todo.', s:900},
+      {t:'Agrega hierbas de Provenza y ajusta sal. Sirve tibio, no caliente — el ratatouille se disfruta mejor un poco reposado.', s:120}
+    ]
+  },
+  'crepes':{
+    nombre:'Crêpes Saladas', pais:'Francia', emoji:'🥞',
+    desc:'La muñeca correcta para esparcir la masa importa más que la receta misma.',
+    pills:['25 min','8 crêpes','Fácil'], porcionesBase:8,
+    ingredientes:[
+      {n:'Harina', c:250, u:'g'},{n:'Huevos', c:3, u:'unidad'},
+      {n:'Leche entera', c:500, u:'ml'},{n:'Sal', c:0, u:'pizca'},{n:'Mantequilla', c:20, u:'g'}
+    ],
+    sustituciones:[{falta:'Leche entera', usa:'Cualquier leche funciona, cambia ligeramente la riqueza'}],
+    pasos:[
+      {t:'Mezcla 250g de harina con una pizca de sal en un bowl. Haz un hueco en el centro.', s:60},
+      {t:'Agrega 3 huevos al centro y empieza a mezclar desde ahí hacia afuera, incorporando la harina poco a poco.', s:180},
+      {t:'Agrega 500ml de leche poco a poco mientras mezclas, hasta lograr una masa líquida sin grumos, como una crema ligera.', s:180},
+      {t:'Deja reposar la masa mínimo 20 minutos — esto relaja el gluten y da crêpes más finas.', s:1200},
+      {t:'Calienta una sartén antiadherente a fuego medio con una pizca de mantequilla. Vierte un cucharón de masa y de inmediato inclina y gira la sartén para esparcirla fina y pareja.', s:30},
+      {t:'Cocina 1-2 minutos hasta que los bordes se despeguen solos, voltea y cocina 30 segundos más del otro lado.', s:120}
+    ]
+  },
+  'creme-brulee':{
+    nombre:'Crème Brûlée', pais:'Francia', emoji:'🔥',
+    desc:'Crema suave al horno, costra de azúcar quemada justo antes de servir.',
+    pills:['40 min + 4h frío','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Crema para batir', c:500, u:'ml'},{n:'Vaina de vainilla', c:1, u:'unidad'},
+      {n:'Yemas de huevo', c:5, u:'unidad'},{n:'Azúcar', c:80, u:'g'},{n:'Azúcar para quemar', c:4, u:'cucharada'}
+    ],
+    sustituciones:[{falta:'Soplete de cocina', usa:'Gratinador del horno al máximo, vigilando de cerca para no quemar de más'}],
+    pasos:[
+      {t:'Precalienta el horno a 150°C. Calienta 500ml de crema para batir con una vaina de vainilla abierta, sin que llegue a hervir.', s:300},
+      {t:'Bate 5 yemas con 80g de azúcar hasta que blanqueen ligeramente, sin batir en exceso.', s:180},
+      {t:'Vierte la crema caliente sobre las yemas poco a poco, batiendo constantemente para que no se cuajen de golpe.', s:120},
+      {t:'Cuela la mezcla para eliminar grumos. Reparte en moldes individuales (ramekins).', s:120},
+      {t:'Hornea en baño maría (los moldes dentro de una bandeja con agua caliente) durante 35-40 minutos, hasta que el centro tiemble ligeramente pero no esté líquido.', s:2100},
+      {t:'Refrigera mínimo 4 horas. Justo antes de servir, espolvorea azúcar y quema con soplete hasta lograr una costra dura y dorada.', s:14400}
+    ]
+  },
+
+  // GRECIA
+  'tzatziki':{
+    nombre:'Tzatziki', pais:'Grecia', emoji:'🥒',
+    desc:'Yogur, pepino y ajo — la base silenciosa de mil platos griegos.',
+    pills:['15 min + reposo','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Yogur griego', c:500, u:'g'},{n:'Pepino', c:1, u:'unidad'},
+      {n:'Ajo', c:1, u:'diente'},{n:'Aceite de oliva', c:2, u:'cucharada'},
+      {n:'Eneldo fresco', c:1, u:'cucharada'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Yogur griego', usa:'Yogur natural espeso colado en un paño durante 30 minutos para quitar el exceso de agua'}],
+    pasos:[
+      {t:'Ralla un pepino grande sin pelar. Colócalo en un colador con sal y deja reposar 15 minutos para que suelte el exceso de agua.', s:900},
+      {t:'Exprime el pepino rallado con las manos para eliminar toda el agua posible — esto evita que el tzatziki quede líquido.', s:120},
+      {t:'Mezcla el pepino con 500g de yogur griego espeso, un diente de ajo machacado y un chorrito de aceite de oliva.', s:120},
+      {t:'Agrega eneldo fresco picado y ajusta sal al gusto. Mezcla bien.', s:60},
+      {t:'Refrigera mínimo 1 hora antes de servir — el sabor mejora notablemente con el reposo.', s:3600}
+    ]
+  },
+  'souvlaki':{
+    nombre:'Souvlaki', pais:'Grecia', emoji:'🍢',
+    desc:'Brochetas marinadas, fuego directo y rápido — la sencillez bien ejecutada.',
+    pills:['20 min + marinado','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Pechuga de pollo', c:600, u:'g'},{n:'Aceite de oliva', c:60, u:'ml'},
+      {n:'Limón', c:1, u:'unidad'},{n:'Orégano', c:1, u:'cucharada'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Pollo', usa:'Cerdo o cordero, ambos tradicionales según la región'}],
+    pasos:[
+      {t:'Corta pechuga de pollo en cubos uniformes de unos 3cm.', s:300},
+      {t:'Marina con aceite de oliva, jugo de limón, orégano, ajo machacado y sal. Mezcla bien para cubrir toda la carne.', s:180},
+      {t:'Deja marinar mínimo 1 hora en refrigeración, idealmente toda la noche para más sabor.', s:3600},
+      {t:'Ensarta los cubos en brochetas de madera o metal, sin apretarlos demasiado.', s:180},
+      {t:'Cocina a la parrilla o sartén a fuego alto, girando cada 2 minutos hasta dorar por todos lados, unos 10-12 minutos en total.', s:660},
+      {t:'Sirve con pan pita caliente, tzatziki y ensalada fresca.', s:60}
+    ]
+  },
+  'moussaka':{
+    nombre:'Moussaka', pais:'Grecia', emoji:'🍆',
+    desc:'Capas de berenjena, carne especiada y bechamel gratinada al horno.',
+    pills:['1h 30min','6 porciones','Avanzado'], porcionesBase:6,
+    ingredientes:[
+      {n:'Berenjenas', c:2, u:'unidad'},{n:'Cordero molido', c:500, u:'g'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Ajo', c:2, u:'diente'},
+      {n:'Tomate triturado', c:400, u:'g'},{n:'Canela', c:1, u:'cucharadita'},
+      {n:'Mantequilla', c:50, u:'g'},{n:'Harina', c:50, u:'g'},
+      {n:'Leche', c:500, u:'ml'},{n:'Yema de huevo', c:1, u:'unidad'},{n:'Queso rallado', c:80, u:'g'}
+    ],
+    sustituciones:[{falta:'Cordero molido', usa:'Carne de res molida, más suave pero funcional'}],
+    pasos:[
+      {t:'Corta 2 berenjenas grandes en láminas de medio centímetro. Sala y deja reposar 20 minutos para que suelten el amargor.', s:1200},
+      {t:'Seca las láminas y fríelas u hornéalas con un poco de aceite hasta dorar ligeramente por ambos lados. Reserva.', s:900},
+      {t:'Sofríe cebolla y ajo, agrega 500g de carne molida y dora bien. Agrega tomate triturado, canela y especias. Cocina 20 minutos a fuego bajo.', s:1200},
+      {t:'Prepara la bechamel: derrite mantequilla, agrega harina y cocina 2 minutos, luego incorpora leche caliente poco a poco batiendo hasta espesar.', s:600},
+      {t:'Fuera del fuego, agrega yema de huevo y queso rallado a la bechamel.', s:180},
+      {t:'Monta en capas en una bandeja: berenjena, carne, berenjena, y termina con la bechamel cubriendo todo.', s:300},
+      {t:'Hornea a 180°C durante 35-40 minutos hasta que la superficie esté dorada y burbujeante.', s:2400}
+    ]
+  },
+
+  // JAPÓN
+  'onigiri':{
+    nombre:'Onigiri', pais:'Japón', emoji:'🍙',
+    desc:'Bolas de arroz moldeadas con las manos — la técnica está en la presión correcta, no en exprimir.',
+    pills:['25 min','4 piezas','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Arroz de grano corto', c:2, u:'taza'},{n:'Alga nori', c:2, u:'lámina'},
+      {n:'Atún en lata', c:100, u:'g'},{n:'Mayonesa', c:1, u:'cucharada'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Alga nori', usa:'Se puede omitir, aunque pierde el toque tradicional de sabor y presentación'}],
+    pasos:[
+      {t:'Cocina arroz de grano corto japonés siguiendo las proporciones de tu olla (generalmente 1:1.2 de agua).', s:1200},
+      {t:'Deja enfriar el arroz hasta que esté tibio, no caliente — manipularlo muy caliente es incómodo y desarma la forma.', s:300},
+      {t:'Humedece tus manos con agua y un poco de sal para evitar que el arroz se pegue.', s:30},
+      {t:'Toma una porción de arroz, haz un hueco en el centro y coloca el relleno (atún con mayonesa, ciruela encurtida, o salmón).', s:60},
+      {t:'Cierra el arroz sobre el relleno y moldea con presión firme pero suave, formando un triángulo o bola compacta que no se desarme.', s:90},
+      {t:'Envuelve la base con una tira de alga nori si la usas.', s:60}
+    ]
+  },
+  'ramen-casero':{
+    nombre:'Ramen Casero', pais:'Japón', emoji:'🍜',
+    desc:'El caldo profundo se construye en capas durante horas, no se improvisa en minutos.',
+    pills:['3h','4 porciones','Avanzado'], porcionesBase:4,
+    ingredientes:[
+      {n:'Huesos de cerdo o pollo', c:1, u:'kg'},{n:'Jengibre', c:1, u:'trozo'},
+      {n:'Ajo', c:4, u:'diente'},{n:'Fideos de ramen', c:400, u:'g'},
+      {n:'Salsa de soya', c:60, u:'ml'},{n:'Mirin', c:30, u:'ml'},
+      {n:'Huevo marinado', c:4, u:'unidad'},{n:'Cebollín', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Huesos de cerdo', usa:'Huesos de pollo, el caldo será más ligero pero igual de válido'}],
+    pasos:[
+      {t:'Hierve huesos de cerdo o pollo en agua durante 5 minutos, descarta esa primera agua — esto limpia impurezas y da un caldo más claro.', s:300},
+      {t:'Lava los huesos, regrésalos a la olla con agua limpia, jengibre, ajo y cebolla. Hierve a fuego muy bajo, sin tapar del todo, durante mínimo 3 horas.', s:10800},
+      {t:'Mientras el caldo hierve, prepara el tare (la base de sabor concentrada): mezcla salsa de soya, mirin y un poco del caldo reducido.', s:600},
+      {t:'Cocina los fideos de ramen en agua aparte siguiendo el tiempo del paquete, generalmente 3-4 minutos.', s:240},
+      {t:'Cuela el caldo final, descartando huesos y vegetales. Debe quedar untuoso y con cuerpo.', s:180},
+      {t:'En cada bowl, coloca una cucharada de tare, agrega el caldo caliente encima, luego los fideos.', s:120},
+      {t:'Corona con huevo marinado partido a la mitad, cebollín, brotes de bambú y láminas de cerdo si tienes.', s:180}
+    ]
+  },
+  'tempura':{
+    nombre:'Tempura', pais:'Japón', emoji:'🍤',
+    desc:'La fritura ligera depende del agua helada y de no mezclar de más — la masa grumosa es buena señal.',
+    pills:['25 min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Camarones', c:300, u:'g'},{n:'Camote', c:1, u:'unidad'},
+      {n:'Zanahoria', c:1, u:'unidad'},{n:'Harina para tempura', c:150, u:'g'},
+      {n:'Agua helada', c:200, u:'ml'},{n:'Aceite para freír', c:1, u:'litro'}
+    ],
+    sustituciones:[{falta:'Harina para tempura', usa:'Harina de trigo normal mezclada con un poco de fécula de maíz'}],
+    pasos:[
+      {t:'Corta camarones, verduras (camote, zanahoria, pimiento) en piezas del tamaño de un bocado.', s:300},
+      {t:'Mezcla harina con agua helada (con hielo dentro) de forma mínima, dejando grumos visibles. No batas de más, eso desarrolla gluten y endurece la fritura.', s:90},
+      {t:'Calienta abundante aceite a 180°C — usa un termómetro o prueba dejando caer una gota de masa, debe flotar y burbujear de inmediato.', s:300},
+      {t:'Pasa cada pieza por la masa, sacudiendo el exceso, y fríe en pequeños lotes sin amontonar.', s:480},
+      {t:'Fríe 1-2 minutos hasta que esté dorado claro, no oscuro — el tempura tradicional es pálido y crujiente, no tostado.', s:120},
+      {t:'Escurre sobre papel absorbente y sirve de inmediato con salsa tentsuyu (caldo dashi con soya y mirin).', s:60}
+    ]
+  },
+
+  // TAILANDIA
+  'pad-thai':{
+    nombre:'Pad Thai', pais:'Tailandia', emoji:'🍤',
+    desc:'Fideos de arroz salteados — el balance exacto de tamarindo, lima y azúcar de palma define el plato.',
+    pills:['25 min','2 porciones','Intermedio'], porcionesBase:2,
+    ingredientes:[
+      {n:'Fideos de arroz planos', c:200, u:'g'},{n:'Camarones', c:200, u:'g'},
+      {n:'Huevo', c:1, u:'unidad'},{n:'Pasta de tamarindo', c:2, u:'cucharada'},
+      {n:'Salsa de pescado', c:2, u:'cucharada'},{n:'Azúcar de palma', c:1, u:'cucharada'},
+      {n:'Brotes de soya', c:100, u:'g'},{n:'Cacahuates', c:30, u:'g'},{n:'Lima', c:1, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Pasta de tamarindo', usa:'Jugo de limón con un poco de salsa inglesa, aproxima el sabor agridulce'}],
+    pasos:[
+      {t:'Remoja fideos de arroz planos en agua tibia durante 20 minutos hasta que estén flexibles pero firmes, no blandos.', s:1200},
+      {t:'Mezcla la salsa: pasta de tamarindo, salsa de pescado, azúcar de palma y un poco de agua. Prueba y ajusta el balance dulce-ácido-salado.', s:180},
+      {t:'Calienta wok a fuego alto con aceite. Saltea camarones o pollo hasta dorar, retira y reserva.', s:240},
+      {t:'En el mismo wok, agrega huevo batido y revuelve rápido como huevo revuelto deshecho.', s:60},
+      {t:'Agrega los fideos escurridos y la salsa. Saltea con movimientos rápidos y constantes para que no se peguen.', s:180},
+      {t:'Regresa la proteína al wok, agrega brotes de soya y cacahuates picados. Saltea 1 minuto más y sirve con lima.', s:90}
+    ]
+  },
+  'tom-yum':{
+    nombre:'Tom Yum', pais:'Tailandia', emoji:'🍲',
+    desc:'Sopa picante y ácida, perfumada con galanga y limoncillo — viva desde el primer sorbo.',
+    pills:['30 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Caldo de pollo o camarón', c:1000, u:'ml'},{n:'Limoncillo', c:2, u:'tallo'},
+      {n:'Galanga', c:1, u:'trozo'},{n:'Hojas de lima kaffir', c:4, u:'unidad'},
+      {n:'Champiñones', c:200, u:'g'},{n:'Camarones', c:300, u:'g'},
+      {n:'Pasta de chile (nam prik pao)', c:2, u:'cucharada'},{n:'Lima', c:1, u:'unidad'},{n:'Salsa de pescado', c:2, u:'cucharada'}
+    ],
+    sustituciones:[{falta:'Galanga', usa:'Jengibre, el sabor cambia pero la sopa sigue funcionando'},{falta:'Hojas de lima kaffir', usa:'Ralladura de lima común'}],
+    pasos:[
+      {t:'Machaca ligeramente tallos de limoncillo, galanga en rodajas y hojas de lima kaffir para liberar sus aceites aromáticos.', s:180},
+      {t:'Hierve caldo de pollo o camarón con estos aromáticos durante 10 minutos a fuego medio.', s:600},
+      {t:'Agrega champiñones, chiles tailandeses machacados y pasta de chile (nam prik pao) al caldo.', s:120},
+      {t:'Agrega camarones y cocina solo hasta que cambien de color, 2-3 minutos — el exceso de cocción los endurece.', s:180},
+      {t:'Retira del fuego y agrega jugo de lima fresco y salsa de pescado. El ácido nunca se hierve, se agrega al final.', s:60},
+      {t:'Prueba y ajusta: debe sentirse picante, ácido y salado en partes iguales. Sirve con cilantro fresco.', s:60}
+    ]
+  },
+  'curry-verde':{
+    nombre:'Curry Verde', pais:'Tailandia', emoji:'🍛',
+    desc:'Pasta de curry fresca cocida en leche de coco, fuego controlado para que no se corte.',
+    pills:['30 min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Leche de coco', c:800, u:'ml'},{n:'Pasta de curry verde', c:4, u:'cucharada'},
+      {n:'Pollo', c:500, u:'g'},{n:'Berenjenas tailandesas', c:6, u:'unidad'},
+      {n:'Albahaca tailandesa', c:1, u:'puñado'},{n:'Salsa de pescado', c:2, u:'cucharada'},{n:'Azúcar de palma', c:1, u:'cucharadita'}
+    ],
+    sustituciones:[{falta:'Pasta de curry verde', usa:'Las versiones en frasco funcionan bien, ajusta la cantidad según intensidad'}],
+    pasos:[
+      {t:'Calienta la parte espesa de la leche de coco (la crema que sube) en una olla a fuego medio sin que hierva fuerte.', s:180},
+      {t:'Agrega 3-4 cucharadas de pasta de curry verde y fríe en la crema de coco hasta que el aceite se separe y aromatice, unos 3 minutos.', s:180},
+      {t:'Agrega pollo en trozos y cocina hasta sellar por fuera.', s:300},
+      {t:'Agrega el resto de la leche de coco y deja hervir suave, sin tapa, 10 minutos.', s:600},
+      {t:'Agrega berenjenas tailandesas o verduras de tu elección, y hojas de albahaca tailandesa. Cocina 5 minutos más.', s:300},
+      {t:'Ajusta con salsa de pescado y un poco de azúcar de palma para balancear. Sirve con arroz jazmín.', s:120}
+    ]
+  },
+
+  // INDIA
+  'dal':{
+    nombre:'Dal Tadka', pais:'India', emoji:'🍛',
+    desc:'Lentejas cocidas simples, transformadas por el tadka final: especias tostadas en mantequilla caliente.',
+    pills:['35 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Lentejas amarillas (toor dal)', c:1, u:'taza'},{n:'Cúrcuma', c:1, u:'cucharadita'},
+      {n:'Ghee o mantequilla clarificada', c:2, u:'cucharada'},{n:'Semillas de comino', c:1, u:'cucharadita'},
+      {n:'Semillas de mostaza', c:1, u:'cucharadita'},{n:'Ajo', c:3, u:'diente'},
+      {n:'Chile fresco', c:1, u:'unidad'},{n:'Cilantro', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Lentejas amarillas (toor dal)', usa:'Lentejas rojas comunes, tiempo de cocción similar'}],
+    pasos:[
+      {t:'Lava 1 taza de lentejas hasta que el agua salga clara. Cocina con 3 tazas de agua, cúrcuma y sal hasta que estén completamente blandas.', s:1500},
+      {t:'Machaca ligeramente las lentejas cocidas con un cucharón para lograr una textura semi-cremosa, no un puré liso.', s:60},
+      {t:'Prepara el tadka aparte: calienta ghee o mantequilla clarificada en una sartén pequeña a fuego medio.', s:60},
+      {t:'Agrega semillas de comino y mostaza al ghee caliente — deben chisporrotear de inmediato, esa es la señal de que está listo.', s:30},
+      {t:'Agrega ajo picado, chile fresco y una pizca de asafétida. Fríe 30 segundos hasta que el ajo dore ligeramente.', s:30},
+      {t:'Vierte el tadka caliente sobre el dal cocido — el sonido del chisporroteo al caer es parte de la experiencia. Mezcla y sirve con cilantro fresco.', s:60}
+    ]
+  },
+  'butter-chicken':{
+    nombre:'Butter Chicken', pais:'India', emoji:'🍗',
+    desc:'Pollo marinado en yogur, bañado en una salsa de tomate cremosa y especiada.',
+    pills:['40 min + marinado','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Pollo en trozos', c:600, u:'g'},{n:'Yogur natural', c:200, u:'g'},
+      {n:'Jengibre', c:1, u:'cucharada'},{n:'Ajo', c:3, u:'diente'},
+      {n:'Garam masala', c:2, u:'cucharadita'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Crema para batir', c:150, u:'ml'},{n:'Mantequilla', c:50, u:'g'},{n:'Cebolla', c:1, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Garam masala', usa:'Mezcla de comino, canela, clavo y cardamomo molidos en proporciones iguales'}],
+    pasos:[
+      {t:'Marina trozos de pollo en yogur, jugo de limón, jengibre, ajo y garam masala. Deja reposar mínimo 1 hora, idealmente toda la noche.', s:3600},
+      {t:'Sella el pollo marinado en una sartén caliente hasta dorar por fuera, sin cocinarlo del todo. Reserva.', s:300},
+      {t:'En la misma sartén, sofríe cebolla, ajo y jengibre hasta dorar. Agrega tomate triturado y cocina 10 minutos hasta espesar.', s:600},
+      {t:'Licúa la salsa de tomate hasta que quede completamente lisa. Regresa a la sartén.', s:120},
+      {t:'Agrega crema para batir, mantequilla y garam masala a la salsa. Cocina a fuego bajo 5 minutos.', s:300},
+      {t:'Regresa el pollo a la salsa y termina de cocinar 10 minutos más a fuego bajo, hasta que el pollo esté tierno y la salsa untuosa.', s:600},
+      {t:'Sirve con un toque final de crema y cilantro fresco, acompañado de arroz o naan.', s:60}
+    ]
+  },
+  'naan':{
+    nombre:'Naan Casero', pais:'India', emoji:'🫓',
+    desc:'Pan plano con yogur en la masa, cocido a fuego muy alto para lograr burbujas y ampollas.',
+    pills:['2h','6 piezas','Intermedio'], porcionesBase:6,
+    ingredientes:[
+      {n:'Harina', c:500, u:'g'},{n:'Levadura', c:7, u:'g'},
+      {n:'Azúcar', c:1, u:'cucharadita'},{n:'Yogur natural', c:150, u:'g'},
+      {n:'Agua tibia', c:150, u:'ml'},{n:'Sal', c:1, u:'cucharadita'},{n:'Ghee o mantequilla', c:50, u:'g'}
+    ],
+    sustituciones:[{falta:'Yogur natural', usa:'No hay buen sustituto — aporta suavidad y acidez clave a la masa'}],
+    pasos:[
+      {t:'Mezcla harina, levadura, azúcar y sal en un bowl. Agrega yogur y agua tibia poco a poco hasta formar una masa.', s:300},
+      {t:'Amasa durante 8-10 minutos hasta lograr una masa lisa y elástica.', s:600},
+      {t:'Deja fermentar tapada en un lugar tibio durante 1-1.5 horas, hasta que duplique su tamaño.', s:5400},
+      {t:'Divide la masa en porciones y forma bolas. Deja reposar 10 minutos más antes de estirar.', s:600},
+      {t:'Estira cada porción en forma ovalada de medio centímetro de grosor.', s:300},
+      {t:'Cocina en sartén de hierro muy caliente o comal sin aceite, 1-2 minutos por lado hasta que se formen burbujas doradas.', s:240},
+      {t:'Pincela con mantequilla derretida o ghee apenas sale de la sartén, y sirve caliente.', s:60}
+    ]
+  },
+
+  // MÉXICO
+  'tacos-al-pastor':{
+    nombre:'Tacos al Pastor', pais:'México', emoji:'🌮',
+    desc:'Marinado con achiote y piña, cocido en capas finas apiladas — la herencia árabe-mexicana en su mejor forma.',
+    pills:['1h + marinado','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Lomo de cerdo en láminas', c:800, u:'g'},{n:'Achiote en pasta', c:100, u:'g'},
+      {n:'Chiles secos', c:3, u:'unidad'},{n:'Vinagre', c:60, u:'ml'},
+      {n:'Ajo', c:3, u:'diente'},{n:'Piña', c:0.5, u:'unidad'},
+      {n:'Tortillas de maíz pequeñas', c:16, u:'unidad'},{n:'Cebolla', c:1, u:'unidad'},{n:'Cilantro', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Achiote en pasta', usa:'Pimentón con un poco de jugo de naranja, no es igual pero da color y un toque similar'}],
+    pasos:[
+      {t:'Marina láminas finas de cerdo (lomo o pierna) con achiote, chiles secos rehidratados, vinagre, ajo y especias licuados.', s:300},
+      {t:'Deja marinar mínimo 2 horas en refrigeración, idealmente toda la noche.', s:7200},
+      {t:'Calienta una plancha o sartén grande a fuego alto. Cocina las láminas de carne marinada en capas, apilándolas mientras se cocinan.', s:600},
+      {t:'Coloca rodajas de piña en la plancha junto a la carne para que se caramelicen con los jugos.', s:300},
+      {t:'Pica la carne cocida en trozos pequeños directamente en la plancha, mezclando con un poco de la piña caramelizada.', s:180},
+      {t:'Calienta tortillas de maíz pequeñas en el comal. Sirve la carne picada sobre tortillas dobles, con cebolla y cilantro picados, y limón.', s:120}
+    ]
+  },
+  'mole':{
+    nombre:'Mole Negro', pais:'México', emoji:'🍫',
+    desc:'Decenas de ingredientes, horas de paciencia. Chile y chocolate en equilibrio, no en competencia.',
+    pills:['3h','6 porciones','Avanzado'], porcionesBase:6,
+    ingredientes:[
+      {n:'Chiles secos variados', c:8, u:'unidad'},{n:'Almendras', c:50, u:'g'},
+      {n:'Pasas', c:30, u:'g'},{n:'Ajonjolí', c:30, u:'g'},
+      {n:'Pan duro', c:1, u:'rebanada'},{n:'Tomate', c:2, u:'unidad'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Chocolate de mesa', c:100, u:'g'},
+      {n:'Caldo de pollo', c:1000, u:'ml'},{n:'Manteca o aceite', c:60, u:'ml'}
+    ],
+    sustituciones:[{falta:'Chiles secos variados', usa:'No hay sustituto real, son la base aromática — al menos usa chile ancho y chipotle si te faltan otros'}],
+    pasos:[
+      {t:'Tuesta ligeramente varios tipos de chiles secos (mulato, chilhuacle, pasilla) en comal seco, sin quemarlos. Remoja en agua caliente 20 minutos.', s:1200},
+      {t:'Tuesta por separado semillas de ajonjolí, almendras, pasas y un trozo de pan duro hasta dorar.', s:600},
+      {t:'Licúa los chiles remojados con su agua, junto con los frutos secos tostados, tomate y cebolla asados, hasta lograr una pasta lisa.', s:300},
+      {t:'Fríe la pasta resultante en manteca o aceite a fuego medio, revolviendo constantemente para que no se pegue, durante 20 minutos.', s:1200},
+      {t:'Agrega caldo de pollo poco a poco para ajustar la consistencia, y deja hervir a fuego muy bajo.', s:1800},
+      {t:'Agrega chocolate de mesa o chocolate amargo en trozos y mueve hasta disolver por completo.', s:300},
+      {t:'Cocina a fuego bajo mínimo 1 hora más, revolviendo de vez en cuando — el mole mejora cuanto más tiempo se cocina lento.', s:3600},
+      {t:'Sirve sobre pollo o guajolote cocido, espolvoreado con ajonjolí tostado.', s:60}
+    ]
+  },
+  'guacamole':{
+    nombre:'Guacamole', pais:'México', emoji:'🥑',
+    desc:'El punto exacto del aguacate y una textura que nunca debe ser puré.',
+    pills:['10 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Aguacates maduros', c:3, u:'unidad'},{n:'Cebolla', c:0.5, u:'unidad'},
+      {n:'Chile serrano', c:1, u:'unidad'},{n:'Cilantro', c:2, u:'cucharada'},
+      {n:'Tomate', c:1, u:'unidad'},{n:'Limón', c:1, u:'unidad'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Chile serrano', usa:'Jalapeño, ligeramente menos picante'}],
+    pasos:[
+      {t:'Corta 3 aguacates maduros por la mitad, retira el hueso y extrae la pulpa con una cuchara en un molcajete o bowl.', s:120},
+      {t:'Machaca con un tenedor o mano de molcajete dejando trozos visibles — nunca debe quedar como puré liso.', s:90},
+      {t:'Pica finamente cebolla, chile serrano, cilantro y tomate. Agrégalos al aguacate machacado.', s:300},
+      {t:'Mezcla con cuidado para integrar sin deshacer del todo los trozos de aguacate.', s:60},
+      {t:'Agrega jugo de limón fresco y sal al gusto. Prueba y ajusta — el limón evita que se oxide y realza el sabor.', s:60},
+      {t:'Sirve de inmediato, idealmente con el hueso del aguacate enterrado en el centro para retrasar la oxidación si no se come al momento.', s:30}
+    ]
+  },
+
+  // PERÚ
+  'cebiche':{
+    nombre:'Cebiche Clásico', pais:'Perú', emoji:'🐟',
+    desc:'El tiempo exacto de "cocción" en limón es la técnica entera — ni un minuto más.',
+    pills:['20 min','2 porciones','Intermedio'], porcionesBase:2,
+    ingredientes:[
+      {n:'Pescado blanco fresco', c:400, u:'g'},{n:'Limón', c:8, u:'unidad'},
+      {n:'Cebolla morada', c:1, u:'unidad'},{n:'Chile', c:1, u:'unidad'},
+      {n:'Cilantro', c:2, u:'cucharada'},{n:'Camote', c:1, u:'unidad'},{n:'Choclo', c:1, u:'unidad'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Pescado blanco fresco', usa:'Debe ser pescado de la más alta frescura posible — no hay sustituto seguro aquí'}],
+    pasos:[
+      {t:'Corta pescado blanco fresco (corvina, lenguado) en cubos medianos uniformes.', s:300},
+      {t:'Pica finamente cebolla morada en juliana muy fina y enjuágala en agua fría para suavizar su sabor picante.', s:180},
+      {t:'Exprime suficiente limón fresco para cubrir el pescado por completo — usa solo limón recién exprimido, nunca embotellado.', s:180},
+      {t:'Sazona el pescado con sal y un chile picado fino. Agrega el jugo de limón y mezcla suavemente.', s:60},
+      {t:'Deja marinar exactamente 5-8 minutos — el pescado debe verse opaco por fuera pero translúcido apenas al centro. Más tiempo lo endurece.', s:420},
+      {t:'Agrega la cebolla morada y cilantro picado justo antes de servir. Acompaña con camote sancochado y choclo (maíz peruano).', s:60}
+    ]
+  },
+  'lomo-saltado':{
+    nombre:'Lomo Saltado', pais:'Perú', emoji:'🥩',
+    desc:'Fusión chino-peruana cocida en wok a fuego altísimo — la velocidad es la técnica.',
+    pills:['20 min','2 porciones','Fácil'], porcionesBase:2,
+    ingredientes:[
+      {n:'Lomo de res', c:400, u:'g'},{n:'Cebolla roja', c:1, u:'unidad'},
+      {n:'Tomate', c:1, u:'unidad'},{n:'Papas fritas', c:300, u:'g'},
+      {n:'Salsa de soya', c:3, u:'cucharada'},{n:'Vinagre', c:1, u:'cucharada'},{n:'Comino', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Lomo de res', usa:'Cualquier corte de res tierno cortado en tiras finas funciona'}],
+    pasos:[
+      {t:'Corta lomo de res en tiras gruesas. Sazona con sal, pimienta y comino.', s:300},
+      {t:'Corta cebolla roja y tomate en gajos gruesos, y prepara papas fritas en bastones (pueden estar precocidas).', s:300},
+      {t:'Calienta wok o sartén a fuego muy alto con aceite. Sella la carne en tandas pequeñas, sin amontonar, sellando 1 minuto por lado.', s:300},
+      {t:'Retira la carne y en el mismo wok caliente, saltea cebolla y tomate solo 1 minuto — deben quedar firmes, no blandos.', s:60},
+      {t:'Regresa la carne al wok, agrega salsa de soya y vinagre. Mezcla rápido a fuego alto unos 30 segundos.', s:30},
+      {t:'Agrega las papas fritas al final, mezclando justo antes de servir para que no se ablanden. Sirve con arroz blanco.', s:60}
+    ]
+  },
+  'aji-de-gallina':{
+    nombre:'Ají de Gallina', pais:'Perú', emoji:'🍗',
+    desc:'Pollo deshebrado en una salsa cremosa de ají amarillo y nuez — reconfortante y untuoso.',
+    pills:['45 min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Pechugas de pollo', c:600, u:'g'},{n:'Ají amarillo', c:4, u:'unidad'},
+      {n:'Pan de molde', c:3, u:'rebanada'},{n:'Leche', c:200, u:'ml'},
+      {n:'Nueces', c:50, u:'g'},{n:'Cebolla', c:1, u:'unidad'},
+      {n:'Papas', c:4, u:'unidad'},{n:'Huevo duro', c:2, u:'unidad'},{n:'Aceitunas negras', c:8, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Ají amarillo', usa:'Pasta de ají amarillo en frasco, o en su defecto chile habanero licuado con un poco de achiote para el color'}],
+    pasos:[
+      {t:'Cocina pechugas de pollo en agua con sal, cebolla y apio hasta que estén tiernas. Reserva el caldo.', s:1200},
+      {t:'Deshebra el pollo cocido en tiras finas con las manos o dos tenedores.', s:300},
+      {t:'Remoja pan de molde en leche hasta que se deshaga, esto da cuerpo a la salsa.', s:120},
+      {t:'Sofríe cebolla y ajo, agrega ají amarillo licuado y cocina 5 minutos hasta que pierda crudeza.', s:300},
+      {t:'Licúa el pan remojado con nueces y un poco de caldo de pollo hasta lograr una crema lisa. Agrégala al sofrito.', s:180},
+      {t:'Incorpora el pollo deshebrado a la salsa y cocina a fuego bajo 15 minutos, ajustando con más caldo si espesa demasiado.', s:900},
+      {t:'Sirve sobre papas sancochadas y arroz blanco, decorado con aceitunas negras y huevo duro.', s:60}
+    ]
+  },
+
+  // COLOMBIA
+  'bandeja-paisa':{
+    nombre:'Bandeja Paisa', pais:'Colombia', emoji:'🍖',
+    desc:'El plato más completo del país: cada componente se cocina por separado y se ensambla al final.',
+    pills:['1h 30min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Fríjoles rojos', c:400, u:'g'},{n:'Arroz', c:300, u:'g'},
+      {n:'Chicharrón', c:300, u:'g'},{n:'Carne molida', c:400, u:'g'},
+      {n:'Chorizo', c:4, u:'unidad'},{n:'Huevos', c:4, u:'unidad'},
+      {n:'Plátano maduro', c:2, u:'unidad'},{n:'Arepa', c:4, u:'unidad'},{n:'Aguacate', c:1, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Chicharrón', usa:'Se puede omitir si buscas una versión más ligera, aunque es un componente tradicional'}],
+    pasos:[
+      {t:'Remoja fríjoles rojos la noche anterior. Cocina con agua, un trozo de tocino y plátano verde hasta que estén blandos, alrededor de 1.5 horas.', s:5400},
+      {t:'Cocina arroz blanco por separado siguiendo la proporción habitual de 2 tazas de agua por 1 de arroz.', s:1200},
+      {t:'Fríe el chicharrón cortado en trozos en su propia grasa a fuego medio hasta dorar y quedar crujiente.', s:1200},
+      {t:'Cocina la carne molida sazonada con cebolla y tomate en un sofrito hasta dorar bien (hogao).', s:600},
+      {t:'Fríe un chorizo entero por separado y un huevo frito para cada plato.', s:480},
+      {t:'Fríe tajadas de plátano maduro en aceite hasta dorar por ambos lados.', s:480},
+      {t:'Monta cada bandeja con arroz, fríjoles, carne, chicharrón, chorizo, huevo frito, tajadas de plátano, arepa y aguacate.', s:300}
+    ]
+  },
+  'ajiaco':{
+    nombre:'Ajiaco Santafereño', pais:'Colombia', emoji:'🍲',
+    desc:'Tres papas distintas y guascas — el caldo espeso que define a Bogotá.',
+    pills:['1h','6 porciones','Intermedio'], porcionesBase:6,
+    ingredientes:[
+      {n:'Pechugas de pollo', c:600, u:'g'},{n:'Papa pastusa', c:4, u:'unidad'},
+      {n:'Papa sabanera', c:4, u:'unidad'},{n:'Papa criolla', c:6, u:'unidad'},
+      {n:'Mazorca tierna', c:2, u:'unidad'},{n:'Guascas', c:2, u:'cucharada'},
+      {n:'Cebolla larga', c:2, u:'unidad'},{n:'Cilantro', c:1, u:'manojo'},{n:'Crema de leche', c:100, u:'ml'},{n:'Alcaparras', c:30, u:'g'}
+    ],
+    sustituciones:[{falta:'Guascas', usa:'No hay buen sustituto, son la hierba que define el sabor característico — buscar en tiendas colombianas o latinas'},{falta:'Papa criolla', usa:'Papa amarilla pequeña, lo más cercano disponible'}],
+    pasos:[
+      {t:'Cocina pechugas de pollo en agua con cebolla larga, cilantro y sal hasta que estén tiernas. Reserva el caldo.', s:1500},
+      {t:'Deshebra el pollo cocido y reserva.', s:300},
+      {t:'En el mismo caldo, agrega papa pastusa y papa sabanera peladas y picadas. Cocina hasta que empiecen a deshacerse —esto espesa naturalmente el caldo.', s:1200},
+      {t:'Agrega papa criolla entera o en mitades. Esta papa se deshace casi por completo y da cuerpo cremoso al ajiaco.', s:900},
+      {t:'Agrega mazorcas de maíz tierno cortadas en trozos y las guascas. Cocina 15 minutos más a fuego medio.', s:900},
+      {t:'Regresa el pollo deshebrado a la olla. Ajusta sal y deja hervir 5 minutos más para integrar.', s:300},
+      {t:'Sirve caliente con crema de leche, alcaparras y trozos de aguacate al lado.', s:60}
+    ]
+  },
+  'arepas-huevo':{
+    nombre:'Arepa de Huevo', pais:'Colombia', emoji:'🫓',
+    desc:'Doble fritura: la arepa primero, el huevo dentro después — la técnica costeña por excelencia.',
+    pills:['40 min','4 piezas','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Masarepa', c:2, u:'taza'},{n:'Agua tibia', c:2.5, u:'taza'},
+      {n:'Huevos', c:4, u:'unidad'},{n:'Sal', c:1, u:'cucharadita'},{n:'Aceite para freír', c:1, u:'litro'}
+    ],
+    sustituciones:[{falta:'Masa de maíz precocida (masarepa)', usa:'No hay sustituto real, es la base del plato'}],
+    pasos:[
+      {t:'Mezcla masarepa con agua tibia y sal hasta formar una masa suave que no se pegue a las manos.', s:300},
+      {t:'Forma bolas de masa y aplánalas en discos de medio centímetro de grosor.', s:300},
+      {t:'Fríe los discos en aceite caliente (no muy fuerte) hasta que doren ligeramente e inflen un poco por dentro, formando una bolsa de aire.', s:480},
+      {t:'Retira y deja enfriar un par de minutos. Con un cuchillo, abre cuidadosamente un corte en el borde sin romper la arepa por completo.', s:120},
+      {t:'Con cuidado, introduce un huevo crudo entero dentro de la bolsa de aire formada en la fritura anterior.', s:60},
+      {t:'Regresa la arepa con huevo al aceite caliente y fríe hasta que el huevo cuaje por completo, volteando con cuidado a la mitad del tiempo.', s:300},
+      {t:'Escurre sobre papel absorbente y sirve caliente, opcionalmente rellena con carne desmechada.', s:60}
+    ]
+  },
+
+  // MARRUECOS
+  'tagine-cordero':{
+    nombre:'Tagine de Cordero', pais:'Marruecos', emoji:'🍖',
+    desc:'Cocción lentísima bajo el cono de barro tradicional, dulzura de ciruelas contra especias profundas.',
+    pills:['2h 30min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Cordero en trozos', c:800, u:'g'},{n:'Jengibre', c:1, u:'cucharada'},
+      {n:'Cúrcuma', c:1, u:'cucharadita'},{n:'Canela', c:1, u:'cucharadita'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Ajo', c:3, u:'diente'},
+      {n:'Ciruelas pasas', c:100, u:'g'},{n:'Almendras tostadas', c:50, u:'g'},{n:'Caldo o agua', c:500, u:'ml'}
+    ],
+    sustituciones:[{falta:'Tagine de barro', usa:'Una olla con tapa pesada que retenga bien el vapor funciona de forma similar'}],
+    pasos:[
+      {t:'Sazona trozos de cordero con jengibre, cúrcuma, canela y pimienta. Deja marinar al menos 30 minutos.', s:1800},
+      {t:'Dora el cordero en aceite a fuego medio-alto en el tagine o una olla con tapa pesada, hasta sellar bien por todos lados.', s:480},
+      {t:'Agrega cebolla en juliana y ajo, sofríe hasta transparentar.', s:300},
+      {t:'Agrega caldo o agua hasta cubrir parcialmente la carne. Tapa y cocina a fuego muy bajo, sin destapar, durante 1.5 horas.', s:5400},
+      {t:'Agrega ciruelas pasas y almendras tostadas. Continúa la cocción tapada 30 minutos más, hasta que la carne esté muy tierna.', s:1800},
+      {t:'Destapa los últimos 10 minutos para que la salsa espese ligeramente. Sirve con cuscús.', s:600}
+    ]
+  },
+  'cuscus':{
+    nombre:'Cuscús', pais:'Marruecos', emoji:'🍚',
+    desc:'La técnica de hidratar el grano al vapor, nunca hervirlo directamente.',
+    pills:['20 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Cuscús seco', c:300, u:'g'},{n:'Agua tibia', c:350, u:'ml'},
+      {n:'Aceite de oliva', c:2, u:'cucharada'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Cuscusera tradicional', usa:'Un colador metálico sobre una olla con agua hirviendo, cubierto con un paño, funciona igual'}],
+    pasos:[
+      {t:'Coloca el cuscús seco en un bowl amplio y rocíalo con un poco de aceite, frotando con las manos para separar los granos.', s:180},
+      {t:'Agrega agua tibia con sal poco a poco, mezclando con las manos, hasta que el grano absorba la humedad sin quedar empapado.', s:300},
+      {t:'Deja reposar tapado 10 minutos para que el grano termine de hidratarse y se esponje.', s:600},
+      {t:'Si tienes cuscusera, cocina al vapor sobre el caldo del tagine 15-20 minutos. Si no, calienta en el microondas tapado con un paño húmedo.', s:1200},
+      {t:'Esponja el grano final con un tenedor, nunca con cuchara, para no compactarlo.', s:60},
+      {t:'Sirve como base, con el tagine y su salsa encima.', s:60}
+    ]
+  },
+  'harira':{
+    nombre:'Harira', pais:'Marruecos', emoji:'🍲',
+    desc:'Sopa espesa de lentejas y garbanzo, perfecta para romper el ayuno con algo reconfortante.',
+    pills:['1h','6 porciones','Fácil'], porcionesBase:6,
+    ingredientes:[
+      {n:'Lentejas', c:200, u:'g'},{n:'Garbanzos secos', c:200, u:'g'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Apio', c:2, u:'tallo'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Caldo de pollo o vegetal', c:1500, u:'ml'},{n:'Comino', c:1, u:'cucharadita'},{n:'Cilantro y perejil', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Garbanzos secos', usa:'Garbanzos de lata, reduce el tiempo de cocción a la mitad'}],
+    pasos:[
+      {t:'Sofríe cebolla picada en aceite hasta transparentar. Agrega apio y ajo picados finamente.', s:300},
+      {t:'Agrega especias: comino, cúrcuma, canela y pimienta. Tuesta brevemente en el sofrito para liberar aroma.', s:60},
+      {t:'Agrega tomate triturado y cocina 5 minutos hasta que espese ligeramente.', s:300},
+      {t:'Agrega lentejas, garbanzos remojados (si usas secos) y caldo de pollo o vegetal. Hierve a fuego medio.', s:2400},
+      {t:'Cocina hasta que las legumbres estén completamente blandas, removiendo de vez en cuando, alrededor de 40 minutos.', s:2400},
+      {t:'Agrega cilantro y perejil picados al final. Ajusta sal y un toque de limón antes de servir.', s:120}
+    ]
+  }
+};
+
+// ════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════
+let globalMode = 'copiloto';
+let currentRecetaId = null;
+let currentPassportDish = null;
+let currentPasosOverride = null;
+let currentPorciones = null;
+let detailMode = 'copiloto';
+let stepIndex = 0, stepRemaining = 0, timerInterval = null, running = false;
+
+// ════════════════════════════════════════════════
+// HOME RENDER
+// ════════════════════════════════════════════════
+function renderHomeCats(){
+  const groups = {sal:[], pan:[], postre:[]};
+  Object.entries(RECETAS).forEach(([id,r])=>groups[r.cat].push([id,r]));
+  const chip=(id,r)=>`<div class="rchip" onclick="openDetail('${id}')">
+    <span class="rchip-emoji">${r.emoji}</span>
+    <div class="rchip-name">${r.nombre}</div>
+    <div class="rchip-meta">${r.pills.slice(0,2).map(p=>`<span class="rtag">${p}</span>`).join('')}</div>
+  </div>`;
+  document.getElementById('cat-sal').innerHTML = groups.sal.map(([id,r])=>chip(id,r)).join('');
+  document.getElementById('cat-pan').innerHTML = groups.pan.map(([id,r])=>chip(id,r)).join('');
+  document.getElementById('cat-postre').innerHTML = groups.postre.map(([id,r])=>chip(id,r)).join('');
+}
+
+function setGlobalMode(mode, btn){
+  globalMode = mode;
+  document.querySelectorAll('#mode-rail .mode-card').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function goHome(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-home').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ════════════════════════════════════════════════
+// DETAIL
+// ════════════════════════════════════════════════
+function openDetail(id){
+  currentRecetaId = id;
+  currentPassportDish = null;
+  currentPasosOverride = null;
+  const r = RECETAS[id];
+  detailMode = r.sugerido || globalMode;
+  document.getElementById('d-cat-label').textContent = r.catLabel;
+  document.getElementById('d-name').textContent = r.nombre;
+  document.getElementById('d-desc').textContent = r.desc;
+  document.getElementById('d-pills').innerHTML = r.pills.map(p=>`<span class="dpill">${p}</span>`).join('');
+  applyDetailModeUI();
+  renderModeContent();
+  renderProgressContent();
+  resetTimer();
+  document.getElementById('detail-back').onclick = goHome;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-detail').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function applyDetailModeUI(){
+  const labels = {sos:'MODO S.O.S.', copiloto:'MODO COPILOTO', laboratorio:'MODO LABORATORIO'};
+  const dots = {sos:'var(--m-sos)', copiloto:'var(--m-copi)', laboratorio:'var(--m-lab)'};
+  const banner = document.getElementById('mode-banner');
+  banner.style.setProperty('--accent-dim', `var(--m-${detailMode}-dim)`);
+  banner.style.setProperty('--accent-line', `var(--m-${detailMode}-line)`);
+  banner.style.background = `var(--m-${detailMode}-dim)`;
+  banner.style.borderColor = `var(--m-${detailMode}-line)`;
+  document.getElementById('mode-banner-text').textContent = labels[detailMode];
+  document.getElementById('mode-banner-text').style.color = dots[detailMode];
+  banner.querySelector('.mode-banner-dot').style.background = dots[detailMode];
+}
+
+function renderModeContent(){
+  const r = RECETAS[currentRecetaId];
+  const el = document.getElementById('mode-content');
+  let html = '';
+
+  if (detailMode === 'sos' && r.sosVideo){
+    html += `<div class="sos-video">
+      <button class="sos-replay" onclick="event.stopPropagation()">↻</button>
+      <div class="sos-video-loop">${r.sosVideo.emoji}</div>
+      <div class="sos-video-cap">
+        <div class="sos-video-tag">${r.sosVideo.tag}</div>
+        <div class="sos-video-title">${r.sosVideo.titulo}</div>
+      </div>
+    </div>`;
+  }
+
+  if (detailMode === 'copiloto'){
+    if (r.formula){
+      html += hydrationBoxHTML(r);
+    }
+    if (r.sustituciones){
+      html += `<div class="sub-box">
+        <div class="sub-title">Si te falta algo</div>
+        ${r.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
+      </div>`;
+    }
+  }
+
+  if (detailMode === 'laboratorio'){
+    if (r.formula){
+      html += labPanelHTML(r);
+    } else {
+      html += `<div class="lab-panel">
+        <div class="lab-title">Notas de laboratorio</div>
+        <div class="lab-notes">
+          <div class="lab-notes-label">Tus observaciones de esta corrida</div>
+          <textarea class="lab-textarea" placeholder="Ej: probé con menos azúcar, quedó menos dulce pero más cremoso..."></textarea>
+          <button class="lab-save">GUARDAR NOTA</button>
+        </div>
+      </div>`;
+    }
+    if (r.sustituciones){
+      html += `<div class="sub-box">
+        <div class="sub-title">Sustituciones técnicas</div>
+        ${r.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
+      </div>`;
+    }
+  }
+
+  el.innerHTML = html;
+}
+
+function hydrationBoxHTML(r){
+  const f = r.formula;
+  return `<div class="hydration-box">
+    <div class="hydration-title">Tabla de hidratación</div>
+    <div class="hyd-row"><span class="hyd-label">Harina</span><span class="hyd-val">${f.harina} g</span></div>
+    <div class="hyd-row"><span class="hyd-label">Agua</span><span class="hyd-val" id="hyd-agua-val">${f.agua} g</span></div>
+    <div class="hyd-row"><span class="hyd-label">Sal</span><span class="hyd-val">${f.sal} g</span></div>
+    ${f.masaMadre?`<div class="hyd-row"><span class="hyd-label">Masa madre</span><span class="hyd-val">${f.masaMadre} g</span></div>`:''}
+    ${f.levadura?`<div class="hyd-row"><span class="hyd-label">Levadura</span><span class="hyd-val">${f.levadura} g</span></div>`:''}
+    <div class="hyd-bar-wrap">
+      <div class="hyd-bar-label"><span>60% — Miga densa</span><span>85% — Miga abierta</span></div>
+      <input type="range" class="hyd-slider" min="60" max="85" value="${r.hidratacionBase}" oninput="updateHydration(this.value)">
+      <div class="hyd-result" id="hyd-result"></div>
+    </div>
+  </div>`;
+}
+
+function updateHydration(val){
+  const r = RECETAS[currentRecetaId];
+  const agua = Math.round(r.formula.harina * (val/100));
+  document.getElementById('hyd-agua-val').textContent = agua + ' g';
+  const result = document.getElementById('hyd-result');
+  let texto;
+  if (val < 68) texto = `<strong>${val}% hidratación.</strong> Masa más firme y fácil de manejar. Miga cerrada y densa, corteza más gruesa. Buena para principiantes.`;
+  else if (val < 76) texto = `<strong>${val}% hidratación.</strong> El punto de equilibrio. Masa manejable, miga con alveolos medianos, corteza crujiente.`;
+  else texto = `<strong>${val}% hidratación.</strong> Masa pegajosa y difícil de formar. Miga muy abierta y alveolada, corteza fina y quebradiza. Requiere más práctica.`;
+  result.innerHTML = texto;
+}
+
+function labPanelHTML(r){
+  const f = r.formula;
+  const total = f.harina;
+  const pct = k => ((f[k]/total)*100).toFixed(1);
+  return `<div class="lab-panel">
+    <div class="lab-title">Fórmula en porcentaje de panadero</div>
+    <div class="lab-grid">
+      <div class="lab-stat"><div class="lab-stat-label">HARINA</div><div class="lab-stat-val">100%</div></div>
+      <div class="lab-stat"><div class="lab-stat-label">AGUA</div><div class="lab-stat-val">${pct('agua')}%</div></div>
+      <div class="lab-stat"><div class="lab-stat-label">SAL</div><div class="lab-stat-val">${pct('sal')}%</div></div>
+      <div class="lab-stat"><div class="lab-stat-label">${f.masaMadre?'MASA MADRE':'LEVADURA'}</div><div class="lab-stat-val">${pct(f.masaMadre?'masaMadre':'levadura')}%</div></div>
+    </div>
+    <div class="lab-notes">
+      <div class="lab-notes-label">Bitácora de esta corrida</div>
+      <textarea class="lab-textarea" placeholder="Ej: temperatura ambiente 24°C, fermentación tardó 5h en vez de 6h..."></textarea>
+      <button class="lab-save">GUARDAR EN BITÁCORA</button>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// PROGRESS: timeline (baking) vs steps (sal/postre)
+// ════════════════════════════════════════════════
+function renderProgressContent(){
+  const r = RECETAS[currentRecetaId];
+  const el = document.getElementById('progress-content');
+  if (r.timeline){
+    el.innerHTML = `<div class="timeline-wrap">
+      <div class="timeline-title">Línea de tiempo del proceso</div>
+      <div class="timeline-track" id="tl-track">
+        ${r.timeline.map((f,i)=>`<div class="tl-phase" id="tl-${i}">
+          <div class="tl-phase-line"><div class="tl-phase-dot"></div></div>
+          <div class="tl-phase-name">${f.fase}</div>
+          <div class="tl-phase-dur">${f.dur}</div>
+        </div>`).join('')}
+      </div>
+      <div class="steps-list" id="phase-detail-list">
+        ${r.timeline.map((f,i)=>`<div class="step-row" id="pr-${i}">
+          <div class="step-num">${i+1}</div>
+          <div class="step-body"><div class="step-text">${f.desc}</div><div class="step-dur">${f.dur}</div></div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  } else {
+    el.innerHTML = `<div class="steps-list">
+      ${r.pasos.map((p,i)=>{
+        const mm=Math.floor(p.s/60); const ss=p.s%60;
+        const durLabel = p.s>=60 ? `${mm} min${ss?` ${ss}s`:''}` : `${p.s}s`;
+        return `<div class="step-row" id="pr-${i}">
+          <div class="step-num">${i+1}</div>
+          <div class="step-body"><div class="step-text">${p.t}</div><div class="step-dur">${durLabel}</div></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+}
+
+function getPasosArray(){
+  if (currentPassportDish && currentPasosOverride) return currentPasosOverride;
+  const r = RECETAS[currentRecetaId];
+  return r.timeline ? r.timeline.map(f=>({t:f.fase, s:f.s})) : r.pasos.map(p=>({t:p.t.slice(0,40)+'…', s:p.s}));
+}
+
+// ════════════════════════════════════════════════
+// MODE SHEET
+// ════════════════════════════════════════════════
+function openModeSheet(){
+  document.querySelectorAll('#mode-sheet .mode-card').forEach(c=>c.classList.toggle('active', c.dataset.mode===detailMode));
+  document.getElementById('mode-sheet').classList.add('visible');
+}
+function closeModeSheet(e){ document.getElementById('mode-sheet').classList.remove('visible'); }
+function setDetailMode(mode, btn){
+  detailMode = mode;
+  document.querySelectorAll('#mode-sheet .mode-card').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  applyDetailModeUI();
+  renderModeContent();
+  setTimeout(()=>{ document.getElementById('mode-sheet').classList.remove('visible'); }, 250);
+}
+
+// ════════════════════════════════════════════════
+// TIMER
+// ════════════════════════════════════════════════
+function pad(n){return n.toString().padStart(2,'0')}
+function fmtTime(s){
+  if (s>=3600) return Math.floor(s/3600)+'h '+Math.floor((s%3600)/60)+'m';
+  return pad(Math.floor(s/60))+':'+pad(s%60);
+}
+
+function toggleTimer(){
+  const pasos = getPasosArray();
+  if (!running){
+    if (stepIndex===0 && stepRemaining===0) stepRemaining = pasos[0].s;
+    running = true;
+    document.getElementById('t-start').textContent='PAUSAR';
+    document.getElementById('t-start').classList.add('paused');
+    timerInterval = setInterval(tick,1000);
+  } else {
+    running=false; clearInterval(timerInterval);
+    document.getElementById('t-start').textContent='CONTINUAR';
+    document.getElementById('t-start').classList.remove('paused');
+  }
+}
+
+function tick(){
+  const pasos = getPasosArray();
+  if (stepIndex>=pasos.length){ finishAll(); return; }
+  stepRemaining--;
+  updateDisplay();
+  updateProgressUI();
+  if (stepRemaining<=0){
+    stepIndex++;
+    if (stepIndex<pasos.length){ stepRemaining=pasos[stepIndex].s; }
+    else { finishAll(); }
+  }
+}
+
+function updateDisplay(){
+  const pasos = getPasosArray();
+  if (stepIndex>=pasos.length) return;
+  document.getElementById('t-display').textContent = fmtTime(stepRemaining);
+  document.getElementById('t-step-name').textContent = pasos[stepIndex].t;
+}
+
+function updateProgressUI(){
+  let n;
+  if (currentPassportDish && currentPasosOverride){
+    n = currentPasosOverride.length;
+  } else {
+    const r = RECETAS[currentRecetaId];
+    n = r.timeline ? r.timeline.length : r.pasos.length;
+  }
+  for (let i=0;i<n;i++){
+    const row = document.getElementById('pr-'+i);
+    const tl = document.getElementById('tl-'+i);
+    if (row){
+      row.classList.remove('active','done');
+      if (i<stepIndex) row.classList.add('done');
+      else if (i===stepIndex) row.classList.add('active');
+    }
+    if (tl){
+      tl.classList.remove('active','done');
+      if (i<stepIndex) tl.classList.add('done');
+      else if (i===stepIndex) tl.classList.add('active');
+    }
+  }
+}
+
+function finishAll(){
+  clearInterval(timerInterval); timerInterval=null; running=false;
+  updateProgressUI();
+  document.getElementById('t-display').textContent='00:00';
+  document.getElementById('t-step-name').textContent='¡Terminado!';
+  document.getElementById('t-start').textContent='REINICIAR';
+  document.getElementById('t-start').classList.remove('paused');
+  document.getElementById('t-start').onclick=resetTimer;
+  document.getElementById('finish-box').classList.add('visible');
+  if (currentPassportDish){
+    addStamp(currentPassportDish);
+    document.getElementById('finish-title').textContent = '🛂 ¡Sello conseguido!';
+    document.getElementById('finish-sub').textContent = 'AGREGADO A TU PASAPORTE';
+  } else {
+    document.getElementById('finish-title').textContent = '¡Listo!';
+    document.getElementById('finish-sub').textContent = 'BUEN PROVECHO';
+  }
+}
+
+function resetTimer(){
+  clearInterval(timerInterval); timerInterval=null; running=false;
+  stepIndex=0; stepRemaining=0;
+  document.getElementById('t-display').textContent='00:00';
+  document.getElementById('t-step-name').textContent='—';
+  document.getElementById('t-start').textContent='EMPEZAR';
+  document.getElementById('t-start').classList.remove('paused');
+  document.getElementById('t-start').onclick=toggleTimer;
+  document.getElementById('finish-box').classList.remove('visible');
+  updateProgressUI();
+}
+
+// ════════════════════════════════════════════════
+// PASAPORTE GASTRONÓMICO — LOGIC
+// ════════════════════════════════════════════════
+let currentContinente = null;
+let currentPais = null;
+
+function getStamps(){ try{ return JSON.parse(localStorage.getItem('fogon_sellos')||'[]'); }catch(e){ return []; } }
+function addStamp(dishId){
+  const s = getStamps();
+  if (!s.includes(dishId)){ s.push(dishId); localStorage.setItem('fogon_sellos', JSON.stringify(s)); }
+}
+function totalDishes(){
+  return Object.values(PAISES).reduce((a,p)=>a+p.platos.length,0);
+}
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function openPassport(){
+  const earned = getStamps().length;
+  const total = totalDishes();
+  document.getElementById('passport-link-sub').textContent = earned>0 ? `${earned} de ${total} sellos conseguidos` : 'Viaja por el mundo, un plato a la vez';
+  document.getElementById('stamp-count').textContent = earned;
+  document.getElementById('stamp-total').textContent = total;
+  renderContinents();
+  goTo('screen-passport');
+}
+
+function renderContinents(){
+  const stamps = getStamps();
+  document.getElementById('continent-grid').innerHTML = Object.entries(CONTINENTES).map(([id,c])=>{
+    const dishCount = c.paises.reduce((a,pid)=>a+PAISES[pid].platos.length,0);
+    return `<div class="continent-card" onclick="openContinent('${id}')">
+      <span class="continent-emoji">${c.emoji}</span>
+      <div class="continent-name">${c.nombre}</div>
+      <div class="continent-count">${c.paises.length} países · ${dishCount} platos</div>
+    </div>`;
+  }).join('');
+}
+
+function openContinent(id){
+  currentContinente = id;
+  const c = CONTINENTES[id];
+  document.getElementById('countries-title').textContent = c.nombre.toUpperCase();
+  document.getElementById('countries-hero-title').textContent = `${c.emoji} Países de ${c.nombre}`;
+  const stamps = getStamps();
+  document.getElementById('country-list').innerHTML = c.paises.map(pid=>{
+    const p = PAISES[pid];
+    const earned = p.platos.filter(d=>stamps.includes(d.id)).length;
+    const dots = p.platos.map(d=>`<span class="stamp-dot ${stamps.includes(d.id)?'earned':''}"></span>`).join('');
+    return `<div class="country-row" onclick="openCountry('${pid}')">
+      <span class="country-flag">${p.bandera}</span>
+      <div class="country-info">
+        <div class="country-name">${p.nombre}</div>
+        <div class="country-meta">${earned} de ${p.platos.length} platos completados</div>
+      </div>
+      <div class="country-stamps">${dots}</div>
+      <span class="country-arrow">›</span>
+    </div>`;
+  }).join('');
+  goTo('screen-countries');
+}
+
+function openCountry(pid){
+  currentPais = pid;
+  const p = PAISES[pid];
+  document.getElementById('ch-flag').textContent = p.bandera;
+  document.getElementById('ch-name').textContent = p.nombre;
+  document.getElementById('ch-desc').textContent = p.desc;
+  document.getElementById('country-back-btn').onclick = ()=>openContinent(currentContinente);
+  const stamps = getStamps();
+  document.getElementById('dish-grid').innerHTML = p.platos.map(d=>{
+    const earned = stamps.includes(d.id);
+    return `<div class="dish-card ${earned?'earned':''}" onclick="openDishPreview('${d.id}', '${pid}')">
+      <span class="dish-emoji">${d.emoji}</span>
+      <div class="dish-info">
+        <div class="dish-name">${d.nombre}</div>
+        <div class="dish-desc">${d.desc}</div>
+      </div>
+      <span class="dish-stamp">${earned?'🛂':'○'}</span>
+    </div>`;
+  }).join('');
+  goTo('screen-country-dishes');
+}
+
+// ════════════════════════════════════════════════
+// INGREDIENTES — porciones ajustables
+// ════════════════════════════════════════════════
+function fmtCantidad(n){
+  if (n === 0) return '';
+  const r = Math.round(n*4)/4; // redondea a cuartos para evitar decimales feos
+  if (Math.abs(r - Math.round(r)) < 0.01) return Math.round(r).toString();
+  if (Math.abs(r*2 - Math.round(r*2)) < 0.01) return (Math.round(r*2)/2).toString().replace('.5','½').replace('0½','½');
+  return r.toFixed(2);
+}
+
+function ingredientesBoxHTML(receta){
+  return `<div class="ing-box">
+    <div class="ing-head">
+      <span class="ing-title">Ingredientes</span>
+      <div class="ing-portion-ctrl">
+        <button class="ing-portion-btn" onclick="adjustPorciones(-1)">−</button>
+        <span class="ing-portion-val" id="ing-portion-val">${currentPorciones} porciones</span>
+        <button class="ing-portion-btn" onclick="adjustPorciones(1)">+</button>
+      </div>
+    </div>
+    <div id="ing-rows">${ingredientesRowsHTML(receta)}</div>
+  </div>`;
+}
+
+function ingredientesRowsHTML(receta){
+  const factor = currentPorciones / receta.porcionesBase;
+  return receta.ingredientes.map(ing=>{
+    const amount = ing.c===0 ? ing.u : `${fmtCantidad(ing.c*factor)} ${ing.u}`;
+    return `<div class="ing-row"><span class="ing-name">${ing.n}</span><span class="ing-amount">${amount}</span></div>`;
+  }).join('');
+}
+
+function adjustPorciones(delta){
+  const receta = RECETAS_PASAPORTE[currentPassportDish];
+  if (!receta) return;
+  currentPorciones = Math.max(1, Math.min(20, currentPorciones + delta));
+  document.getElementById('ing-portion-val').textContent = currentPorciones + ' porciones';
+  document.getElementById('ing-rows').innerHTML = ingredientesRowsHTML(receta);
+}
+
+
+// Abre la receta real del plato del pasaporte, reutilizando la pantalla de
+// detalle existente, forzada en modo Copiloto (único modo con contenido
+// completo en esta fase).
+function openDishPreview(dishId, pid){
+  const receta = RECETAS_PASAPORTE[dishId];
+  if (!receta){
+    alert('Esta receta todavía no tiene contenido cargado.');
+    return;
+  }
+  currentPassportDish = dishId;
+  currentRecetaId = null; // marca que viene del pasaporte, no de RECETAS
+  currentPorciones = receta.porcionesBase;
+  detailMode = 'copiloto';
+  document.getElementById('d-cat-label').textContent = receta.pais.toUpperCase();
+  document.getElementById('d-name').textContent = receta.emoji + '  ' + receta.nombre;
+  document.getElementById('d-desc').textContent = receta.desc;
+  document.getElementById('d-pills').innerHTML = receta.pills.map(p=>`<span class="dpill">${p}</span>`).join('');
+  applyDetailModeUI();
+  // Mode content: ingredientes (con porciones ajustables) + sustituciones
+  const el = document.getElementById('mode-content');
+  let html = ingredientesBoxHTML(receta);
+  if (receta.sustituciones){
+    html += `<div class="sub-box">
+      <div class="sub-title">Si te falta algo</div>
+      ${receta.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
+    </div>`;
+  }
+  el.innerHTML = html;
+  // Progress content: pasos normales
+  document.getElementById('progress-content').innerHTML = `<div class="steps-list">
+    ${receta.pasos.map((p,i)=>{
+      const mm=Math.floor(p.s/60); const ss=p.s%60;
+      const durLabel = p.s>=60 ? `${mm} min${ss?` ${ss}s`:''}` : `${p.s}s`;
+      return `<div class="step-row" id="pr-${i}">
+        <div class="step-num">${i+1}</div>
+        <div class="step-body"><div class="step-text">${p.t}</div><div class="step-dur">${durLabel}</div></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+  currentPasosOverride = receta.pasos.map(p=>({t:p.t.slice(0,40)+'…', s:p.s}));
+  resetTimer();
+  document.getElementById('detail-back').onclick = ()=>openCountry(pid);
+  goTo('screen-detail');
+}
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+renderHomeCats();
+document.querySelector('#mode-rail .mode-card[data-mode="copiloto"]').classList.add('active');
+</script>
+</body>
+</html>
