@@ -55,6 +55,17 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .ask-sugg-chip,.ask-input{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
 .ask-msg.bot{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
 .ask-msg.user{background:#C4633F!important;color:#fff!important}
+.wc-hero-title{color:#2B2620!important}
+.wc-hero-sub{color:rgba(43,38,32,0.5)!important}
+.wc-label,.wc-quick-label{color:rgba(43,38,32,0.5)!important}
+.wc-input{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
+.wc-quick-chip{background:#FFFDF8!important;color:rgba(43,38,32,0.5)!important;border-color:rgba(43,38,32,0.1)!important}
+.wc-mood-card{background:#FFFDF8!important}
+.wc-mood-title{color:#2B2620!important}
+.wc-mood-desc{color:rgba(43,38,32,0.5)!important}
+.wc-result{background:#FFFDF8!important;border-color:rgba(43,38,32,0.1)!important}
+.wc-result-text{color:#2B2620!important}
+.wc-result-loading{color:rgba(43,38,32,0.5)!important}
 
 /* ── ASISTENTE DE DUDAS ── */
 .ask-btn{margin:0 22px 18px;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#3D5A45,#4a6b53);border:none;border-radius:16px;padding:15px 18px;cursor:pointer;width:calc(100% - 44px)}
@@ -85,6 +96,50 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .ask-input:focus{outline:none;border-color:var(--salvia-line)}
 .ask-send{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--salvia);border:none;color:#fff;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .ask-disclaimer{font-size:.58em;color:var(--tinta-faint);text-align:center;padding:0 20px 8px;line-height:1.4}
+
+/* ── QUÉ PUEDO COCINAR ── */
+.whatcook-link{margin:0 22px 8px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#C4633F,#d97a55);border-radius:20px;padding:18px;cursor:pointer;position:relative;overflow:hidden}
+.whatcook-link::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.2),transparent 70%)}
+.whatcook-link-icon{font-size:1.8em;flex-shrink:0;z-index:1}
+.whatcook-link-text{flex:1;z-index:1}
+.whatcook-link-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.05em;color:#fff}
+.whatcook-link-sub{font-size:.68em;color:rgba(255,255,255,0.8);margin-top:2px}
+.whatcook-link-arrow{color:#fff;font-size:1.2em;z-index:1}
+
+#screen-whatcook{padding-bottom:60px}
+.wc-hero{padding:8px 24px 16px}
+.wc-hero-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.6em;line-height:1.18;margin-bottom:8px}
+.wc-hero-sub{font-size:.78em;color:var(--tinta-dim);line-height:1.55}
+.wc-section{padding:10px 22px}
+.wc-label{font-size:.62em;letter-spacing:2px;text-transform:uppercase;color:var(--tinta-dim);font-weight:700;margin-bottom:12px}
+.wc-chips-input{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.wc-chip{display:flex;align-items:center;gap:6px;background:var(--terracota-dim);border:1px solid var(--terracota-line);border-radius:20px;padding:7px 8px 7px 14px;font-size:.78em;color:var(--terracota);font-weight:600}
+.wc-chip-x{background:none;border:none;color:var(--terracota);font-size:1em;cursor:pointer;line-height:1;padding:2px}
+.wc-input-row{display:flex;gap:10px}
+.wc-input{flex:1;border:1px solid var(--linea);border-radius:14px;padding:13px 14px;font-family:'Sora',sans-serif;font-size:.82em;color:var(--tinta);background:var(--card);-webkit-appearance:none}
+.wc-input:focus{outline:none;border-color:var(--terracota-line)}
+.wc-add-btn{flex-shrink:0;width:46px;height:46px;border-radius:14px;background:var(--terracota);border:none;color:#fff;font-size:1.2em;cursor:pointer}
+.wc-quick-label{font-size:.62em;letter-spacing:1.5px;color:var(--tinta-faint);margin:14px 0 8px;text-transform:uppercase}
+.wc-quick-grid{display:flex;flex-wrap:wrap;gap:8px}
+.wc-quick-chip{background:var(--card);border:1px solid var(--linea);border-radius:14px;padding:8px 13px;font-size:.74em;color:var(--tinta-dim);cursor:pointer}
+.wc-quick-chip.added{background:var(--terracota-dim);border-color:var(--terracota-line);color:var(--terracota)}
+
+.wc-mood-grid{display:flex;flex-direction:column;gap:10px}
+.wc-mood-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--linea);border-radius:16px;padding:15px 16px;cursor:pointer;text-align:left}
+.wc-mood-card.selected{border-color:var(--terracota-line);background:var(--terracota-dim)}
+.wc-mood-emoji{font-size:1.5em;flex-shrink:0}
+.wc-mood-text{flex:1}
+.wc-mood-title{font-family:'Sora',sans-serif;font-weight:600;font-size:.84em;color:var(--tinta)}
+.wc-mood-desc{font-size:.66em;color:var(--tinta-dim);margin-top:2px}
+
+.wc-submit{margin:18px 22px;width:calc(100% - 44px);padding:17px;background:#555;border:none;border-radius:16px;color:rgba(255,255,255,0.5);font-weight:700;font-size:.8em;letter-spacing:1.5px;cursor:not-allowed}
+.wc-submit.ready{background:var(--terracota);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(196,99,63,0.3)}
+
+.wc-result{margin:0 22px 18px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:20px}
+.wc-result-loading{text-align:center;padding:30px 20px;color:var(--tinta-dim);font-size:.82em}
+.wc-result-text{font-size:.84em;line-height:1.7;color:var(--tinta);white-space:pre-wrap}
+.wc-result-text strong{color:var(--terracota)}
+.wc-retry{margin:0 22px 18px;width:calc(100% - 44px);padding:13px;background:var(--crema2);border:none;border-radius:14px;color:var(--tinta-dim);font-weight:600;font-size:.74em;cursor:pointer}
 .serif{font-family:'Fraunces',serif}
 .mono{font-family:'JetBrains Mono',monospace}
 
@@ -356,6 +411,15 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
     <span class="passport-link-arrow">›</span>
   </div>
 
+  <div class="whatcook-link" onclick="openWhatCook()">
+    <span class="whatcook-link-icon">🧪</span>
+    <div class="whatcook-link-text">
+      <div class="whatcook-link-title">¿Qué puedo cocinar?</div>
+      <div class="whatcook-link-sub">Dime qué tienes y te digo qué preparar</div>
+    </div>
+    <span class="whatcook-link-arrow">›</span>
+  </div>
+
   <div class="section-gap"></div>
 
   <div class="cat-row">
@@ -455,6 +519,38 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
     <div class="country-hero-desc" id="ch-desc"></div>
   </div>
   <div class="dish-grid" id="dish-grid"></div>
+</div>
+
+<!-- ══ QUÉ PUEDO COCINAR ══ -->
+<div class="screen" id="screen-whatcook">
+  <div class="topbar">
+    <button class="btn-back" onclick="goHome()">← Inicio</button>
+    <span class="topbar-title">QUÉ COCINAR</span>
+  </div>
+  <div class="wc-hero">
+    <div class="wc-hero-title">Dime qué tienes, te digo qué hacer.</div>
+    <div class="wc-hero-sub">Escribe los ingredientes que tienes a mano. Entre más específico, mejor la sugerencia.</div>
+  </div>
+
+  <div class="wc-section">
+    <div class="wc-label">Tus ingredientes</div>
+    <div class="wc-chips-input" id="wc-chips"></div>
+    <div class="wc-input-row">
+      <input class="wc-input" id="wc-input" placeholder="Ej: pollo, arroz, cebolla..." onkeydown="if(event.key==='Enter'){event.preventDefault();addWCIngredient();}">
+      <button class="wc-add-btn" onclick="addWCIngredient()">+</button>
+    </div>
+    <div class="wc-quick-label">Toca para agregar rápido</div>
+    <div class="wc-quick-grid" id="wc-quick"></div>
+  </div>
+
+  <div class="wc-section">
+    <div class="wc-label">¿Cómo estás hoy?</div>
+    <div class="wc-mood-grid" id="wc-moods"></div>
+  </div>
+
+  <button class="wc-submit" id="wc-submit" onclick="submitWhatCook()">DIME QUÉ COCINAR</button>
+
+  <div id="wc-result-area"></div>
 </div>
 
 <!-- ══ ASISTENTE DE DUDAS ══ -->
@@ -727,7 +823,7 @@ const RECETAS_PASAPORTE = {
       {n:'Caldo de pollo', c:1000, u:'ml'},{n:'Aceite de oliva', c:80, u:'ml'},{n:'Sal', c:0, u:'al gusto'}
     ],
     sustituciones:[{falta:'Conejo', usa:'Pollo, es la sustitución más común fuera de Valencia'},{falta:'Garrofón', usa:'Judías blancas grandes tipo lima'}],
-    sosVideo:{emoji:'🥘', tag:'TÉCNICA EN BUCLE', titulo:'Cómo escuchar y ver el socarrat sin quemar el arroz'},
+    sosVideo:{emoji:'🥘', tag:'TÉCNICA EN BUCLE', titulo:'La señal del socarrat: sonido y color, no reloj'},
     laboratorio:{
       notas:'El socarrat se forma por una reacción de Maillard controlada en el fondo de la paellera: el almidón del arroz en contacto directo con metal caliente se tuesta sin quemarse si el tiempo y la temperatura están calibrados. El ratio de caldo a arroz (aproximadamente 2.5:1 en volumen) es crítico — demasiado caldo nunca permite que el fondo se seque lo suficiente para tostar.',
       tips:['No revolver después de añadir el arroz es la regla de oro: el movimiento rompe la formación de la costra inferior y libera almidón en exceso, dando una textura pastosa','El azafrán suelta su color y aroma mejor si se infunde unos minutos en el caldo caliente antes de añadirlo, no directo al arroz seco']
@@ -2295,6 +2391,135 @@ async function preguntarIA(pregunta){
   } catch (err) {
     console.error('Error consultando la IA:', err);
     return 'No pude conectarme con el asistente en este momento. Si estás viendo esta app dentro de Claude.ai (vista previa), esta función solo funciona en la versión publicada en Vercel. Intenta de nuevo en unos segundos si ya estás en la app publicada.';
+  }
+}
+
+// ════════════════════════════════════════════════
+// QUÉ PUEDO COCINAR — lógica
+// ════════════════════════════════════════════════
+let wcIngredientes = [];
+let wcMood = null;
+const WC_QUICK = ['Huevos','Arroz','Pollo','Cebolla','Tomate','Ajo','Pasta','Papa','Queso','Limón','Frijoles','Leche'];
+const WC_MOODS = [
+  {id:'rapido', emoji:'⏱️', title:'Tengo poco tiempo', desc:'Algo rápido y sin ensuciar mucho'},
+  {id:'tranquilo', emoji:'🌤️', title:'Tengo tiempo de sobra', desc:'Algo con calma, puedo experimentar'},
+  {id:'impresionar', emoji:'✨', title:'Quiero impresionar', desc:'Tengo tiempo y quiero que se vea especial'},
+  {id:'economico', emoji:'💰', title:'Quiero ahorrar', desc:'Lo más sencillo y barato posible'}
+];
+
+function openWhatCook(){
+  wcIngredientes = [];
+  wcMood = null;
+  renderWCChips();
+  renderWCQuick();
+  renderWCMoods();
+  document.getElementById('wc-result-area').innerHTML = '';
+  document.getElementById('wc-input').value = '';
+  updateWCSubmit();
+  goTo('screen-whatcook');
+}
+
+function renderWCChips(){
+  document.getElementById('wc-chips').innerHTML = wcIngredientes.map((ing,i)=>
+    `<div class="wc-chip">${ing}<button class="wc-chip-x" onclick="removeWCIngredient(${i})">✕</button></div>`
+  ).join('');
+}
+
+function renderWCQuick(){
+  document.getElementById('wc-quick').innerHTML = WC_QUICK.map(q=>{
+    const added = wcIngredientes.includes(q);
+    return `<button class="wc-quick-chip ${added?'added':''}" onclick="toggleWCQuick('${q}')">${added?'✓ ':''}${q}</button>`;
+  }).join('');
+}
+
+function renderWCMoods(){
+  document.getElementById('wc-moods').innerHTML = WC_MOODS.map(m=>
+    `<button class="wc-mood-card" data-mood="${m.id}" onclick="selectWCMood('${m.id}', this)">
+      <span class="wc-mood-emoji">${m.emoji}</span>
+      <div class="wc-mood-text">
+        <div class="wc-mood-title">${m.title}</div>
+        <div class="wc-mood-desc">${m.desc}</div>
+      </div>
+    </button>`
+  ).join('');
+}
+
+function addWCIngredient(){
+  const input = document.getElementById('wc-input');
+  const val = input.value.trim();
+  if (!val) return;
+  if (!wcIngredientes.includes(val)){
+    wcIngredientes.push(val);
+    renderWCChips();
+    renderWCQuick();
+    updateWCSubmit();
+  }
+  input.value = '';
+}
+
+function removeWCIngredient(i){
+  wcIngredientes.splice(i,1);
+  renderWCChips();
+  renderWCQuick();
+  updateWCSubmit();
+}
+
+function toggleWCQuick(q){
+  const idx = wcIngredientes.indexOf(q);
+  if (idx >= 0) wcIngredientes.splice(idx,1);
+  else wcIngredientes.push(q);
+  renderWCChips();
+  renderWCQuick();
+  updateWCSubmit();
+}
+
+function selectWCMood(id, btn){
+  wcMood = id;
+  document.querySelectorAll('#wc-moods .wc-mood-card').forEach(c=>c.classList.remove('selected'));
+  btn.classList.add('selected');
+  updateWCSubmit();
+}
+
+function updateWCSubmit(){
+  const ready = wcIngredientes.length > 0 && wcMood;
+  document.getElementById('wc-submit').classList.toggle('ready', ready);
+}
+
+async function submitWhatCook(){
+  if (wcIngredientes.length === 0 || !wcMood) return;
+  const moodObj = WC_MOODS.find(m=>m.id===wcMood);
+  const area = document.getElementById('wc-result-area');
+  area.innerHTML = `<div class="wc-result"><div class="wc-result-loading">Pensando en algo bueno para ti…</div></div>`;
+  area.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+  const systemPrompt = `Eres el asistente de cocina de la app Fogón. El usuario te dice qué ingredientes tiene disponibles y cómo está su ánimo/tiempo hoy, y tú le sugieres 2 o 3 platos concretos que pueda preparar.
+
+Ingredientes disponibles: ${wcIngredientes.join(', ')}
+Contexto del usuario: "${moodObj.title}" — ${moodObj.desc}
+
+Responde con 2-3 sugerencias concretas de platos, cada una con: nombre del plato, 1-2 frases de por qué encaja con su ánimo/tiempo actual, y una idea muy breve de cómo prepararlo con esos ingredientes (no la receta completa, solo la idea general). Sé cálido y directo, como si fueras un amigo que sabe cocinar. No uses markdown con almohadillas ni listas numeradas con guiones técnicos — escribe en prosa natural, puedes usar **negrita** solo para los nombres de los platos.`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 500,
+        system: systemPrompt,
+        messages: [{ role: "user", content: "¿Qué puedo cocinar?" }]
+      })
+    });
+    if (!response.ok) throw new Error('API error ' + response.status);
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === 'text');
+    let texto = textBlock ? textBlock.text : 'No pude generar una sugerencia. Intenta de nuevo.';
+    texto = texto.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    area.innerHTML = `<div class="wc-result"><div class="wc-result-text">${texto}</div></div>
+      <button class="wc-retry" onclick="submitWhatCook()">↻ Dame otras ideas</button>`;
+  } catch (err) {
+    console.error('Error consultando la IA:', err);
+    area.innerHTML = `<div class="wc-result"><div class="wc-result-text">No pude conectarme con el asistente en este momento. Si estás viendo esta app dentro de Claude.ai (vista previa), esta función solo funciona en la versión publicada en Vercel.</div></div>`;
   }
 }
 
