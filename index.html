@@ -733,7 +733,13 @@ const PAISES = {
   italia:{nombre:'Italia', bandera:'🇮🇹', desc:'Pocos ingredientes, técnica impecable.', platos:[
     {id:'carbonara', emoji:'🍝', nombre:'Carbonara Romana', desc:'Sin crema. El huevo es la salsa.'},
     {id:'risotto', emoji:'🍚', nombre:'Risotto al Parmesano', desc:'El arroz que se abraza con caldo, cucharón a cucharón.'},
-    {id:'tiramisu', emoji:'🍰', nombre:'Tiramisú', desc:'Capas de café, mascarpone y paciencia en frío.'}
+    {id:'tiramisu', emoji:'🍰', nombre:'Tiramisú', desc:'Capas de café, mascarpone y paciencia en frío.'},
+    {id:'cacio-e-pepe', emoji:'🧀', nombre:'Cacio e Pepe', desc:'Solo queso, pimienta y agua de pasta. La emulsión perfecta.'},
+    {id:'pesto-genovese', emoji:'🌿', nombre:'Pesto alla Genovese', desc:'Albahaca, piñones y aceite. Salsa fría que nunca se cocina.'},
+    {id:'amatriciana', emoji:'🍅', nombre:'Amatriciana', desc:'Guanciale y tomate, la prima picante de la carbonara.'},
+    {id:'puttanesca', emoji:'🫒', nombre:'Puttanesca', desc:'Aceitunas, alcaparras y anchoas. Lista en el tiempo de la pasta.'},
+    {id:'aglio-e-olio', emoji:'🧄', nombre:'Aglio e Olio', desc:'Ajo, aceite y chile. La pasta más simple que existe.'},
+    {id:'pasta-norma', emoji:'🍆', nombre:'Pasta alla Norma', desc:'Berenjena frita y ricotta salata, orgullo de Sicilia.'}
   ]},
   francia:{nombre:'Francia', bandera:'🇫🇷', desc:'La técnica clásica que fundó la cocina moderna.', platos:[
     {id:'ratatouille', emoji:'🍆', nombre:'Ratatouille', desc:'Verduras de temporada, cocción lenta y respetuosa.'},
@@ -939,6 +945,167 @@ const RECETAS_PASAPORTE = {
       {t:'Moja rápidamente cada bizcocho de soletilla en el café (1 segundo por lado, no más, o se desarman) y forma una primera capa en el molde.', s:300},
       {t:'Cubre con una capa de la crema de mascarpone. Repite con otra capa de bizcochos mojados y otra capa de crema.', s:300},
       {t:'Refrigera mínimo 4 horas, idealmente toda la noche. Justo antes de servir, espolvorea generosamente con cacao en polvo.', s:14400}
+    ]
+  },
+
+  'cacio-e-pepe':{
+    nombre:'Cacio e Pepe', pais:'Italia', emoji:'🧀',
+    desc:'Solo queso, pimienta y agua de pasta. Tres ingredientes, una emulsión perfecta o un desastre grumoso — no hay punto medio.',
+    pills:['15 min','2 porciones','Intermedio'], porcionesBase:2,
+    ingredientes:[
+      {n:'Tonnarelli o espagueti', c:200, u:'g'},{n:'Pecorino romano', c:100, u:'g'},
+      {n:'Pimienta negra en grano', c:2, u:'cucharadita'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Pecorino romano', usa:'Parmesano, aunque pierde el toque salado y picante característico del pecorino'},{falta:'Tonnarelli', usa:'Espagueti o cualquier pasta larga funciona igual'}],
+    sosVideo:{emoji:'🧀', tag:'TÉCNICA EN BUCLE', titulo:'Mezclar fuera del fuego para que el queso no se apelmace'},
+    laboratorio:{
+      notas:'La cacio e pepe es el ejercicio de emulsión más exigente de la cocina italiana porque depende solo de tres elementos: la grasa del queso, el almidón del agua de cocción, y la temperatura exacta de contacto. Si el agua está demasiado caliente cuando se agrega el queso, las proteínas del pecorino se coagulan de golpe formando grumos irreversibles (el llamado "efecto bola de queso"); si está demasiado fría, la grasa no se emulsiona y la salsa queda separada y aguada.',
+      tips:['Tostar la pimienta en grano machacada en una sartén seca antes de usarla libera aceites esenciales que de otro modo quedarían dormidos en el grano entero','Dejar enfriar el agua de pasta unos 30-60 segundos fuera del fuego antes de mezclar con el queso es la diferencia entre una crema sedosa y grumos de queso fundido']
+    },
+    pasos:[
+      {t:'Hierve agua con poca sal (el pecorino ya aporta sal) para {200|g} de pasta. Cocina hasta un punto muy al dente, un minuto menos de lo indicado en el paquete.', s:480},
+      {t:'Mientras hierve, machaca {2|cucharadita} de pimienta negra en grano con un mortero o el lado plano de un cuchillo. Tuesta ligeramente en sartén seca a fuego bajo.', s:90},
+      {t:'Ralla {100|g} de pecorino muy fino, casi en polvo. Reserva la mayoría y deja un poco para servir encima.', s:180},
+      {t:'Reserva al menos 1 taza del agua de cocción antes de escurrir la pasta. Esto es indispensable, no opcional.', s:30},
+      {t:'En un bowl, mezcla el queso rallado con un poco de agua de pasta tibia (no hirviendo) hasta formar una crema homogénea sin grumos.', s:90},
+      {t:'Agrega la pasta escurrida a la crema de queso, fuera del fuego, mezclando rápido. Añade más agua de pasta poco a poco hasta la consistencia cremosa deseada.', s:90},
+      {t:'Sirve de inmediato con la pimienta tostada y el resto del queso encima. No espera — la cacio e pepe no perdona el reposo.', s:30}
+    ]
+  },
+
+  'pesto-genovese':{
+    nombre:'Pesto alla Genovese', pais:'Italia', emoji:'🌿',
+    desc:'Albahaca, piñones, ajo y aceite machacados, nunca cocidos. La salsa fría que define el verano ligur.',
+    pills:['15 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Albahaca fresca', c:60, u:'g'},{n:'Piñones', c:30, u:'g'},
+      {n:'Ajo', c:1, u:'diente'},{n:'Parmesano', c:50, u:'g'},
+      {n:'Pecorino', c:20, u:'g'},{n:'Aceite de oliva extra virgen', c:120, u:'ml'},
+      {n:'Sal', c:0, u:'al gusto'},{n:'Pasta trofie o espagueti', c:320, u:'g'}
+    ],
+    sustituciones:[{falta:'Piñones', usa:'Nueces o almendras peladas, cambia el sabor pero mantiene la textura'},{falta:'Pecorino', usa:'Usa solo parmesano, el resultado es más suave pero válido'}],
+    sosVideo:{emoji:'🌿', tag:'TÉCNICA EN BUCLE', titulo:'Por qué nunca se calienta el pesto'},
+    laboratorio:{
+      notas:'El pesto tradicional se machaca en mortero de mármol, no se licúa, porque la fricción de las cuchillas metálicas genera calor y oxida la clorofila de la albahaca, oscureciendo el color verde brillante y desarrollando notas amargas. Si usas procesadora, pulsos cortos y fríos (incluso con hielo en el bowl) minimizan ese efecto. El aceite se agrega al final, en hilo, para emulsionar sin romper la estructura de la hoja machacada.',
+      tips:['Usar solo las hojas de albahaca (sin tallos) y lavarlas sin frotar agresivo evita magullarlas antes de tiempo, lo que ya empieza a oxidarlas','Guardar el pesto con una capa fina de aceite por encima en el refrigerador retrasa la oxidación visible durante varios días']
+    },
+    pasos:[
+      {t:'Lava y seca muy bien {60|g} de hojas de albahaca — el agua residual diluye el pesto y puede acelerar su oxidación.', s:180},
+      {t:'Tuesta ligeramente {30|g} de piñones en sartén seca a fuego bajo solo hasta dorar apenas, sin quemar. Deja enfriar.', s:120},
+      {t:'En mortero o procesadora, machaca el ajo con una pizca de sal hasta formar una pasta.', s:60},
+      {t:'Agrega los piñones tostados y machaca o procesa hasta integrar.', s:60},
+      {t:'Agrega la albahaca en tandas pequeñas, machacando o procesando en pulsos cortos hasta lograr una pasta verde brillante.', s:120},
+      {t:'Incorpora {50|g} de parmesano y {20|g} de pecorino rallados. Mezcla.', s:60},
+      {t:'Agrega {120|ml} de aceite de oliva en hilo fino mientras mezclas, hasta lograr una salsa cremosa pero con textura, no líquida.', s:90},
+      {t:'Cocina la pasta y mezcla con el pesto fuera del fuego, con un poco de agua de cocción si necesita aflojar. Nunca se calienta el pesto directo en sartén.', s:480}
+    ]
+  },
+
+  'amatriciana':{
+    nombre:'Amatriciana', pais:'Italia', emoji:'🍅',
+    desc:'Guanciale crujiente y tomate concentrado. La prima hermana picante de la carbonara, sin huevo de por medio.',
+    pills:['25 min','2 porciones','Intermedio'], porcionesBase:2,
+    ingredientes:[
+      {n:'Guanciale', c:150, u:'g'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Chile rojo seco', c:1, u:'unidad'},{n:'Pecorino romano', c:60, u:'g'},
+      {n:'Vino blanco', c:50, u:'ml'},{n:'Bucatini o espagueti', c:200, u:'g'}
+    ],
+    sustituciones:[{falta:'Guanciale', usa:'Panceta, aunque pierde algo del sabor más profundo y graso del guanciale curado'},{falta:'Bucatini', usa:'Espagueti o rigatoni funcionan bien'}],
+    sosVideo:{emoji:'🍅', tag:'TÉCNICA EN BUCLE', titulo:'Dorar el guanciale despacio para que suelte toda su grasa'},
+    laboratorio:{
+      notas:'La amatriciana depende de renderizar correctamente la grasa del guanciale a fuego medio-bajo: un fuego muy alto dora la superficie antes de que la grasa interna se derrita, dejando el centro graso sin aprovechar. Esa grasa renderizada es la base aromática de toda la salsa — el tomate se cocina directamente en ella, absorbiendo los compuestos solubles en grasa del cerdo curado.',
+      tips:['Retirar el guanciale crujiente de la sartén antes de agregar el tomate, y devolverlo al final, evita que se ablande de nuevo en el líquido de la salsa','El vino blanco se agrega y se deja evaporar completamente antes del tomate — su acidez residual interferiría con el equilibrio final de la salsa']
+    },
+    pasos:[
+      {t:'Corta {150|g} de guanciale en tiras o cubos pequeños.', s:120},
+      {t:'Cocina el guanciale en sartén fría a fuego medio-bajo hasta que suelte su grasa y quede dorado y crujiente, sin quemar.', s:480},
+      {t:'Retira el guanciale crujiente con una espumadera y reserva, dejando la grasa renderizada en la sartén.', s:60},
+      {t:'Agrega el chile seco machacado a la grasa caliente, fríe 30 segundos para liberar su aroma picante.', s:30},
+      {t:'Agrega {50|ml} de vino blanco y deja que se evapore por completo, raspando el fondo de la sartén.', s:90},
+      {t:'Agrega {400|g} de tomate triturado. Cocina a fuego medio 15 minutos hasta que espese y concentre sabor.', s:900},
+      {t:'Cocina la pasta al dente, escurre reservando agua de cocción. Mezcla con la salsa, agregando agua si necesita aflojar.', s:480},
+      {t:'Regresa el guanciale crujiente a la pasta, mezcla rápido y sirve con pecorino rallado encima.', s:60}
+    ]
+  },
+
+  'puttanesca':{
+    nombre:'Puttanesca', pais:'Italia', emoji:'🫒',
+    desc:'Aceitunas, alcaparras, anchoas y tomate. Una salsa intensa que se prepara en el mismo tiempo que hierve la pasta.',
+    pills:['20 min','3 porciones','Fácil'], porcionesBase:3,
+    ingredientes:[
+      {n:'Tomate triturado', c:400, u:'g'},{n:'Aceitunas negras', c:80, u:'g'},
+      {n:'Alcaparras', c:30, u:'g'},{n:'Filetes de anchoa', c:4, u:'unidad'},
+      {n:'Ajo', c:3, u:'diente'},{n:'Chile rojo seco', c:1, u:'unidad'},
+      {n:'Aceite de oliva', c:50, u:'ml'},{n:'Perejil fresco', c:0, u:'al gusto'},{n:'Espagueti', c:300, u:'g'}
+    ],
+    sustituciones:[{falta:'Anchoas', usa:'Una cucharadita de pasta de anchoa, o se puede omitir aunque se pierde profundidad de sabor umami'},{falta:'Alcaparras', usa:'No hay buen sustituto directo, aportan un toque ácido y salado distintivo'}],
+    sosVideo:{emoji:'🫒', tag:'TÉCNICA EN BUCLE', titulo:'Disolver la anchoa en el aceite, no dejarla en trozos'},
+    laboratorio:{
+      notas:'Las anchoas en aceite caliente se disuelven por desnaturalización de sus proteínas, liberando glutamato y compuestos umami que se distribuyen por toda la grasa, en vez de quedar como trozos identificables. Esto es lo que da a la puttanesca su característico sabor "de fondo" salado y profundo, sin que se perciba sabor a pescado directo en el plato terminado.',
+      tips:['Picar las alcaparras y aceitunas groseramente, no finas, mantiene su textura como parte del bocado en vez de perderse en la salsa','Esta salsa tradicionalmente no usa queso — el salado natural de anchoas, aceitunas y alcaparras ya es suficiente y el queso competiría con esos sabores']
+    },
+    pasos:[
+      {t:'Pica {3|diente} de ajo y el chile seco. Pica groseramente {80|g} de aceitunas negras y {30|g} de alcaparras.', s:180},
+      {t:'Calienta {50|ml} de aceite de oliva a fuego medio. Agrega el ajo y el chile, fríe 30 segundos sin dorar el ajo de más.', s:30},
+      {t:'Agrega {4|unidad} filetes de anchoa al aceite y deshazlos con una cuchara de madera hasta que se disuelvan por completo.', s:60},
+      {t:'Agrega las aceitunas y alcaparras picadas, sofríe 1 minuto para integrar sabores.', s:60},
+      {t:'Agrega {400|g} de tomate triturado. Cocina a fuego medio 12-15 minutos hasta espesar.', s:840},
+      {t:'Cocina la pasta al dente mientras la salsa termina. Escurre y mezcla directo en la sartén con la salsa.', s:480},
+      {t:'Sirve con perejil fresco picado encima. Sin queso — esta salsa ya tiene suficiente salado natural.', s:30}
+    ]
+  },
+
+  'aglio-e-olio':{
+    nombre:'Aglio e Olio', pais:'Italia', emoji:'🧄',
+    desc:'Ajo dorado en aceite de oliva con chile. La pasta más simple que existe, y una de las más fáciles de arruinar por exceso de fuego.',
+    pills:['15 min','2 porciones','Fácil'], porcionesBase:2,
+    ingredientes:[
+      {n:'Espagueti', c:200, u:'g'},{n:'Ajo', c:5, u:'diente'},
+      {n:'Aceite de oliva extra virgen', c:80, u:'ml'},{n:'Chile rojo seco', c:1, u:'unidad'},
+      {n:'Perejil fresco', c:0, u:'al gusto'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Chile rojo seco', usa:'Hojuelas de chile o una pizca de pimienta cayena'},{falta:'Perejil fresco', usa:'Se puede omitir, aunque aporta frescura y color al final'}],
+    sosVideo:{emoji:'🧄', tag:'TÉCNICA EN BUCLE', titulo:'El ajo dorado, nunca quemado: la diferencia entre dulce y amargo'},
+    laboratorio:{
+      notas:'El ajo contiene compuestos de azufre (alicina) que se transforman con el calor: a temperatura moderada se vuelven dulces y aromáticos por reacciones de caramelización suave; pasado cierto punto de temperatura se queman y generan compuestos amargos irreversibles que arruinan todo el plato, porque es la única fuente de sabor de la receta. Por eso el ajo se cocina en aceite frío que sube de temperatura gradualmente, nunca se tira en aceite ya muy caliente.',
+      tips:['Laminar el ajo en vez de picarlo finamente da más control visual del punto de dorado y una textura más agradable en cada bocado','Reservar bastante agua de cocción es esencial aquí — es lo único que liga el aceite con el almidón de la pasta para formar una salsa, no solo aceite suelto']
+    },
+    pasos:[
+      {t:'Hierve agua con sal para {200|g} de espagueti. Cocina al dente.', s:480},
+      {t:'Mientras hierve, lamina {5|diente} de ajo en rodajas finas, no lo piques muy fino.', s:120},
+      {t:'En sartén fría, agrega {80|ml} de aceite de oliva, el ajo laminado y el chile seco machacado. Prende a fuego bajo.', s:30},
+      {t:'Cocina a fuego bajo-medio hasta que el ajo esté dorado y dulce, nunca oscuro ni quemado. Apaga el fuego en ese punto.', s:180},
+      {t:'Reserva 1 taza de agua de cocción antes de escurrir la pasta.', s:30},
+      {t:'Agrega la pasta escurrida directo a la sartén con el aceite de ajo. Mezcla agregando agua de cocción poco a poco hasta formar una salsa ligera que cubra cada hebra.', s:90},
+      {t:'Sirve con perejil fresco picado encima.', s:30}
+    ]
+  },
+
+  'pasta-norma':{
+    nombre:'Pasta alla Norma', pais:'Italia', emoji:'🍆',
+    desc:'Berenjena frita, salsa de tomate y ricotta salata rallada. El plato que enorgullece a Catania.',
+    pills:['35 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Berenjenas', c:2, u:'unidad'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Ricotta salata', c:80, u:'g'},
+      {n:'Albahaca fresca', c:0, u:'al gusto'},{n:'Aceite para freír', c:300, u:'ml'},
+      {n:'Penne o espagueti', c:300, u:'g'}
+    ],
+    sustituciones:[{falta:'Ricotta salata', usa:'Queso feta o un parmesano fuerte rallado, no es igual pero da un toque salado similar'}],
+    sosVideo:{emoji:'🍆', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se sala la berenjena antes de freírla'},
+    laboratorio:{
+      notas:'La berenjena tiene una estructura esponjosa de células llenas de aire que absorben grandes cantidades de aceite si se fríen sin preparación previa. Salarla y dejarla reposar extrae agua por ósmosis, colapsando parcialmente esa estructura esponjosa, lo que reduce notablemente la absorción de aceite durante la fritura y concentra su sabor.',
+      tips:['Freír la berenjena en aceite bien caliente (no tibio) sella la superficie rápido, minimizando aún más la absorción de grasa','La ricotta salata es un queso prensado y salado, muy distinto a la ricotta fresca — no son intercambiables en esta receta']
+    },
+    pasos:[
+      {t:'Corta {2|unidad} berenjenas en cubos medianos. Sala generosamente y deja reposar 20 minutos en un colador para que suelten agua.', s:1200},
+      {t:'Seca bien los cubos de berenjena con papel absorbente antes de freír.', s:120},
+      {t:'Fríe la berenjena en aceite bien caliente, en tandas, hasta dorar por todos lados. Escurre sobre papel absorbente.', s:480},
+      {t:'En otra sartén, sofríe {2|diente} de ajo en un poco de aceite hasta dorar ligeramente.', s:60},
+      {t:'Agrega {400|g} de tomate triturado. Cocina a fuego medio 15 minutos hasta espesar.', s:900},
+      {t:'Cocina la pasta al dente, escurre reservando agua de cocción.', s:480},
+      {t:'Mezcla la pasta con la salsa de tomate y la mitad de la berenjena frita.', s:90},
+      {t:'Sirve coronado con el resto de la berenjena, ricotta salata rallada y hojas de albahaca fresca.', s:60}
     ]
   },
 
