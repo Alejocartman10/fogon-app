@@ -700,6 +700,11 @@ const RECETAS_PASAPORTE = {
       {n:'Cebolla', c:1, u:'unidad'},{n:'Aceite de oliva', c:200, u:'ml'},{n:'Sal', c:0, u:'al gusto'}
     ],
     sustituciones:[{falta:'Cebolla', usa:'Se puede omitir, es opcional según la región — la versión "con cebolla" es la más extendida'}],
+    sosVideo:{emoji:'🍳', tag:'TÉCNICA EN BUCLE', titulo:'El volteo de un solo golpe, sin miedo'},
+    laboratorio:{
+      notas:'La textura final depende de la relación huevo:papa. Más huevo (8 en vez de 6) da una tortilla más jugosa y suelta; menos huevo la hace más compacta y firme, mejor para cortar en cuadros como tapa. El punto de cuajado interno ideal es 65-70°C al centro — si tienes termómetro, ese es tu objetivo.',
+      tips:['La papa debe quedar "confitada" en aceite a baja temperatura, nunca dorada — eso es lo que da la textura cremosa típica','El reposo de 5 min antes de cocinar integra el huevo con el almidón de la papa y mejora la cohesión al voltear']
+    },
     pasos:[
       {t:'Pela y corta {4|papas} medianas en láminas finas e irregulares. Sazona con sal.', s:300},
       {t:'Fríe las papas en abundante aceite de oliva a fuego medio-bajo, sin que doren, hasta que estén tiernas. Deben "cocerse" en el aceite, no tostarse.', s:900},
@@ -765,6 +770,11 @@ const RECETAS_PASAPORTE = {
       {n:'Pecorino romano', c:80, u:'g'},{n:'Pimienta negra', c:0, u:'al gusto'}
     ],
     sustituciones:[{falta:'Guanciale', usa:'Panceta o tocineta, aunque el sabor cambia notablemente'},{falta:'Pecorino Romano', usa:'Parmesano, más suave pero funcional'}],
+    sosVideo:{emoji:'🥚', tag:'TÉCNICA EN BUCLE', titulo:'Mezclar el huevo fuera del fuego, sin miedo a que se corte'},
+    laboratorio:{
+      notas:'La relación huevo:queso:pasta determina la textura final. La proporción clásica romana es aproximadamente 1 huevo entero + 1 yema por cada 100g de pasta, con 40g de queso por persona. Si subes la proporción de yemas frente a claras, la salsa queda más untuosa y menos propensa a cuajarse en grumos, porque la yema tiene más grasa y menos proteína que se coagule de golpe.',
+      tips:['La temperatura crítica de coagulación del huevo es 70°C — el agua de cocción de la pasta (reservada) actúa como regulador térmico para no superar ese punto','El almidón residual del agua de cocción es lo que emulsiona la grasa del guanciale con el huevo, dando la textura sedosa sin necesidad de crema']
+    },
     pasos:[
       {t:'Corta {150|g} de guanciale en tiras. Cocina en sartén fría a fuego medio-bajo hasta que suelte la grasa y quede crujiente, sin quemarse.', s:480},
       {t:'Mientras, hierve agua con sal para {200|g} de espagueti. Cocina la pasta al dente.', s:600},
@@ -965,6 +975,11 @@ const RECETAS_PASAPORTE = {
       {n:'Huevo marinado', c:4, u:'unidad'},{n:'Cebollín', c:0, u:'al gusto'}
     ],
     sustituciones:[{falta:'Huesos de cerdo', usa:'Huesos de pollo, el caldo será más ligero pero igual de válido'}],
+    sosVideo:{emoji:'🍜', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se descarta la primera agua de los huesos'},
+    laboratorio:{
+      notas:'Un caldo de ramen profesional busca una concentración de colágeno y grasa emulsionada que dé cuerpo (la textura untuosa típica del tonkotsu). Esto se logra con hervor prolongado a fuego muy bajo —nunca a borbotón fuerte, que enturbia el caldo y rompe la emulsión— durante mínimo 8-12 horas en cocina profesional. La versión de 3 horas de esta receta es una adaptación doméstica razonable que sacrifica algo de cuerpo por tiempo.',
+      tips:['El tare (base de sabor concentrada) debe tener una salinidad de referencia de aproximadamente 3-4% sobre el peso del caldo final, ajustable a gusto','Marinar el huevo mínimo 4 horas en la mezcla de soya y mirin antes de usarlo da la yema semi-cuajada característica (ajitsuke tamago)']
+    },
     pasos:[
       {t:'Hierve huesos de cerdo o pollo en agua durante 5 minutos, descarta esa primera agua — esto limpia impurezas y da un caldo más claro.', s:300},
       {t:'Lava los huesos, regrésalos a la olla con agua limpia, jengibre, ajo y cebolla. Hierve a fuego muy bajo, sin tapar del todo, durante mínimo 3 horas.', s:10800},
@@ -1108,6 +1123,12 @@ const RECETAS_PASAPORTE = {
       {n:'Agua tibia', c:150, u:'ml'},{n:'Sal', c:1, u:'cucharadita'},{n:'Ghee o mantequilla', c:50, u:'g'}
     ],
     sustituciones:[{falta:'Yogur natural', usa:'No hay buen sustituto — aporta suavidad y acidez clave a la masa'}],
+    sosVideo:{emoji:'🫓', tag:'TÉCNICA EN BUCLE', titulo:'Cómo se forman las burbujas doradas del naan'},
+    formula:{harina:500, agua:150, sal:5, levadura:7, yogur:150}, hidratacionBase:55,
+    laboratorio:{
+      notas:'El yogur en la masa de naan no es solo sabor: su acidez (ácido láctico) relaja ligeramente el gluten, dando una miga más suave y elástica que un pan de agua simple. La hidratación total real de esta masa, contando el agua del yogur, es más alta de lo que parece a primera vista — aproximadamente 55-58% si se suma el agua libre del yogur a los 150ml de agua tibia.',
+      tips:['El comal o sartén debe estar verdaderamente muy caliente (casi al punto de humear) para que el vapor interno forme las burbujas características antes de que la masa se seque','Si tienes piedra de hornear u horno con grill, cocinar a máxima temperatura con calor superior e inferior imita mejor el horno de barro tandoor tradicional']
+    },
     pasos:[
       {t:'Mezcla harina, levadura, azúcar y sal en un bowl. Agrega yogur y agua tibia poco a poco hasta formar una masa.', s:300},
       {t:'Amasa durante 8-10 minutos hasta lograr una masa lisa y elástica.', s:600},
@@ -1131,6 +1152,11 @@ const RECETAS_PASAPORTE = {
       {n:'Tortillas de maíz pequeñas', c:16, u:'unidad'},{n:'Cebolla', c:1, u:'unidad'},{n:'Cilantro', c:0, u:'al gusto'}
     ],
     sustituciones:[{falta:'Achiote en pasta', usa:'Pimentón con un poco de jugo de naranja, no es igual pero da color y un toque similar'}],
+    sosVideo:{emoji:'🔥', tag:'TÉCNICA EN BUCLE', titulo:'Apilar la carne en la plancha como trompo'},
+    laboratorio:{
+      notas:'La técnica del trompo al pastor funciona por transferencia de calor radiante vertical: cada capa de carne gotea sus jugos y grasa sobre la de abajo, autobasteándose. En sartén plana esto se simula apilando láminas finas (2-3mm) y cocinando por capas sucesivas, nunca todo de una vez extendido, para conservar ese efecto de jugosidad progresiva.',
+      tips:['El ácido del vinagre y la piña en el marinado cumple función doble: aporta sabor y ablanda ligeramente la fibra muscular del cerdo','El achiote no es solo color — su sabor terroso y ligeramente amargo es lo que distingue al pastor de un simple cerdo adobado']
+    },
     pasos:[
       {t:'Marina láminas finas de cerdo (lomo o pierna) con achiote, chiles secos rehidratados, vinagre, ajo y especias licuados.', s:300},
       {t:'Deja marinar mínimo 2 horas en refrigeración, idealmente toda la noche.', s:7200},
@@ -1485,6 +1511,10 @@ function applyDetailModeUI(){
 }
 
 function renderModeContent(){
+  if (currentPassportDish){
+    renderPassportModeContent();
+    return;
+  }
   const r = RECETAS[currentRecetaId];
   const el = document.getElementById('mode-content');
   let html = '';
@@ -1554,7 +1584,7 @@ function hydrationBoxHTML(r){
 }
 
 function updateHydration(val){
-  const r = RECETAS[currentRecetaId];
+  const r = currentPassportDish ? RECETAS_PASAPORTE[currentPassportDish] : RECETAS[currentRecetaId];
   const agua = Math.round(r.formula.harina * (val/100));
   document.getElementById('hyd-agua-val').textContent = agua + ' g';
   const result = document.getElementById('hyd-result');
@@ -1919,16 +1949,92 @@ function openDishPreview(dishId, pid){
   document.getElementById('d-desc').textContent = receta.desc;
   document.getElementById('d-pills').innerHTML = receta.pills.map(p=>`<span class="dpill">${p}</span>`).join('');
   applyDetailModeUI();
-  // Mode content: ingredientes (con porciones ajustables) + sustituciones
+  renderPassportModeContent();
+  // Progress content: pasos con cantidades escaladas según porciones
+  renderPasajePasos(receta);
+  currentPasosOverride = receta.pasos.map(p=>({t:escalarTextoPaso(p.t,1).slice(0,40)+'…', s:p.s}));
+  resetTimer();
+  document.getElementById('detail-back').onclick = ()=>openCountry(pid);
+  goTo('screen-detail');
+}
+
+// Construye el contenido de mode-content para una receta del Pasaporte,
+// según el modo activo (S.O.S. / Copiloto / Laboratorio). A diferencia de
+// las recetas de Home, aquí el botón de asistente de dudas siempre aparece
+// al final, sin importar el modo.
+function renderPassportModeContent(){
+  const receta = RECETAS_PASAPORTE[currentPassportDish];
+  if (!receta) return;
   const el = document.getElementById('mode-content');
-  let html = ingredientesBoxHTML(receta);
-  if (receta.sustituciones){
-    html += `<div class="sub-box">
-      <div class="sub-title">Si te falta algo</div>
-      ${receta.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
-    </div>`;
+  let html = '';
+
+  if (detailMode === 'sos'){
+    if (receta.sosVideo){
+      html += `<div class="sos-video">
+        <button class="sos-replay" onclick="event.stopPropagation()">↻</button>
+        <div class="sos-video-loop">${receta.sosVideo.emoji}</div>
+        <div class="sos-video-cap">
+          <div class="sos-video-tag">${receta.sosVideo.tag}</div>
+          <div class="sos-video-title">${receta.sosVideo.titulo}</div>
+        </div>
+      </div>`;
+    }
+    html += ingredientesBoxHTML(receta);
+    if (receta.sustituciones){
+      html += `<div class="sub-box">
+        <div class="sub-title">Si te falta algo</div>
+        ${receta.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
+      </div>`;
+    }
   }
-  // Botón del asistente de dudas
+
+  if (detailMode === 'copiloto'){
+    html += ingredientesBoxHTML(receta);
+    if (receta.formula){
+      html += hydrationBoxHTML(receta);
+    }
+    if (receta.sustituciones){
+      html += `<div class="sub-box">
+        <div class="sub-title">Si te falta algo</div>
+        ${receta.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
+      </div>`;
+    }
+  }
+
+  if (detailMode === 'laboratorio'){
+    html += ingredientesBoxHTML(receta);
+    if (receta.formula){
+      html += labPanelHTML(receta);
+    } else if (receta.laboratorio){
+      html += `<div class="lab-panel">
+        <div class="lab-title">Notas de laboratorio</div>
+        <div style="font-size:.78em;line-height:1.65;color:rgba(251,246,238,0.8);margin-bottom:14px">${receta.laboratorio.notas}</div>
+        ${receta.laboratorio.tips.map(t=>`<div style="font-size:.74em;line-height:1.5;color:rgba(251,246,238,0.65);padding:8px 0;border-top:1px solid rgba(255,255,255,0.08)">→ ${t}</div>`).join('')}
+        <div class="lab-notes">
+          <div class="lab-notes-label">Tus observaciones de esta corrida</div>
+          <textarea class="lab-textarea" placeholder="Ej: probé con menos sal, quedó más suave..."></textarea>
+          <button class="lab-save">GUARDAR NOTA</button>
+        </div>
+      </div>`;
+    } else {
+      html += `<div class="lab-panel">
+        <div class="lab-title">Notas de laboratorio</div>
+        <div class="lab-notes">
+          <div class="lab-notes-label">Tus observaciones de esta corrida</div>
+          <textarea class="lab-textarea" placeholder="Ej: probé con menos sal, quedó más suave..."></textarea>
+          <button class="lab-save">GUARDAR NOTA</button>
+        </div>
+      </div>`;
+    }
+    if (receta.sustituciones){
+      html += `<div class="sub-box">
+        <div class="sub-title">Sustituciones técnicas</div>
+        ${receta.sustituciones.map(s=>`<div class="sub-item"><span class="arrow">→</span><span><strong>${s.falta}:</strong> ${s.usa}</span></div>`).join('')}
+      </div>`;
+    }
+  }
+
+  // Botón del asistente de dudas, siempre visible en cualquier modo
   html += `<button class="ask-btn" onclick="openAsk()">
     <span class="ask-btn-icon">💬</span>
     <span class="ask-btn-text">
@@ -1937,13 +2043,13 @@ function openDishPreview(dishId, pid){
     </span>
     <span class="ask-btn-arrow">›</span>
   </button>`;
+
   el.innerHTML = html;
-  // Progress content: pasos con cantidades escaladas según porciones
-  renderPasajePasos(receta);
-  currentPasosOverride = receta.pasos.map(p=>({t:escalarTextoPaso(p.t,1).slice(0,40)+'…', s:p.s}));
-  resetTimer();
-  document.getElementById('detail-back').onclick = ()=>openCountry(pid);
-  goTo('screen-detail');
+  // Si el modo copiloto/laboratorio insertó la tabla de hidratación, hay que
+  // re-vincular el slider al estado de esta receta del pasaporte
+  if (receta.formula){
+    window._labRecetaActual = receta;
+  }
 }
 
 // ════════════════════════════════════════════════
