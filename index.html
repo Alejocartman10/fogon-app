@@ -2371,20 +2371,18 @@ async function preguntarIA(pregunta){
   if (!receta) return 'No encuentro el contexto de esta receta. Intenta de nuevo.';
   const systemPrompt = construirContextoReceta(receta);
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 300,
         system: systemPrompt,
-        messages: [{ role: "user", content: pregunta }]
+        message: pregunta,
+        maxTokens: 300
       })
     });
     if (!response.ok) throw new Error('API error ' + response.status);
     const data = await response.json();
-    const textBlock = data.content.find(b => b.type === 'text');
-    let texto = textBlock ? textBlock.text : 'No pude generar una respuesta. Intenta de nuevo.';
+    let texto = data.text || 'No pude generar una respuesta. Intenta de nuevo.';
     // convertir **negrita** a <strong> para el render del chat
     texto = texto.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     return texto;
@@ -2500,20 +2498,18 @@ Contexto del usuario: "${moodObj.title}" — ${moodObj.desc}
 Responde con 2-3 sugerencias concretas de platos, cada una con: nombre del plato, 1-2 frases de por qué encaja con su ánimo/tiempo actual, y una idea muy breve de cómo prepararlo con esos ingredientes (no la receta completa, solo la idea general). Sé cálido y directo, como si fueras un amigo que sabe cocinar. No uses markdown con almohadillas ni listas numeradas con guiones técnicos — escribe en prosa natural, puedes usar **negrita** solo para los nombres de los platos.`;
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 500,
         system: systemPrompt,
-        messages: [{ role: "user", content: "¿Qué puedo cocinar?" }]
+        message: "¿Qué puedo cocinar?",
+        maxTokens: 500
       })
     });
     if (!response.ok) throw new Error('API error ' + response.status);
     const data = await response.json();
-    const textBlock = data.content.find(b => b.type === 'text');
-    let texto = textBlock ? textBlock.text : 'No pude generar una sugerencia. Intenta de nuevo.';
+    let texto = data.text || 'No pude generar una sugerencia. Intenta de nuevo.';
     texto = texto.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     area.innerHTML = `<div class="wc-result"><div class="wc-result-text">${texto}</div></div>
       <button class="wc-retry" onclick="submitWhatCook()">↻ Dame otras ideas</button>`;
