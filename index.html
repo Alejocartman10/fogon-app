@@ -81,6 +81,15 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .share-sheet{background:#FBF6EE!important}
 .share-title{color:#2B2620!important}
 .share-preview{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
+.trigo-link{background:linear-gradient(135deg,#8B6F47,#A8855E)!important}
+.trigo-hero-title{color:#2B2620!important}
+.trigo-hero-sub{color:rgba(43,38,32,0.5)!important}
+.trigo-card{background:#FFFDF8!important;border-color:rgba(43,38,32,0.1)!important}
+.trigo-card-name{color:#2B2620!important}
+.trigo-card-desc{color:rgba(43,38,32,0.5)!important}
+.trigo-tag{background:#F3ECDD!important;color:rgba(43,38,32,0.5)!important}
+.trigo-tag.dificil{background:rgba(196,99,63,0.12)!important;color:#C4633F!important}
+.trigo-tag.facil{background:rgba(61,90,69,0.1)!important;color:#3D5A45!important}
 
 /* ── ASISTENTE DE DUDAS ── */
 .ask-btn{margin:0 22px 18px;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#3D5A45,#4a6b53);border:none;border-radius:16px;padding:15px 18px;cursor:pointer;width:calc(100% - 44px)}
@@ -128,6 +137,30 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .myrec-link-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.05em;color:var(--tinta)}
 .myrec-link-sub{font-size:.68em;color:var(--tinta-dim);margin-top:2px}
 .myrec-link-arrow{color:var(--terracota);font-size:1.2em}
+
+/* ── EL RINCÓN DEL TRIGO ── */
+.trigo-link{margin:0 22px 8px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#8B6F47,#A8855E);border-radius:20px;padding:18px;cursor:pointer;position:relative;overflow:hidden}
+.trigo-link::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.18),transparent 70%)}
+.trigo-link-icon{font-size:1.8em;flex-shrink:0;z-index:1}
+.trigo-link-text{flex:1;z-index:1}
+.trigo-link-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.05em;color:#fff}
+.trigo-link-sub{font-size:.68em;color:rgba(255,255,255,0.8);margin-top:2px}
+.trigo-link-arrow{color:#fff;font-size:1.2em;z-index:1}
+
+#screen-trigo{padding-bottom:60px}
+.trigo-hero{padding:8px 24px 18px}
+.trigo-hero-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.6em;line-height:1.18;margin-bottom:8px}
+.trigo-hero-sub{font-size:.78em;color:var(--tinta-dim);line-height:1.55}
+.trigo-grid{padding:10px 22px}
+.trigo-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:16px;margin-bottom:12px;cursor:pointer}
+.trigo-card-emoji{font-size:1.8em;flex-shrink:0}
+.trigo-card-info{flex:1}
+.trigo-card-name{font-family:'Fraunces',serif;font-weight:600;font-size:1em;margin-bottom:3px}
+.trigo-card-desc{font-size:.68em;color:var(--tinta-dim);line-height:1.4;margin-bottom:6px}
+.trigo-card-meta{display:flex;gap:6px;flex-wrap:wrap}
+.trigo-tag{font-size:.58em;padding:3px 8px;border-radius:7px;background:var(--crema2);color:var(--tinta-dim);font-weight:600}
+.trigo-tag.dificil{background:rgba(196,99,63,0.12);color:var(--terracota)}
+.trigo-tag.facil{background:rgba(61,90,69,0.1);color:var(--salvia)}
 
 #screen-myrecipes{padding-bottom:80px}
 .myrec-empty{text-align:center;padding:60px 30px;color:var(--tinta-dim)}
@@ -248,6 +281,7 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .cat-label{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
 .cat-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.15em}
 .cat-count{font-size:.65em;color:var(--tinta-faint);letter-spacing:.5px}
+#cat-pan-count{color:var(--terracota)!important;font-weight:700}
 .rscroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0 -22px;padding-left:22px;padding-right:22px}
 .rscroll::-webkit-scrollbar{display:none}
 .rchip{flex-shrink:0;width:190px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:14px;cursor:pointer;transition:transform .15s}
@@ -498,6 +532,15 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
     <span class="myrec-link-arrow">›</span>
   </div>
 
+  <div class="trigo-link" onclick="openTrigo()">
+    <span class="trigo-link-icon">🌾</span>
+    <div class="trigo-link-text">
+      <div class="trigo-link-title">El Rincón del Trigo</div>
+      <div class="trigo-link-sub">12 panes, cada uno con su línea de tiempo de fases</div>
+    </div>
+    <span class="trigo-link-arrow">›</span>
+  </div>
+
   <div class="section-gap"></div>
 
   <div class="cat-row">
@@ -506,7 +549,7 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
   </div>
   <div class="section-gap"></div>
   <div class="cat-row">
-    <div class="cat-label"><span class="cat-name">El Rincón del Trigo</span><span class="cat-count">PANADERÍA</span></div>
+    <div class="cat-label"><span class="cat-name">El Rincón del Trigo</span><span class="cat-count" id="cat-pan-count" onclick="openTrigo()" style="cursor:pointer">VER TODOS ›</span></div>
     <div class="rscroll" id="cat-pan"></div>
   </div>
   <div class="section-gap"></div>
@@ -647,6 +690,19 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
       <button class="ask-send" onclick="sendAsk()">↑</button>
     </div>
   </div>
+</div>
+
+<!-- ══ EL RINCÓN DEL TRIGO ══ -->
+<div class="screen" id="screen-trigo">
+  <div class="topbar">
+    <button class="btn-back" onclick="goHome()">← Inicio</button>
+    <span class="topbar-title">RINCÓN DEL TRIGO</span>
+  </div>
+  <div class="trigo-hero">
+    <div class="trigo-hero-title">Panadería de verdad: fases, no pasos sueltos.</div>
+    <div class="trigo-hero-sub">Autólisis, amasado, fermentación, horneado — cada pan tiene su propia línea de tiempo visual.</div>
+  </div>
+  <div class="trigo-grid" id="trigo-grid"></div>
 </div>
 
 <!-- ══ MIS RECETAS ══ -->
@@ -806,6 +862,165 @@ const RECETAS = {
       {fase:'Estirado en bandeja', dur:'10 min', desc:'Vuelca en una bandeja aceitada, estira con los dedos sin desgasificar del todo.', s:600},
       {fase:'Segundo reposo', dur:'45 min', desc:'Deja que vuelva a crecer en la bandeja. Aquí se forma la textura alveolada característica.', s:2700},
       {fase:'Horneado', dur:'25 min', desc:'Hunde los dedos para hacer los hoyuelos típicos, agrega aceite, romero y sal gruesa. Horno fuerte.', s:1500}
+    ]
+  },
+  'baguette': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🥖', nombre:'Baguette Clásica',
+    desc:'Greñado preciso y corteza crujiente. El pan francés que parece simple y exige técnica fina.',
+    pills:['~6 horas', '2 piezas', 'Avanzado'],
+    hidratacionBase: 70,
+    formula:{harina:500, agua:350, sal:10, levadura:4},
+    sustituciones:[{falta:'Cuchilla de panadero (lame)', usa:'Una navaja de afeitar sujeta a un palito, o un cuchillo muy afilado en ángulo'}],
+    timeline:[
+      {fase:'Mezclado', dur:'10 min', desc:'Mezcla harina, agua, levadura y sal hasta integrar. La masa quedará algo pegajosa.', s:600},
+      {fase:'Amasado', dur:'10 min', desc:'Amasa hasta lograr una masa lisa y elástica que se despegue de las manos.', s:600},
+      {fase:'Fermentación en bloque', dur:'2 h', desc:'Pliega la masa cada 45 minutos durante la fermentación para desarrollar fuerza sin amasado intensivo.', s:7200},
+      {fase:'Formado', dur:'15 min', desc:'Divide en 2 piezas, forma cilindros alargados con tensión en la superficie, sin desgasificar el centro.', s:900},
+      {fase:'Fermentación final', dur:'45 min', desc:'Sobre un paño enharinado (couche), tapadas, hasta que crezcan visiblemente.', s:2700},
+      {fase:'Greñado y horneado', dur:'25 min', desc:'Hace 3-4 cortes diagonales rápidos y poco profundos con la cuchilla. Hornea con vapor (agua en bandeja inferior) a máxima temperatura.', s:1500}
+    ]
+  },
+  'pan-de-molde': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🍞', nombre:'Pan de Molde',
+    desc:'Sin amasado intensivo, miga suave y uniforme. El pan de cada día, hecho en casa.',
+    pills:['~3 horas', '1 molde', 'Fácil'],
+    hidratacionBase: 65,
+    formula:{harina:500, agua:300, sal:8, levadura:6, mantequilla:40},
+    sustituciones:[{falta:'Mantequilla', usa:'Aceite vegetal neutro, en la misma cantidad'}],
+    timeline:[
+      {fase:'Mezclado', dur:'10 min', desc:'Mezcla harina, agua, levadura, sal y mantequilla blanda hasta integrar.', s:600},
+      {fase:'Amasado', dur:'12 min', desc:'Amasa hasta lograr una masa suave y elástica, no pegajosa.', s:720},
+      {fase:'Primer reposo', dur:'1 h', desc:'Tapada, a temperatura ambiente, hasta duplicar tamaño.', s:3600},
+      {fase:'Formado', dur:'10 min', desc:'Desgasifica suavemente y forma un cilindro que encaje en el molde engrasado.', s:600},
+      {fase:'Segundo reposo', dur:'45 min', desc:'Dentro del molde, tapado, hasta que la masa sobrepase el borde del molde.', s:2700},
+      {fase:'Horneado', dur:'35 min', desc:'Horno medio-alto hasta dorar parejo. Desmolda de inmediato para que la corteza no se ablande con el vapor interno.', s:2100}
+    ]
+  },
+  'pretzel': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🥨', nombre:'Pretzel Alemán',
+    desc:'Baño alcalino antes de hornear. La técnica que da el color marrón oscuro y la corteza característica.',
+    pills:['~2.5 horas', '6 piezas', 'Intermedio'],
+    hidratacionBase: 55,
+    formula:{harina:500, agua:280, sal:10, levadura:7, mantequilla:25},
+    sustituciones:[{falta:'Bicarbonato de sodio', usa:'No hay sustituto real para el color oscuro, aunque hornear el bicarbonato 30 min a 120°C antes de usarlo intensifica su efecto alcalino'}],
+    timeline:[
+      {fase:'Mezclado y amasado', dur:'15 min', desc:'Mezcla y amasa hasta lograr una masa firme y elástica, más seca que un pan normal.', s:900},
+      {fase:'Fermentación', dur:'1 h', desc:'Tapada, hasta que duplique tamaño.', s:3600},
+      {fase:'Formado', dur:'20 min', desc:'Divide en piezas, estira cada una en cordón largo y forma el nudo característico del pretzel.', s:1200},
+      {fase:'Baño alcalino', dur:'5 min', desc:'Sumerge cada pretzel formado en agua con bicarbonato disuelto en ebullición, 20-30 segundos cada uno. Esto es lo que da el color marrón oscuro.', s:300},
+      {fase:'Horneado', dur:'18 min', desc:'Espolvorea sal gruesa encima y hornea a horno fuerte hasta que estén marrón oscuro brillante.', s:1080}
+    ]
+  },
+  'brioche': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🥐', nombre:'Pan Dulce Brioche',
+    desc:'Alto contenido de huevo y mantequilla. Miga tierna, amarilla, casi como bizcocho pero con estructura de pan.',
+    pills:['~5 horas', '1 hogaza', 'Avanzado'],
+    hidratacionBase: 50,
+    formula:{harina:500, agua:120, sal:8, levadura:8, mantequilla:200},
+    sustituciones:[{falta:'Mantequilla en cantidad', usa:'No hay buen sustituto — es lo que define la textura entera del brioche, no reducir la cantidad'}],
+    timeline:[
+      {fase:'Mezclado', dur:'10 min', desc:'Mezcla harina, agua, huevos, azúcar, levadura y sal. La mantequilla se agrega después, no al inicio.', s:600},
+      {fase:'Amasado con mantequilla', dur:'20 min', desc:'Amasa hasta desarrollar gluten, luego incorpora la mantequilla fría en cubos poco a poco, amasando hasta integrar por completo. Toma tiempo y paciencia.', s:1200},
+      {fase:'Fermentación en bloque', dur:'2 h', desc:'Tapada, a temperatura ambiente, hasta duplicar tamaño. La masa con tanta grasa fermenta más lento que un pan normal.', s:7200},
+      {fase:'Refrigeración', dur:'1 h', desc:'Refrigera la masa antes de formar — esto endurece la mantequilla y facilita el manejo de una masa muy blanda.', s:3600},
+      {fase:'Formado', dur:'15 min', desc:'Forma el pan en el molde elegido (trenza, molde de brioche, o bollos individuales).', s:900},
+      {fase:'Fermentación final', dur:'1.5 h', desc:'A temperatura ambiente hasta que crezca visiblemente.', s:5400},
+      {fase:'Horneado', dur:'30 min', desc:'Pincela con huevo batido antes de hornear. Horno medio hasta dorar intensamente por el alto contenido de azúcar y grasa.', s:1800}
+    ]
+  },
+  'pan-pita': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🫓', nombre:'Pan de Pita',
+    desc:'Sin amasado largo. La bolsa de aire que se forma al hornear es la técnica entera de este pan.',
+    pills:['~2 horas', '8 piezas', 'Fácil'],
+    hidratacionBase: 65,
+    formula:{harina:500, agua:325, sal:8, levadura:7},
+    sustituciones:[],
+    timeline:[
+      {fase:'Mezclado y amasado', dur:'10 min', desc:'Mezcla y amasa brevemente hasta lograr una masa suave, no necesita desarrollo intensivo de gluten.', s:600},
+      {fase:'Fermentación', dur:'1 h', desc:'Tapada, hasta duplicar tamaño.', s:3600},
+      {fase:'Formado', dur:'15 min', desc:'Divide en porciones, estira cada una en disco de medio centímetro de grosor.', s:900},
+      {fase:'Reposo corto', dur:'15 min', desc:'Deja reposar los discos formados antes de hornear — esto relaja el gluten para que se expandan bien.', s:900},
+      {fase:'Horneado', dur:'5 min', desc:'Horno al máximo con piedra o bandeja precalentada. El vapor interno infla el disco formando la bolsa característica en 2-3 minutos.', s:300}
+    ]
+  },
+  'bagel': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🥯', nombre:'Bagel',
+    desc:'Se hierve antes de hornear. La única receta de pan de esta lista con doble cocción.',
+    pills:['~3 horas', '6 piezas', 'Intermedio'],
+    hidratacionBase: 55,
+    formula:{harina:500, agua:280, sal:9, levadura:6},
+    sustituciones:[{falta:'Jarabe de malta', usa:'Miel o azúcar morena, aunque se pierde algo del sabor tostado característico'}],
+    timeline:[
+      {fase:'Mezclado y amasado', dur:'15 min', desc:'Mezcla y amasa hasta lograr una masa muy firme y elástica, más seca que la mayoría de panes.', s:900},
+      {fase:'Fermentación', dur:'1 h', desc:'Tapada, hasta que crezca, aunque menos que panes más hidratados.', s:3600},
+      {fase:'Formado', dur:'15 min', desc:'Divide en piezas, forma bolas y haz un agujero en el centro con los dedos, estirando hasta formar el aro característico.', s:900},
+      {fase:'Hervido', dur:'2 min', desc:'Hierve cada bagel en agua con jarabe de malta disuelto, 1 minuto por lado. Esto gelatiniza la superficie y da la textura masticable característica.', s:120},
+      {fase:'Horneado', dur:'20 min', desc:'Escurre, agrega semillas si quieres (ajonjolí, amapola) y hornea a horno fuerte hasta dorar intensamente.', s:1200}
+    ]
+  },
+  'pan-integral': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🍞', nombre:'Pan Integral 100%',
+    desc:'Manejo de harina integral completa, sin mezclar con harina blanca. Más densidad, más sabor, más fibra.',
+    pills:['~4 horas', '1 hogaza', 'Intermedio'],
+    hidratacionBase: 80,
+    formula:{harina:500, agua:400, sal:10, levadura:6},
+    sustituciones:[{falta:'Harina integral 100%', usa:'Mezcla 70% integral con 30% harina blanca para un resultado menos denso si es tu primera vez con integral'}],
+    timeline:[
+      {fase:'Autólisis', dur:'30 min', desc:'Mezcla solo harina integral y agua, deja reposar. El salvado de la harina integral necesita más tiempo de hidratación que la harina blanca.', s:1800},
+      {fase:'Mezclado', dur:'10 min', desc:'Agrega levadura y sal a la autólisis, mezcla hasta integrar.', s:600},
+      {fase:'Fermentación en bloque', dur:'1.5 h', desc:'Pliega la masa cada 30 minutos — la harina integral necesita más plegados porque el salvado interfiere con el desarrollo del gluten.', s:5400},
+      {fase:'Formado', dur:'15 min', desc:'Forma con tensión moderada, la masa integral es menos elástica que la de harina blanca.', s:900},
+      {fase:'Fermentación final', dur:'1 h', desc:'En banneton o bowl con harina, hasta que crezca visiblemente.', s:3600},
+      {fase:'Horneado', dur:'45 min', desc:'Horno fuerte con vapor los primeros 20 minutos, luego destapado hasta dorar. El pan integral necesita cocción algo más larga que el de harina blanca.', s:2700}
+    ]
+  },
+  'pan-centeno': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🍞', nombre:'Pan de Centeno',
+    desc:'Harina con poco gluten, técnica de amasado distinta a cualquier otro pan de esta lista.',
+    pills:['~5 horas', '1 hogaza', 'Avanzado'],
+    hidratacionBase: 85,
+    formula:{harina:500, agua:425, sal:10, levadura:5},
+    sustituciones:[{falta:'Harina de centeno', usa:'No hay sustituto real para el sabor característico — mezclar con harina de trigo da un pan distinto, no centeno auténtico'}],
+    timeline:[
+      {fase:'Mezclado', dur:'15 min', desc:'Mezcla harina de centeno, agua, levadura y sal. La masa será muy pegajosa y poco elástica — el centeno tiene mucho menos gluten que el trigo.', s:900},
+      {fase:'Amasado breve', dur:'5 min', desc:'A diferencia del trigo, el centeno no se beneficia de amasado prolongado — un exceso de manipulación rompe la poca estructura que tiene.', s:300},
+      {fase:'Fermentación en bloque', dur:'1.5 h', desc:'Tapada, a temperatura ambiente. El centeno fermenta distinto, con menos crecimiento visible que el trigo.', s:5400},
+      {fase:'Formado', dur:'10 min', desc:'Con las manos húmedas (la masa pegajosa lo requiere), forma una bola o cilindro sin buscar tensión excesiva.', s:600},
+      {fase:'Fermentación final', dur:'1 h', desc:'En molde o banneton con mucha harina para evitar que se pegue.', s:3600},
+      {fase:'Horneado', dur:'50 min', desc:'Horno fuerte con vapor inicial, luego horno medio por más tiempo — el centeno necesita cocción más larga y suave que el trigo.', s:3000}
+    ]
+  },
+  'croissant': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🥐', nombre:'Croissant',
+    desc:'Laminado de mantequilla en capas. La técnica más exigente de panadería casera, y la más espectacular cuando sale bien.',
+    pills:['~2 días', '8 piezas', 'Avanzado'],
+    hidratacionBase: 50,
+    formula:{harina:500, agua:140, sal:10, levadura:8, mantequilla:300},
+    sustituciones:[{falta:'Mantequilla de buena calidad (alto % grasa)', usa:'No hay sustituto real — una mantequilla con poca grasa y mucha agua hace que el laminado se rompa y no genere capas'}],
+    timeline:[
+      {fase:'Masa base (día 1)', dur:'20 min', desc:'Mezcla harina, leche, agua, azúcar, levadura y sal. Amasa brevemente hasta integrar, sin desarrollar gluten en exceso.', s:1200},
+      {fase:'Refrigeración nocturna', dur:'12 h', desc:'Refrigera la masa toda la noche. Esto relaja el gluten y enfría la masa para el laminado del día siguiente.', s:43200},
+      {fase:'Preparación del bloque de mantequilla', dur:'15 min', desc:'Aplana la mantequilla fría entre papel para hornear hasta formar un cuadrado uniforme del tamaño correcto.', s:900},
+      {fase:'Primer laminado', dur:'20 min', desc:'Envuelve la masa fría alrededor del bloque de mantequilla, sella los bordes. Estira y dobla en tres (como una carta) — este es el primer "pliegue".', s:1200},
+      {fase:'Reposo entre pliegues', dur:'30 min', desc:'Refrigera entre cada pliegue para que la mantequilla no se derrita. Repite el estirado y doblado dos veces más (3 pliegues totales).', s:1800},
+      {fase:'Formado', dur:'30 min', desc:'Estira la masa laminada en un rectángulo fino, corta triángulos y enrolla cada uno desde la base ancha hacia la punta.', s:1800},
+      {fase:'Fermentación final', dur:'2.5 h', desc:'A temperatura ambiente (no muy caliente, o la mantequilla se derrite), hasta que crezcan visiblemente y se vean las capas.', s:9000},
+      {fase:'Horneado', dur:'20 min', desc:'Pincela con huevo batido. Horno fuerte hasta dorar intensamente y ver las capas doradas características.', s:1200}
+    ]
+  },
+  'pan-de-ajo': {
+    cat:'pan', catLabel:'PANADERÍA', emoji:'🧄', nombre:'Pan de Ajo Rápido',
+    desc:'Sin fermentación larga. El pan de esta lista para quien nunca ha horneado y quiere resultados en una tarde.',
+    pills:['~1 hora', '1 hogaza', 'Fácil'],
+    hidratacionBase: 60,
+    formula:{harina:500, agua:300, sal:8, levadura:10},
+    sustituciones:[{falta:'Ajo fresco', usa:'Ajo en polvo, una cucharadita, aunque se pierde el sabor más intenso del ajo fresco salteado'}],
+    timeline:[
+      {fase:'Mezclado y amasado', dur:'12 min', desc:'Mezcla harina, agua, levadura (en mayor cantidad para fermentar rápido) y sal. Amasa hasta lograr una masa suave.', s:720},
+      {fase:'Fermentación rápida', dur:'30 min', desc:'Tapada, en un lugar tibio, hasta que crezca notablemente — el exceso de levadura acelera este paso comparado con un pan tradicional.', s:1800},
+      {fase:'Preparación del ajo', dur:'5 min', desc:'Saltea ajo picado en mantequilla a fuego bajo hasta que esté fragante, sin dorar.', s:300},
+      {fase:'Formado', dur:'10 min', desc:'Desgasifica la masa, incorpora el ajo salteado y perejil, forma la hogaza o bollos individuales.', s:600},
+      {fase:'Horneado', dur:'20 min', desc:'Horno fuerte hasta dorar. No necesita segunda fermentación larga — está pensado para resultados rápidos.', s:1200}
     ]
   },
   'tarta-manzana': {
@@ -2405,7 +2620,7 @@ function renderHomeCats(){
     <div class="rchip-meta">${r.pills.slice(0,2).map(p=>`<span class="rtag">${p}</span>`).join('')}</div>
   </div>`;
   document.getElementById('cat-sal').innerHTML = groups.sal.map(([id,r])=>chip(id,r)).join('');
-  document.getElementById('cat-pan').innerHTML = groups.pan.map(([id,r])=>chip(id,r)).join('');
+  document.getElementById('cat-pan').innerHTML = groups.pan.slice(0,5).map(([id,r])=>chip(id,r)).join('');
   document.getElementById('cat-postre').innerHTML = groups.postre.map(([id,r])=>chip(id,r)).join('');
   updatePassportLinkSub();
 }
@@ -2450,7 +2665,7 @@ function openDetail(id){
   renderModeContent();
   renderProgressContent();
   resetTimer();
-  document.getElementById('detail-back').onclick = goHome;
+  document.getElementById('detail-back').onclick = r.cat==='pan' ? openTrigo : goHome;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-detail').classList.add('active');
   window.scrollTo(0,0);
@@ -3473,6 +3688,26 @@ function copyShareText(){
   btn.textContent = '✓ COPIADO';
   btn.classList.add('copied');
   setTimeout(()=>{ btn.textContent = 'COPIAR TEXTO'; btn.classList.remove('copied'); }, 2000);
+}
+
+// ════════════════════════════════════════════════
+// EL RINCÓN DEL TRIGO — vista completa de panadería
+// ════════════════════════════════════════════════
+function openTrigo(){
+  const panes = Object.entries(RECETAS).filter(([id,r])=>r.cat==='pan');
+  const dificultadClass = d => d==='Avanzado' ? 'dificil' : (d==='Fácil' ? 'facil' : '');
+  document.getElementById('trigo-grid').innerHTML = panes.map(([id,r])=>{
+    const dificultad = r.pills.find(p=>['Fácil','Intermedio','Avanzado'].includes(p)) || '';
+    return `<div class="trigo-card" onclick="openDetail('${id}')">
+      <span class="trigo-card-emoji">${r.emoji}</span>
+      <div class="trigo-card-info">
+        <div class="trigo-card-name">${r.nombre}</div>
+        <div class="trigo-card-desc">${r.desc}</div>
+        <div class="trigo-card-meta">${r.pills.map(p=>`<span class="trigo-tag ${dificultadClass(p)}">${p}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+  goTo('screen-trigo');
 }
 
 // ════════════════════════════════════════════════
