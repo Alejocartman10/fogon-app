@@ -66,6 +66,8 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .wc-result{background:#FFFDF8!important;border-color:rgba(43,38,32,0.1)!important}
 .wc-result-text{color:#2B2620!important}
 .wc-result-loading{color:rgba(43,38,32,0.5)!important}
+.dish-cat-chip{background:#FFFDF8!important;color:rgba(43,38,32,0.5)!important;border-color:rgba(43,38,32,0.1)!important}
+.dish-cat-chip.active{background:#C4633F!important;border-color:#C4633F!important;color:#fff!important}
 
 /* ── ASISTENTE DE DUDAS ── */
 .ask-btn{margin:0 22px 18px;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#3D5A45,#4a6b53);border:none;border-radius:16px;padding:15px 18px;cursor:pointer;width:calc(100% - 44px)}
@@ -344,6 +346,11 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .dish-stamp{font-size:1.3em;flex-shrink:0;opacity:.3}
 .dish-card.earned .dish-stamp{opacity:1}
 
+.dish-cat-filters{display:flex;gap:8px;padding:0 22px 14px;overflow-x:auto;scrollbar-width:none}
+.dish-cat-filters::-webkit-scrollbar{display:none}
+.dish-cat-chip{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1px solid var(--linea);background:var(--card);font-size:.68em;font-weight:600;color:var(--tinta-dim);cursor:pointer;white-space:nowrap;-webkit-appearance:none}
+.dish-cat-chip.active{background:var(--terracota);border-color:var(--terracota);color:#fff}
+
 /* ── INGREDIENTES (porciones ajustables) ── */
 .ing-box{margin:0 22px 18px;background:var(--card);border:1px solid var(--linea);border-radius:18px;padding:18px}
 .ing-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -518,6 +525,7 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
     <div class="country-hero-name" id="ch-name"></div>
     <div class="country-hero-desc" id="ch-desc"></div>
   </div>
+  <div class="dish-cat-filters" id="dish-cat-filters"></div>
   <div class="dish-grid" id="dish-grid"></div>
 </div>
 
@@ -731,20 +739,20 @@ const PAISES = {
     {id:'gazpacho', emoji:'🍅', nombre:'Gazpacho Andaluz', desc:'Sopa fría de tomate, sin encender la estufa.'}
   ]},
   italia:{nombre:'Italia', bandera:'🇮🇹', desc:'Pocos ingredientes, técnica impecable.', platos:[
-    {id:'carbonara', emoji:'🍝', nombre:'Carbonara Romana', desc:'Sin crema. El huevo es la salsa.'},
-    {id:'risotto', emoji:'🍚', nombre:'Risotto al Parmesano', desc:'El arroz que se abraza con caldo, cucharón a cucharón.'},
-    {id:'tiramisu', emoji:'🍰', nombre:'Tiramisú', desc:'Capas de café, mascarpone y paciencia en frío.'},
-    {id:'cacio-e-pepe', emoji:'🧀', nombre:'Cacio e Pepe', desc:'Solo queso, pimienta y agua de pasta. La emulsión perfecta.'},
-    {id:'pesto-genovese', emoji:'🌿', nombre:'Pesto alla Genovese', desc:'Albahaca, piñones y aceite. Salsa fría que nunca se cocina.'},
-    {id:'amatriciana', emoji:'🍅', nombre:'Amatriciana', desc:'Guanciale y tomate, la prima picante de la carbonara.'},
-    {id:'puttanesca', emoji:'🫒', nombre:'Puttanesca', desc:'Aceitunas, alcaparras y anchoas. Lista en el tiempo de la pasta.'},
-    {id:'aglio-e-olio', emoji:'🧄', nombre:'Aglio e Olio', desc:'Ajo, aceite y chile. La pasta más simple que existe.'},
-    {id:'pasta-norma', emoji:'🍆', nombre:'Pasta alla Norma', desc:'Berenjena frita y ricotta salata, orgullo de Sicilia.'},
-    {id:'bolognese', emoji:'🍖', nombre:'Ragú alla Bolognese', desc:'Carne, leche y horas de cocción lenta. El auténtico ragú.'},
-    {id:'marinara', emoji:'🍅', nombre:'Marinara', desc:'La salsa de tomate madre: simple, rápida, base de todas las demás.'},
-    {id:'arrabbiata', emoji:'🌶️', nombre:'Arrabbiata', desc:'Tomate "enojado" — picante, ajo y un toque de profundidad.'},
-    {id:'napoletana', emoji:'🍝', nombre:'Salsa Napoletana', desc:'Tomate cocido a fuego lento con albahaca, la base napolitana clásica.'},
-    {id:'pomodoro', emoji:'🍅', nombre:'Pomodoro Fresco', desc:'Tomate fresco de temporada, cocción corta, sabor limpio y directo.'}
+    {id:'carbonara', emoji:'🍝', nombre:'Carbonara Romana', desc:'Sin crema. El huevo es la salsa.', categoria:'Pasta clásica'},
+    {id:'risotto', emoji:'🍚', nombre:'Risotto al Parmesano', desc:'El arroz que se abraza con caldo, cucharón a cucharón.', categoria:'Arroz'},
+    {id:'tiramisu', emoji:'🍰', nombre:'Tiramisú', desc:'Capas de café, mascarpone y paciencia en frío.', categoria:'Postre'},
+    {id:'cacio-e-pepe', emoji:'🧀', nombre:'Cacio e Pepe', desc:'Solo queso, pimienta y agua de pasta. La emulsión perfecta.', categoria:'Pasta clásica'},
+    {id:'pesto-genovese', emoji:'🌿', nombre:'Pesto alla Genovese', desc:'Albahaca, piñones y aceite. Salsa fría que nunca se cocina.', categoria:'Salsa fría'},
+    {id:'amatriciana', emoji:'🍅', nombre:'Amatriciana', desc:'Guanciale y tomate, la prima picante de la carbonara.', categoria:'Salsas de tomate'},
+    {id:'puttanesca', emoji:'🫒', nombre:'Puttanesca', desc:'Aceitunas, alcaparras y anchoas. Lista en el tiempo de la pasta.', categoria:'Salsas de tomate'},
+    {id:'aglio-e-olio', emoji:'🧄', nombre:'Aglio e Olio', desc:'Ajo, aceite y chile. La pasta más simple que existe.', categoria:'Pasta clásica'},
+    {id:'pasta-norma', emoji:'🍆', nombre:'Pasta alla Norma', desc:'Berenjena frita y ricotta salata, orgullo de Sicilia.', categoria:'Pasta clásica'},
+    {id:'bolognese', emoji:'🍖', nombre:'Ragú alla Bolognese', desc:'Carne, leche y horas de cocción lenta. El auténtico ragú.', categoria:'Salsas de tomate'},
+    {id:'marinara', emoji:'🍅', nombre:'Marinara', desc:'La salsa de tomate madre: simple, rápida, base de todas las demás.', categoria:'Salsas de tomate'},
+    {id:'arrabbiata', emoji:'🌶️', nombre:'Arrabbiata', desc:'Tomate "enojado" — picante, ajo y un toque de profundidad.', categoria:'Salsas de tomate'},
+    {id:'napoletana', emoji:'🍝', nombre:'Salsa Napoletana', desc:'Tomate cocido a fuego lento con albahaca, la base napolitana clásica.', categoria:'Salsas de tomate'},
+    {id:'pomodoro', emoji:'🍅', nombre:'Pomodoro Fresco', desc:'Tomate fresco de temporada, cocción corta, sabor limpio y directo.', categoria:'Salsas de tomate'}
   ]},
   francia:{nombre:'Francia', bandera:'🇫🇷', desc:'La técnica clásica que fundó la cocina moderna.', platos:[
     {id:'ratatouille', emoji:'🍆', nombre:'Ratatouille', desc:'Verduras de temporada, cocción lenta y respetuosa.'},
@@ -2319,6 +2327,7 @@ function resetTimer(){
 // ════════════════════════════════════════════════
 let currentContinente = null;
 let currentPais = null;
+let currentDishFilter = 'Todos';
 
 function getStamps(){ try{ return JSON.parse(localStorage.getItem('fogon_sellos')||'[]'); }catch(e){ return []; } }
 function addStamp(dishId){
@@ -2366,7 +2375,9 @@ function openContinent(id){
   document.getElementById('country-list').innerHTML = c.paises.map(pid=>{
     const p = PAISES[pid];
     const earned = p.platos.filter(d=>stamps.includes(d.id)).length;
-    const dots = p.platos.map(d=>`<span class="stamp-dot ${stamps.includes(d.id)?'earned':''}"></span>`).join('');
+    // Si hay muchos platos, mostrar máximo 8 puntos para no desbordar la tarjeta
+    const dotsPlatos = p.platos.length > 8 ? p.platos.slice(0,8) : p.platos;
+    const dots = dotsPlatos.map(d=>`<span class="stamp-dot ${stamps.includes(d.id)?'earned':''}"></span>`).join('');
     return `<div class="country-row" onclick="openCountry('${pid}')">
       <span class="country-flag">${p.bandera}</span>
       <div class="country-info">
@@ -2382,15 +2393,44 @@ function openContinent(id){
 
 function openCountry(pid){
   currentPais = pid;
+  currentDishFilter = 'Todos';
   const p = PAISES[pid];
   document.getElementById('ch-flag').textContent = p.bandera;
   document.getElementById('ch-name').textContent = p.nombre;
   document.getElementById('ch-desc').textContent = p.desc;
   document.getElementById('country-back-btn').onclick = ()=>openContinent(currentContinente);
+  renderDishCatFilters(p);
+  renderDishGrid(p);
+  goTo('screen-country-dishes');
+}
+
+function renderDishCatFilters(p){
+  const el = document.getElementById('dish-cat-filters');
+  // Solo mostrar filtros si el país tiene más de 6 platos y al menos 2 categorías distintas
+  const categorias = [...new Set(p.platos.map(d=>d.categoria).filter(Boolean))];
+  if (p.platos.length <= 6 || categorias.length < 2){
+    el.innerHTML = '';
+    return;
+  }
+  const chips = ['Todos', ...categorias];
+  el.innerHTML = chips.map(c=>
+    `<button class="dish-cat-chip ${c===currentDishFilter?'active':''}" onclick="setDishFilter('${c}')">${c}</button>`
+  ).join('');
+}
+
+function setDishFilter(cat){
+  currentDishFilter = cat;
+  const p = PAISES[currentPais];
+  renderDishCatFilters(p);
+  renderDishGrid(p);
+}
+
+function renderDishGrid(p){
   const stamps = getStamps();
-  document.getElementById('dish-grid').innerHTML = p.platos.map(d=>{
+  const platosFiltrados = currentDishFilter === 'Todos' ? p.platos : p.platos.filter(d=>d.categoria===currentDishFilter);
+  document.getElementById('dish-grid').innerHTML = platosFiltrados.map(d=>{
     const earned = stamps.includes(d.id);
-    return `<div class="dish-card ${earned?'earned':''}" onclick="openDishPreview('${d.id}', '${pid}')">
+    return `<div class="dish-card ${earned?'earned':''}" onclick="openDishPreview('${d.id}', '${currentPais}')">
       <span class="dish-emoji">${d.emoji}</span>
       <div class="dish-info">
         <div class="dish-name">${d.nombre}</div>
@@ -2399,7 +2439,6 @@ function openCountry(pid){
       <span class="dish-stamp">${earned?'🛂':'○'}</span>
     </div>`;
   }).join('');
-  goTo('screen-country-dishes');
 }
 
 // ════════════════════════════════════════════════
