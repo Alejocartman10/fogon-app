@@ -734,9 +734,15 @@ const CONTINENTES = {
 
 const PAISES = {
   espana:{nombre:'España', bandera:'🇪🇸', desc:'Del sofrito lento al fuego vivo de la paella.', platos:[
-    {id:'tortilla-espanola', emoji:'🍳', nombre:'Tortilla Española', desc:'Huevo y papa, técnica de volteo perfecta.'},
-    {id:'paella-valenciana', emoji:'🥘', nombre:'Paella Valenciana', desc:'El socarrat es el secreto: el fondo tostado.'},
-    {id:'gazpacho', emoji:'🍅', nombre:'Gazpacho Andaluz', desc:'Sopa fría de tomate, sin encender la estufa.'}
+    {id:'tortilla-espanola', emoji:'🍳', nombre:'Tortilla Española', desc:'Huevo y papa, técnica de volteo perfecta.', categoria:'Centro'},
+    {id:'paella-valenciana', emoji:'🥘', nombre:'Paella Valenciana', desc:'El socarrat es el secreto: el fondo tostado.', categoria:'Levante'},
+    {id:'gazpacho', emoji:'🍅', nombre:'Gazpacho Andaluz', desc:'Sopa fría de tomate, sin encender la estufa.', categoria:'Andalucía'},
+    {id:'fabada-asturiana', emoji:'🫘', nombre:'Fabada Asturiana', desc:'Fabes y cerdo en cocción lenta, el guiso del norte.', categoria:'Norte'},
+    {id:'pulpo-gallega', emoji:'🐙', nombre:'Pulpo a la Gallega', desc:'El "susto" del pulpo: la técnica que evita que quede duro.', categoria:'Galicia'},
+    {id:'tarta-santiago', emoji:'🥧', nombre:'Tarta de Santiago', desc:'Almendra molida, nada de harina. El postre del Camino.', categoria:'Galicia'},
+    {id:'pisto-manchego', emoji:'🍆', nombre:'Pisto Manchego', desc:'El ratatouille español, verduras de la Mancha cocidas despacio.', categoria:'Centro'},
+    {id:'crema-catalana', emoji:'🔥', nombre:'Crema Catalana', desc:'Leche y canela bajo una costra quemada. La hermana catalana del brûlée.', categoria:'Cataluña'},
+    {id:'salmorejo', emoji:'🍅', nombre:'Salmorejo Cordobés', desc:'El primo cremoso del gazpacho: pan, ajo y tomate sin verduras crudas.', categoria:'Andalucía'}
   ]},
   italia:{nombre:'Italia', bandera:'🇮🇹', desc:'Pocos ingredientes, técnica impecable.', platos:[
     {id:'carbonara', emoji:'🍝', nombre:'Carbonara Romana', desc:'Sin crema. El huevo es la salsa.', categoria:'Pasta clásica'},
@@ -752,7 +758,11 @@ const PAISES = {
     {id:'marinara', emoji:'🍅', nombre:'Marinara', desc:'La salsa de tomate madre: simple, rápida, base de todas las demás.', categoria:'Salsas de tomate'},
     {id:'arrabbiata', emoji:'🌶️', nombre:'Arrabbiata', desc:'Tomate "enojado" — picante, ajo y un toque de profundidad.', categoria:'Salsas de tomate'},
     {id:'napoletana', emoji:'🍝', nombre:'Salsa Napoletana', desc:'Tomate cocido a fuego lento con albahaca, la base napolitana clásica.', categoria:'Salsas de tomate'},
-    {id:'pomodoro', emoji:'🍅', nombre:'Pomodoro Fresco', desc:'Tomate fresco de temporada, cocción corta, sabor limpio y directo.', categoria:'Salsas de tomate'}
+    {id:'pomodoro', emoji:'🍅', nombre:'Pomodoro Fresco', desc:'Tomate fresco de temporada, cocción corta, sabor limpio y directo.', categoria:'Salsas de tomate'},
+    {id:'risotto-funghi', emoji:'🍄', nombre:'Risotto ai Funghi', desc:'Champiñones y un toque de bosque. El risotto de otoño por excelencia.', categoria:'Arroz'},
+    {id:'risotto-milanese', emoji:'🌼', nombre:'Risotto alla Milanese', desc:'Azafrán y tuétano. El risotto original, dorado como el sol.', categoria:'Arroz'},
+    {id:'risotto-nero', emoji:'🦑', nombre:'Risotto al Nero di Seppia', desc:'Tinta de calamar. Negro intenso, sabor profundo del mar.', categoria:'Arroz'},
+    {id:'risotto-barolo', emoji:'🍷', nombre:'Risotto al Barolo', desc:'Vino tinto reducido en el grano. Color púrpura, sabor robusto.', categoria:'Arroz'}
   ]},
   francia:{nombre:'Francia', bandera:'🇫🇷', desc:'La técnica clásica que fundó la cocina moderna.', platos:[
     {id:'ratatouille', emoji:'🍆', nombre:'Ratatouille', desc:'Verduras de temporada, cocción lenta y respetuosa.'},
@@ -884,6 +894,161 @@ const RECETAS_PASAPORTE = {
     ]
   },
 
+  'fabada-asturiana':{
+    nombre:'Fabada Asturiana', pais:'España', emoji:'🫘',
+    desc:'Fabes (judías grandes) y cerdo curado en cocción muy lenta. El guiso que define la cocina contundente del norte de España.',
+    pills:['3h + remojo','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Fabes (judías grandes asturianas)', c:500, u:'g'},{n:'Chorizo asturiano', c:200, u:'g'},
+      {n:'Morcilla', c:150, u:'g'},{n:'Panceta', c:150, u:'g'},
+      {n:'Tocino', c:100, u:'g'},{n:'Cebolla', c:1, u:'unidad'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Azafrán', c:1, u:'pizca'},{n:'Sal', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Fabes asturianas', usa:'Judías blancas grandes (tipo lima o cannellini grandes), el resultado será válido aunque menos auténtico'},{falta:'Chorizo asturiano', usa:'Cualquier chorizo español curado funciona'}],
+    sosVideo:{emoji:'🫘', tag:'TÉCNICA EN BUCLE', titulo:'Por qué nunca se revuelve la fabada, se "menea" la olla'},
+    laboratorio:{
+      notas:'Las fabes son una variedad de judía con piel muy fina y alto contenido de almidón que se deshace fácilmente si se revuelve con cuchara, rompiendo la integridad del grano. Por eso tradicionalmente se "menea" la olla (se mueve agarrando las dos asas, nunca se introduce un utensilio), preservando los granos enteros mientras el caldo se espesa naturalmente con el almidón liberado por fricción suave.',
+      tips:['El remojo de las fabes debe ser de mínimo 12 horas — sin este paso, el tiempo de cocción se duplica y los granos cocinan de forma desigual','Cocinar a fuego muy bajo, casi sin burbujear, durante 2.5-3 horas es lo que da la textura cremosa sin deshacer los granos por completo']
+    },
+    pasos:[
+      {t:'Remoja {500|g} de fabes en agua fría durante mínimo 12 horas, o toda la noche.', s:43200},
+      {t:'Escurre las fabes y colócalas en una olla grande con agua fría que las cubra generosamente.', s:120},
+      {t:'Agrega el chorizo, la panceta y el tocino enteros (sin cortar). Lleva a hervor suave.', s:600},
+      {t:'Espuma la superficie para retirar impurezas. Agrega cebolla entera pelada, ajo y azafrán.', s:120},
+      {t:'Baja el fuego al mínimo, casi sin burbujear, y cocina tapado 2.5-3 horas. Menea la olla por las asas de vez en cuando, nunca revuelvas con cuchara.', s:9900},
+      {t:'Agrega la morcilla los últimos 20 minutos de cocción (se deshace fácil si se cocina desde el inicio).', s:1200},
+      {t:'Retira las carnes, corta en trozos y sirve junto con las fabes en su caldo espeso.', s:180}
+    ]
+  },
+
+  'pulpo-gallega':{
+    nombre:'Pulpo a la Gallega', pais:'España', emoji:'🐙',
+    desc:'El "susto" del pulpo —sumergirlo y sacarlo del agua hirviendo varias veces— es la técnica que evita que quede duro como goma.',
+    pills:['1h','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Pulpo entero', c:1.2, u:'kg'},{n:'Pimentón dulce', c:2, u:'cucharadita'},
+      {n:'Sal gruesa', c:0, u:'al gusto'},{n:'Aceite de oliva', c:60, u:'ml'},{n:'Papas', c:3, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Pulpo fresco', usa:'Pulpo congelado funciona igual o mejor — la congelación rompe parte de las fibras musculares y ayuda a la ternura'}],
+    sosVideo:{emoji:'🐙', tag:'TÉCNICA EN BUCLE', titulo:'El "susto": tres inmersiones que ablandan el pulpo'},
+    laboratorio:{
+      notas:'El pulpo tiene fibras musculares muy compactas con alto contenido de colágeno que, cocinado de forma directa y continua, se contrae y endurece. El "susto" (sumergir el pulpo en agua hirviendo, sacarlo por completo, y repetir 3 veces antes de la cocción final) provoca contracciones y relajaciones sucesivas en las fibras que ayudan a romper parte de esa estructura rígida antes de la cocción larga, resultando en una textura mucho más tierna.',
+      tips:['Congelar el pulpo crudo durante al menos 24 horas antes de cocinarlo logra un efecto similar al "susto", rompiendo fibras por la formación de cristales de hielo','Pinchar el pulpo con un cuchillo en la parte más gruesa del tentáculo es la mejor forma de probar si está listo — debe entrar sin resistencia']
+    },
+    pasos:[
+      {t:'Hierve abundante agua sin sal en una olla grande.', s:600},
+      {t:'Sujeta el pulpo por la cabeza y sumérgelo completo en el agua hirviendo. Cuenta 10 segundos y sácalo por completo. Repite esto 3 veces ("el susto").', s:120},
+      {t:'Tras el tercer susto, sumerge el pulpo definitivamente y cocina a fuego medio-bajo, sin que hierva muy fuerte, durante 35-45 minutos según el tamaño.', s:2400},
+      {t:'Verifica que esté listo pinchando la parte más gruesa de un tentáculo — debe entrar el cuchillo sin resistencia.', s:60},
+      {t:'Mientras cocina el pulpo, hierve {3|unidad} papas en otra olla con agua y sal hasta que estén tiernas.', s:1200},
+      {t:'Deja reposar el pulpo en su agua de cocción 5 minutos fuera del fuego antes de cortar — esto también ayuda a la terneza final.', s:300},
+      {t:'Corta el pulpo en rodajas, sirve sobre las papas en rodajas, y espolvorea generosamente con pimentón dulce, sal gruesa y aceite de oliva.', s:180}
+    ]
+  },
+
+  'tarta-santiago':{
+    nombre:'Tarta de Santiago', pais:'España', emoji:'🥧',
+    desc:'Almendra molida como base, sin harina de trigo. El postre gallego asociado al Camino de Santiago, denso y perfumado a limón.',
+    pills:['1h','8 porciones','Fácil'], porcionesBase:8,
+    ingredientes:[
+      {n:'Almendra molida', c:250, u:'g'},{n:'Azúcar', c:200, u:'g'},
+      {n:'Huevos', c:5, u:'unidad'},{n:'Ralladura de limón', c:1, u:'unidad'},
+      {n:'Mantequilla', c:20, u:'g'},{n:'Azúcar glas', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Almendra molida', usa:'No hay sustituto real — es la base entera de la receta, sin harina de trigo'}],
+    sosVideo:{emoji:'🥧', tag:'TÉCNICA EN BUCLE', titulo:'Batir los huevos con azúcar hasta que blanqueen, el secreto de la textura'},
+    laboratorio:{
+      notas:'Sin harina de trigo, la estructura de esta tarta depende enteramente de la coagulación de las proteínas del huevo y la red que forma la almidón natural de la almendra molida. Batir los huevos con azúcar hasta que dupliquen su volumen incorpora aire mecánicamente, que es la única fuente de ligereza en una masa sin agentes leudantes ni gluten — por eso ese paso no se puede acortar.',
+      tips:['La almendra debe estar recién molida o de buena calidad — la almendra molida vieja pierde aceites naturales y da una textura más seca','El molde se hornea sin papel en el fondo tradicionalmente, dejando que la base se dore directamente, pero usar papel para hornear facilita el desmoldado sin perder mucho de ese efecto']
+    },
+    pasos:[
+      {t:'Precalienta el horno a 180°C. Engrasa un molde redondo con mantequilla.', s:120},
+      {t:'Bate {5|unidad} de huevos con {200|g} de azúcar hasta que la mezcla blanquee y duplique su volumen, unos 5 minutos con batidora.', s:300},
+      {t:'Incorpora la ralladura de un limón entero a la mezcla de huevo y azúcar.', s:60},
+      {t:'Agrega {250|g} de almendra molida con movimientos suaves y envolventes, sin batir de más para no perder el aire incorporado.', s:180},
+      {t:'Vierte la mezcla en el molde preparado. Hornea 35-40 minutos hasta que esté dorada y firme al tacto en el centro.', s:2300},
+      {t:'Deja enfriar por completo antes de desmoldar. Espolvorea generosamente con azúcar glas formando el patrón de la cruz de Santiago si quieres ser tradicional.', s:1800}
+    ]
+  },
+
+  'pisto-manchego':{
+    nombre:'Pisto Manchego', pais:'España', emoji:'🍆',
+    desc:'Verduras de La Mancha cocidas despacio en aceite de oliva. El "ratatouille" español, más rústico y con menos presentación, igual de sabroso.',
+    pills:['45 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Calabacín', c:2, u:'unidad'},{n:'Pimiento rojo', c:1, u:'unidad'},
+      {n:'Pimiento verde', c:1, u:'unidad'},{n:'Berenjena', c:1, u:'unidad'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Aceite de oliva', c:80, u:'ml'},{n:'Huevo frito', c:4, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Huevo frito', usa:'Es opcional como acompañamiento, el pisto se sirve también solo o con pan'}],
+    sosVideo:{emoji:'🍆', tag:'TÉCNICA EN BUCLE', titulo:'Cocinar cada verdura por su tiempo, no todas juntas desde el inicio'},
+    laboratorio:{
+      notas:'Igual que el ratatouille francés, el pisto depende de respetar los tiempos de cocción distintos de cada verdura: la berenjena y el calabacín liberan agua a ritmos diferentes, y agregarlos en el orden correcto (más duras primero, más blandas después) evita un guiso aguado. El aceite de oliva en cantidad generosa no es solo para cocinar — en la cocina manchega tradicional, parte de la grasa se mantiene en el plato final como vehículo de sabor.',
+      tips:['Cocinar a fuego medio-bajo y con paciencia (no apurar con fuego alto) es lo que da al pisto su textura suave característica, casi confitada','El pisto sabe mejor al día siguiente, recalentado — es uno de esos guisos que mejora con el reposo en refrigeración']
+    },
+    pasos:[
+      {t:'Corta en cubos medianos {1|unidad} berenjena, {2|unidad} calabacines, {1|unidad} cebolla y los pimientos.', s:600},
+      {t:'Calienta {80|ml} de aceite de oliva a fuego medio. Sofríe la cebolla hasta transparentar.', s:300},
+      {t:'Agrega los pimientos, cocina 5 minutos. Luego agrega la berenjena, cocina 5 minutos más.', s:600},
+      {t:'Agrega el calabacín al final de las verduras (se cocina más rápido). Sofríe todo junto 5 minutos.', s:300},
+      {t:'Agrega {400|g} de tomate triturado. Baja el fuego y cocina tapado a fuego bajo 25-30 minutos, revolviendo de vez en cuando.', s:1700},
+      {t:'Ajusta sal. Sirve solo, con pan, o coronado con un huevo frito por encima.', s:300}
+    ]
+  },
+
+  'crema-catalana':{
+    nombre:'Crema Catalana', pais:'España', emoji:'🔥',
+    desc:'Leche y canela bajo una costra quemada, la hermana catalana de la crème brûlée — pero con leche en vez de crema y aromatizada distinto.',
+    pills:['30 min + 4h frío','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Leche entera', c:500, u:'ml'},{n:'Yemas de huevo', c:5, u:'unidad'},
+      {n:'Azúcar', c:100, u:'g'},{n:'Maicena', c:20, u:'g'},
+      {n:'Ramita de canela', c:1, u:'unidad'},{n:'Cáscara de limón', c:1, u:'unidad'},{n:'Azúcar para quemar', c:4, u:'cucharada'}
+    ],
+    sustituciones:[{falta:'Maicena', usa:'Harina de maíz fina o fécula de papa, en cantidad similar'}],
+    sosVideo:{emoji:'🔥', tag:'TÉCNICA EN BUCLE', titulo:'Por qué esta crema se cuece en la estufa, no al horno'},
+    laboratorio:{
+      notas:'A diferencia de la crème brûlée francesa, que se cuaja en baño maría dentro del horno usando solo la coagulación de las yemas, la crema catalana se cocina directamente en la estufa y usa maicena como espesante adicional — esto le da una textura más firme y estable a temperatura ambiente, y es la razón por la que tradicionalmente se sirve en cazuelas de barro poco profundas en vez de ramekins hondos.',
+      tips:['Infusionar la leche con canela en rama y cáscara de limón en frío, dejando reposar antes de calentar, extrae más aroma que agregar las especias directo al hervir','Revolver constantemente mientras se cocina en la estufa es indispensable — sin agitación, la maicena se pega al fondo y se queman puntos de la crema']
+    },
+    pasos:[
+      {t:'Calienta {500|ml} de leche con la ramita de canela y la cáscara de limón, sin que llegue a hervir fuerte. Deja infusionar 10 minutos fuera del fuego.', s:600},
+      {t:'Bate {5|unidad} de yemas con {100|g} de azúcar y {20|g} de maicena hasta integrar bien.', s:120},
+      {t:'Cuela la leche infusionada (retira canela y limón) y vierte poco a poco sobre la mezcla de yemas, batiendo constante.', s:120},
+      {t:'Regresa todo a la olla a fuego bajo. Cocina revolviendo constantemente con cuchara de madera hasta que espese, sin dejar hervir fuerte.', s:600},
+      {t:'Vierte en cazuelas individuales. Deja enfriar y refrigera mínimo 4 horas.', s:14400},
+      {t:'Justo antes de servir, espolvorea azúcar y quema con soplete hasta lograr una costra dorada y crujiente.', s:120}
+    ]
+  },
+
+  'salmorejo':{
+    nombre:'Salmorejo Cordobés', pais:'España', emoji:'🍅',
+    desc:'El primo cremoso del gazpacho: pan, ajo, tomate y aceite licuados sin verduras crudas adicionales. Más espeso, más untuoso, típico de Córdoba.',
+    pills:['15 min + frío','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Tomates maduros', c:800, u:'g'},{n:'Pan de pueblo (duro)', c:150, u:'g'},
+      {n:'Ajo', c:1, u:'diente'},{n:'Aceite de oliva extra virgen', c:100, u:'ml'},
+      {n:'Vinagre de jerez', c:1, u:'cucharada'},{n:'Sal', c:0, u:'al gusto'},
+      {n:'Huevo duro', c:2, u:'unidad'},{n:'Jamón serrano', c:60, u:'g'}
+    ],
+    sustituciones:[{falta:'Pan de pueblo', usa:'Cualquier pan blanco duro funciona, evita panes con mucha miga aireada'},{falta:'Jamón serrano', usa:'Se puede omitir como decoración, el salmorejo en sí no lo necesita'}],
+    sosVideo:{emoji:'🍅', tag:'TÉCNICA EN BUCLE', titulo:'Por qué el salmorejo es más espeso que el gazpacho'},
+    laboratorio:{
+      notas:'El salmorejo usa una proporción de pan mucho mayor que el gazpacho relativa al líquido, y no incluye verduras crudas como pimiento o pepino — esto resulta en una textura mucho más espesa y untuosa, casi como una crema, en vez de una sopa líquida. El aceite de oliva en mayor cantidad relativa también se emulsiona más densamente con la pulpa del tomate y el pan, dando ese color salmón característico y esa sensación aterciopelada en boca.',
+      tips:['Remojar el pan en un poco de agua antes de licuar (y luego escurrirlo) si está muy duro asegura que se integre sin grumos','Servir bien frío, incluso con un cubito de hielo flotando, es parte de la experiencia tradicional cordobesa en pleno verano andaluz']
+    },
+    pasos:[
+      {t:'Remoja {150|g} de pan duro en un poco de agua 5 minutos si está muy seco, luego escurre el exceso.', s:300},
+      {t:'Corta {800|g} de tomates maduros en trozos grandes.', s:180},
+      {t:'Licúa los tomates con el pan remojado, {1|diente} de ajo y sal hasta lograr una mezcla lisa.', s:120},
+      {t:'Con la licuadora aún en marcha a baja velocidad, agrega {100|ml} de aceite de oliva en hilo fino para emulsionar.', s:90},
+      {t:'Agrega el vinagre de jerez, prueba y ajusta sal y acidez.', s:60},
+      {t:'Pasa por un colador fino para una textura más sedosa. Refrigera mínimo 2 horas.', s:7200},
+      {t:'Sirve bien frío, decorado con huevo duro picado y jamón serrano en trocitos por encima.', s:120}
+    ]
+  },
+
   // ITALIA
   'carbonara':{
     nombre:'Carbonara Romana', pais:'Italia', emoji:'🍝',
@@ -935,6 +1100,115 @@ const RECETAS_PASAPORTE = {
       {t:'Apaga el fuego, agrega mantequilla fría y parmesano rallado. Mezcla vigorosamente —esto se llama "mantecare"— hasta que quede brillante y untuoso.', s:90}
     ]
   },
+
+  'risotto-funghi':{
+    nombre:'Risotto ai Funghi', pais:'Italia', emoji:'🍄',
+    desc:'Champiñones salteados aparte y su líquido de remojo incorporado al caldo. El risotto que sabe a bosque en otoño.',
+    pills:['40 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Arroz Carnaroli', c:300, u:'g'},{n:'Champiñones frescos', c:300, u:'g'},
+      {n:'Hongos porcini secos', c:20, u:'g'},{n:'Caldo de vegetales', c:1000, u:'ml'},
+      {n:'Cebolla', c:0.5, u:'unidad'},{n:'Vino blanco', c:1, u:'copa'},
+      {n:'Mantequilla', c:50, u:'g'},{n:'Parmesano', c:60, u:'g'},{n:'Perejil fresco', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Hongos porcini secos', usa:'Se pueden omitir, aunque su agua de remojo aporta un sabor a bosque muy profundo que el champiñón fresco solo no logra'}],
+    sosVideo:{emoji:'🍄', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se remojan los hongos secos, no se descarta su agua'},
+    laboratorio:{
+      notas:'Los hongos porcini secos concentran glutamatos y compuestos aromáticos durante el secado, y su agua de remojo (filtrada de impurezas) es esencialmente un caldo de hongos ultra concentrado que se incorpora al caldo base, multiplicando la profundidad de sabor sin necesidad de más hongos frescos. Saltear los champiñones frescos por separado a fuego alto, no en el risotto mismo, evita que liberen su agua directo en el arroz y se cuezan al vapor en vez de dorarse.',
+      tips:['Limpiar los champiñones con un paño húmedo en vez de lavarlos bajo el chorro evita que absorban agua extra que diluiría su sabor al saltear','Reservar algunos champiñones salteados para decorar encima, en vez de mezclarlos todos, da mejor textura visual y de bocado al servir']
+    },
+    pasos:[
+      {t:'Remoja {20|g} de hongos porcini secos en agua caliente 20 minutos. Cuela el agua (resérvala) y pica los hongos rehidratados.', s:1200},
+      {t:'Calienta {1000|ml} de caldo de vegetales junto con el agua de remojo de los porcini colada. Mantén caliente a fuego bajo.', s:120},
+      {t:'Corta {300|g} de champiñones frescos en láminas. Saltéalos en mantequilla a fuego alto hasta dorar, sin amontonar. Reserva.', s:300},
+      {t:'En otra olla, sofríe media cebolla picada en mantequilla hasta transparente.', s:300},
+      {t:'Agrega {300|g} de arroz Carnaroli y tuesta 2 minutos hasta que los bordes se vean translúcidos.', s:120},
+      {t:'Agrega una copa de vino blanco, deja evaporar. Agrega los porcini rehidratados picados.', s:90},
+      {t:'Agrega el caldo (con el agua de remojo) de cucharón en cucharón, esperando absorción entre cada uno. Revuelve constantemente, 18-20 minutos.', s:1140},
+      {t:'Fuera del fuego, agrega mantequilla fría y parmesano. Mezcla vigorosamente. Sirve coronado con los champiñones reservados y perejil.', s:90}
+    ]
+  },
+
+  'risotto-milanese':{
+    nombre:'Risotto alla Milanese', pais:'Italia', emoji:'🌼',
+    desc:'Azafrán y, tradicionalmente, tuétano de hueso. El risotto original de Milán, dorado como el sol y servido en las grandes ocasiones.',
+    pills:['35 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Arroz Carnaroli', c:300, u:'g'},{n:'Azafrán en hebras', c:1, u:'pizca'},
+      {n:'Caldo de res', c:1000, u:'ml'},{n:'Cebolla', c:0.5, u:'unidad'},
+      {n:'Vino blanco', c:1, u:'copa'},{n:'Mantequilla', c:60, u:'g'},{n:'Parmesano', c:70, u:'g'}
+    ],
+    sustituciones:[{falta:'Tuétano de hueso', usa:'Se puede omitir sin problema — la versión moderna sin tuétano es perfectamente válida y más común hoy'},{falta:'Caldo de res', usa:'Caldo de pollo, el resultado será algo menos profundo pero igual de válido'}],
+    sosVideo:{emoji:'🌼', tag:'TÉCNICA EN BUCLE', titulo:'Por qué el azafrán se infusiona, nunca se tritura directo'},
+    laboratorio:{
+      notas:'El azafrán contiene crocina (el pigmento amarillo-dorado) y safranal (el compuesto aromático), ambos solubles en agua tibia pero que se liberan mejor con tiempo de infusión que con calor directo intenso, que puede degradar parcialmente sus aromas volátiles. Infusionar las hebras en un poco de caldo tibio aparte, antes de incorporarlas, garantiza una distribución uniforme del color sin puntos concentrados de sabor amargo que el azafrán puede dar en exceso.',
+      tips:['Usar hebras de azafrán real (no "colorante de azafrán" que es cúrcuma o achiote) es indispensable — el sabor floral y terroso no tiene sustituto verdadero','El color final debe ser dorado intenso pero translúcido, no opaco — demasiado azafrán vuelve el plato amargo en vez de aromático']
+    },
+    pasos:[
+      {t:'Infusiona {1|pizca} de azafrán en un cucharón de caldo tibio aparte durante 10 minutos.', s:600},
+      {t:'Calienta el resto de {1000|ml} de caldo de res y mantenlo caliente a fuego bajo.', s:120},
+      {t:'Sofríe media cebolla picada en {60|g} de mantequilla hasta transparente, usando solo la mitad de la mantequilla — reserva el resto para el final.', s:300},
+      {t:'Agrega {300|g} de arroz Carnaroli y tuesta 2 minutos hasta bordes translúcidos.', s:120},
+      {t:'Agrega vino blanco, deja evaporar. Agrega el caldo con azafrán infusionado primero, luego sigue con caldo normal de cucharón en cucharón.', s:1200},
+      {t:'Cocina revolviendo constantemente 18-20 minutos hasta el punto al dente cremoso.', s:60},
+      {t:'Fuera del fuego, agrega el resto de la mantequilla bien fría y {70|g} de parmesano. Mezcla vigorosamente hasta dorado brillante.', s:90}
+    ]
+  },
+
+  'risotto-nero':{
+    nombre:'Risotto al Nero di Seppia', pais:'Italia', emoji:'🦑',
+    desc:'Tinta de calamar incorporada al grano. Negro intenso, sabor profundo a mar, una de las presentaciones más dramáticas de la cocina italiana.',
+    pills:['40 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Arroz Carnaroli', c:300, u:'g'},{n:'Calamares frescos', c:300, u:'g'},
+      {n:'Tinta de calamar', c:8, u:'g'},{n:'Caldo de pescado', c:1000, u:'ml'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Vino blanco', c:1, u:'copa'},
+      {n:'Aceite de oliva', c:40, u:'ml'},{n:'Perejil fresco', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Tinta de calamar', usa:'Se vende en sobres pequeños en pescaderías o tiendas gourmet — no hay sustituto real para el color y sabor característico'}],
+    sosVideo:{emoji:'🦑', tag:'TÉCNICA EN BUCLE', titulo:'Agregar la tinta al final, no al principio'},
+    laboratorio:{
+      notas:'La tinta de calamar es rica en melanina y compuestos que, expuestos a calor prolongado, pueden desarrollar un sabor metálico o amargo. Por eso se incorpora hacia el final de la cocción, ya con el arroz casi listo, en vez de desde el principio como el azafrán. Los calamares se sellan a fuego muy alto y por poco tiempo —igual que cualquier cefalópodo— porque su proteína se contrae y endurece rápidamente con cocción prolongada.',
+      tips:['Sellar los calamares en una sartén separada a fuego muy alto, apenas 1-2 minutos, y agregarlos al final preserva su textura tierna en vez de gomosa','El risotto negro no usa queso al final — el parmesano compite y opaca el sabor a mar de la tinta, a diferencia de los risottos de tierra']
+    },
+    pasos:[
+      {t:'Limpia y corta {300|g} de calamares frescos en aros. Sella en sartén muy caliente con un poco de aceite, 1-2 minutos. Reserva.', s:150},
+      {t:'Calienta {1000|ml} de caldo de pescado y mantenlo caliente a fuego bajo.', s:120},
+      {t:'Sofríe {2|diente} de ajo picado en {40|ml} de aceite de oliva hasta dorar ligeramente.', s:60},
+      {t:'Agrega {300|g} de arroz Carnaroli y tuesta 2 minutos.', s:120},
+      {t:'Agrega vino blanco, deja evaporar. Agrega caldo de cucharón en cucharón, revolviendo, durante 15 minutos.', s:900},
+      {t:'Disuelve {8|g} de tinta de calamar en un poco de caldo tibio aparte. Incorpora al risotto cuando falten 3-4 minutos de cocción.', s:240},
+      {t:'Termina la cocción hasta el punto al dente cremoso. Incorpora los calamares sellados al final, mezclando suave.', s:90},
+      {t:'Sirve con perejil fresco picado, sin queso.', s:30}
+    ]
+  },
+
+  'risotto-barolo':{
+    nombre:'Risotto al Barolo', pais:'Italia', emoji:'🍷',
+    desc:'Vino tinto Barolo reducido directo en el grano, no solo como toque inicial. Color púrpura profundo, sabor robusto y vinoso.',
+    pills:['40 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Arroz Carnaroli', c:300, u:'g'},{n:'Vino tinto Barolo', c:400, u:'ml'},
+      {n:'Caldo de res', c:700, u:'ml'},{n:'Cebolla', c:0.5, u:'unidad'},
+      {n:'Mantequilla', c:60, u:'g'},{n:'Parmesano', c:70, u:'g'}
+    ],
+    sustituciones:[{falta:'Vino tinto Barolo', usa:'Cualquier vino tinto robusto y seco (Nebbiolo, Cabernet) funciona, aunque el Barolo da el perfil tánico tradicional'}],
+    sosVideo:{emoji:'🍷', tag:'TÉCNICA EN BUCLE', titulo:'El vino se usa como líquido principal, no solo de toque'},
+    laboratorio:{
+      notas:'A diferencia de un risotto clásico donde el vino blanco es solo un toque ácido inicial, en el risotto al Barolo el vino tinto sustituye gran parte del caldo como líquido de cocción, permitiendo que sus taninos y antocianinas (los pigmentos responsables del color púrpura) se integren profundamente en el almidón del arroz durante toda la cocción, no solo al inicio.',
+      tips:['Usar un vino de calidad media-alta importa más aquí que en cualquier otro risotto — su sabor es protagonista, no solo un acento','El color final debe ser púrpura intenso pero translúcido en los bordes del grano, señal de que el almidón absorbió bien el líquido sin quemarse']
+    },
+    pasos:[
+      {t:'Calienta {700|ml} de caldo de res y mantenlo caliente a fuego bajo.', s:120},
+      {t:'Sofríe media cebolla picada en {60|g} de mantequilla hasta transparente, usando solo la mitad — reserva el resto para el final.', s:300},
+      {t:'Agrega {300|g} de arroz Carnaroli y tuesta 2 minutos.', s:120},
+      {t:'Agrega {400|ml} de vino Barolo poco a poco, como si fuera el caldo principal, dejando que se absorba antes de continuar. Esto toma varios minutos.', s:600},
+      {t:'Una vez absorbido la mayoría del vino, continúa con el caldo de res de cucharón en cucharón, revolviendo constantemente.', s:600},
+      {t:'Cocina hasta el punto al dente cremoso, unos 18-20 minutos en total desde que empezaste a agregar líquido.', s:60},
+      {t:'Fuera del fuego, agrega el resto de la mantequilla bien fría y {70|g} de parmesano. Mezcla hasta lograr un color púrpura uniforme y brillante.', s:90}
+    ]
+  },
+
   'tiramisu':{
     nombre:'Tiramisú', pais:'Italia', emoji:'🍰',
     desc:'Capas de café, mascarpone y paciencia en frío. No se hornea nada.',
