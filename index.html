@@ -301,14 +301,20 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
    activo: S.O.S. se calienta (urgencia amable), Laboratorio se enfría
    (precisión clínica), Copiloto es el punto neutro de referencia. */
 #screen-detail.temp-sos{
-  background:#FDF3E4;
+  background:#FDF3E4!important;
   --tinta:#2B2014; --card:#FFFAF0; --linea:rgba(58,40,20,0.12); --crema2:#F7E9D2;
 }
 #screen-detail.temp-sos .step-text{font-size:.92em; letter-spacing:.1px}
+#screen-detail.temp-sos .ing-box,
+#screen-detail.temp-sos .timer-box,
+#screen-detail.temp-sos .sub-box{background:#FFFAF0!important;border-color:rgba(58,40,20,0.12)!important}
 #screen-detail.temp-laboratorio{
-  background:#F3F5F6;
+  background:#F3F5F6!important;
   --tinta:#1E2528; --card:#FFFFFF; --linea:rgba(20,30,35,0.1); --crema2:#E8EDEF;
 }
+#screen-detail.temp-laboratorio .ing-box,
+#screen-detail.temp-laboratorio .timer-box,
+#screen-detail.temp-laboratorio .sub-box{background:#FFFFFF!important;border-color:rgba(20,30,35,0.1)!important}
 #screen-detail.temp-laboratorio .step-text{font-family:'Sora',sans-serif}
 #screen-detail.temp-laboratorio .ing-amount,
 #screen-detail.temp-laboratorio .step-dur{font-family:'JetBrains Mono',monospace}
