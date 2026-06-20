@@ -57,7 +57,7 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .ask-msg.user{background:#C4633F!important;color:#fff!important}
 .wc-hero-title{color:#2B2620!important}
 .wc-hero-sub{color:rgba(43,38,32,0.5)!important}
-.wc-label,.wc-quick-label{color:rgba(43,38,32,0.5)!important}
+.wc-label,.wc-quick-label,.wc-quick-cat-label{color:rgba(43,38,32,0.5)!important}
 .wc-input{background:#FFFDF8!important;color:#2B2620!important;border-color:rgba(43,38,32,0.1)!important}
 .wc-quick-chip{background:#FFFDF8!important;color:rgba(43,38,32,0.5)!important;border-color:rgba(43,38,32,0.1)!important}
 .wc-mood-card{background:#FFFDF8!important}
@@ -217,7 +217,9 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .wc-input:focus{outline:none;border-color:var(--terracota-line)}
 .wc-add-btn{flex-shrink:0;width:46px;height:46px;border-radius:14px;background:var(--terracota);border:none;color:#fff;font-size:1.2em;cursor:pointer}
 .wc-quick-label{font-size:.62em;letter-spacing:1.5px;color:var(--tinta-faint);margin:14px 0 8px;text-transform:uppercase}
-.wc-quick-grid{display:flex;flex-wrap:wrap;gap:8px}
+.wc-quick-grid{display:flex;flex-direction:column;gap:4px}
+.wc-quick-cat-label{font-size:.6em;letter-spacing:1.5px;color:var(--tinta-faint);text-transform:uppercase;font-weight:700;margin:10px 0 6px}
+.wc-quick-cat-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
 .wc-quick-chip{background:var(--card);border:1px solid var(--linea);border-radius:14px;padding:8px 13px;font-size:.74em;color:var(--tinta-dim);cursor:pointer}
 .wc-quick-chip.added{background:var(--terracota-dim);border-color:var(--terracota-line);color:var(--terracota)}
 
@@ -3853,7 +3855,12 @@ async function preguntarIA(pregunta){
 // ════════════════════════════════════════════════
 let wcIngredientes = [];
 let wcMood = null;
-const WC_QUICK = ['Huevos','Arroz','Pollo','Cebolla','Tomate','Ajo','Pasta','Papa','Queso','Limón','Frijoles','Leche'];
+const WC_QUICK = {
+  'Proteínas': ['Huevos','Pollo','Carne molida','Pescado','Atún','Cerdo','Tocino'],
+  'Vegetales': ['Cebolla','Tomate','Ajo','Papa','Zanahoria','Pimiento','Champiñones','Espinaca'],
+  'Carbohidratos': ['Arroz','Pasta','Pan','Frijoles','Lentejas'],
+  'Despensa': ['Queso','Leche','Mantequilla','Crema de leche','Limón','Cilantro']
+};
 const WC_MOODS = [
   {id:'rapido', emoji:'⏱️', title:'Tengo poco tiempo', desc:'Algo rápido y sin ensuciar mucho'},
   {id:'tranquilo', emoji:'🌤️', title:'Tengo tiempo de sobra', desc:'Algo con calma, puedo experimentar'},
@@ -3880,10 +3887,14 @@ function renderWCChips(){
 }
 
 function renderWCQuick(){
-  document.getElementById('wc-quick').innerHTML = WC_QUICK.map(q=>{
-    const added = wcIngredientes.includes(q);
-    return `<button class="wc-quick-chip ${added?'added':''}" onclick="toggleWCQuick('${q}')">${added?'✓ ':''}${q}</button>`;
+  const html = Object.entries(WC_QUICK).map(([categoria, items])=>{
+    const chips = items.map(q=>{
+      const added = wcIngredientes.includes(q);
+      return `<button class="wc-quick-chip ${added?'added':''}" onclick="toggleWCQuick('${q}')">${added?'✓ ':''}${q}</button>`;
+    }).join('');
+    return `<div class="wc-quick-cat-label">${categoria}</div><div class="wc-quick-cat-row">${chips}</div>`;
   }).join('');
+  document.getElementById('wc-quick').innerHTML = html;
 }
 
 function renderWCMoods(){
