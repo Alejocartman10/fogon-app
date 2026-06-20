@@ -2603,6 +2603,7 @@ function getFAQ(dishId){
 let globalMode = 'copiloto';
 let currentRecetaId = null;
 let currentPassportDish = null;
+let currentIsMyRecipe = false;
 let currentPasosOverride = null;
 let currentPorciones = null;
 let detailMode = 'copiloto';
@@ -2654,7 +2655,10 @@ function goHome(){
 function openDetail(id){
   currentRecetaId = id;
   currentPassportDish = null;
+  currentIsMyRecipe = false;
   currentPasosOverride = null;
+  const banner = document.getElementById('mode-banner');
+  if (banner) banner.style.display = '';
   const r = RECETAS[id];
   detailMode = r.sugerido || globalMode;
   document.getElementById('d-cat-label').textContent = r.catLabel;
@@ -2827,7 +2831,7 @@ function renderProgressContent(){
 }
 
 function getPasosArray(){
-  if (currentPassportDish && currentPasosOverride) return currentPasosOverride;
+  if ((currentPassportDish || currentIsMyRecipe) && currentPasosOverride) return currentPasosOverride;
   const r = RECETAS[currentRecetaId];
   return r.timeline ? r.timeline.map(f=>({t:f.fase, s:f.s})) : r.pasos.map(p=>({t:p.t.slice(0,40)+'…', s:p.s}));
 }
@@ -2895,7 +2899,7 @@ function updateDisplay(){
 
 function updateProgressUI(){
   let n;
-  if (currentPassportDish && currentPasosOverride){
+  if ((currentPassportDish || currentIsMyRecipe) && currentPasosOverride){
     n = currentPasosOverride.length;
   } else {
     const r = RECETAS[currentRecetaId];
@@ -2932,7 +2936,7 @@ function finishAll(){
     document.getElementById('finish-sub').textContent = 'AGREGADO A TU PASAPORTE';
   } else {
     document.getElementById('finish-title').textContent = '¡Listo!';
-    document.getElementById('finish-sub').textContent = 'BUEN PROVECHO';
+    document.getElementById('finish-sub').textContent = currentIsMyRecipe ? '¡A DISFRUTAR TU RECETA!' : 'BUEN PROVECHO';
   }
 }
 
@@ -3146,9 +3150,12 @@ function openDishPreview(dishId, pid){
     return;
   }
   currentPassportDish = dishId;
+  currentIsMyRecipe = false;
   currentRecetaId = null; // marca que viene del pasaporte, no de RECETAS
   currentPorciones = receta.porcionesBase;
   detailMode = 'copiloto';
+  const banner = document.getElementById('mode-banner');
+  if (banner) banner.style.display = '';
   document.getElementById('d-cat-label').textContent = receta.pais.toUpperCase();
   document.getElementById('d-name').textContent = receta.emoji + '  ' + receta.nombre;
   document.getElementById('d-desc').textContent = receta.desc;
@@ -3637,7 +3644,54 @@ let currentMyRecipeIdx = null;
 
 function openMyRecipeDetail(i){
   currentMyRecipeIdx = i;
-  openShareForMyRecipe(i);
+  const receta = getMyRecipes()[i];
+  if (!receta) return;
+  currentPassportDish = null;
+  currentRecetaId = null;
+  document.getElementById('d-cat-label').textContent = 'MI RECETA';
+  document.getElementById('d-name').textContent = receta.emoji + '  ' + receta.nombre;
+  document.getElementById('d-desc').textContent = receta.desc || '';
+  document.getElementById('d-pills').innerHTML = (receta.pills||[]).map(p=>`<span class="dpill">${p}</span>`).join('');
+  // Banner de modo: lo ocultamos, las recetas propias no tienen 3 modos
+  const banner = document.getElementById('mode-banner');
+  if (banner) banner.style.display = 'none';
+  // Ingredientes simples (sin porciones ajustables, ya que el usuario los escribió a su gusto)
+  const ingHtml = `<div class="ing-box">
+    <div class="ing-head"><span class="ing-title">Ingredientes</span></div>
+    <div>${receta.ingredientes.map(ing=>{
+      const cant = [ing.cantidad, ing.unidad].filter(Boolean).join(' ');
+      return `<div class="ing-row"><span class="ing-name">${ing.nombre}</span><span class="ing-amount">${cant}</span></div>`;
+    }).join('')}</div>
+  </div>`;
+  const shareBtn = `<button class="ask-btn" onclick="openShareForMyRecipe(${i})" style="background:linear-gradient(135deg,#3D5A45,#4a6b53)">
+    <span class="ask-btn-icon">📤</span>
+    <span class="ask-btn-text">
+      <span class="ask-btn-title">Compartir esta receta</span>
+      <span class="ask-btn-sub">Genera un texto para copiar y enviar</span>
+    </span>
+    <span class="ask-btn-arrow">›</span>
+  </button>`;
+  document.getElementById('mode-content').innerHTML = ingHtml + shareBtn;
+  // Pasos con tiempos (en minutos, convertidos a segundos para el timer)
+  const pasosConSegundos = receta.pasos.map(p=>({ t: p.texto, s: (parseInt(p.minutos)||1) * 60 }));
+  document.getElementById('progress-content').innerHTML = `<div class="steps-list">
+    ${pasosConSegundos.map((p,idx)=>{
+      const mm = Math.floor(p.s/60);
+      return `<div class="step-row" id="pr-${idx}">
+        <div class="step-num">${idx+1}</div>
+        <div class="step-body"><div class="step-text">${p.t}</div><div class="step-dur">${mm} min</div></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+  currentPasosOverride = pasosConSegundos.map(p=>({ t: p.t.slice(0,40)+'…', s: p.s }));
+  currentIsMyRecipe = true;
+  resetTimer();
+  document.getElementById('detail-back').onclick = ()=>{
+    const b = document.getElementById('mode-banner');
+    if (b) b.style.display = '';
+    openMyRecipes();
+  };
+  goTo('screen-detail');
 }
 
 function buildShareText(receta){
