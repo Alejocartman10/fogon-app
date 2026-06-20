@@ -295,6 +295,23 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 
 /* ── RECIPE DETAIL ── */
 #screen-detail{padding-bottom:40px}
+
+/* ── TEMPERATURA POR MODO ──
+   La pantalla de detalle cambia sutilmente de temperatura según el modo
+   activo: S.O.S. se calienta (urgencia amable), Laboratorio se enfría
+   (precisión clínica), Copiloto es el punto neutro de referencia. */
+#screen-detail.temp-sos{
+  background:#FDF3E4;
+  --tinta:#2B2014; --card:#FFFAF0; --linea:rgba(58,40,20,0.12); --crema2:#F7E9D2;
+}
+#screen-detail.temp-sos .step-text{font-size:.92em; letter-spacing:.1px}
+#screen-detail.temp-laboratorio{
+  background:#F3F5F6;
+  --tinta:#1E2528; --card:#FFFFFF; --linea:rgba(20,30,35,0.1); --crema2:#E8EDEF;
+}
+#screen-detail.temp-laboratorio .step-text{font-family:'Sora',sans-serif}
+#screen-detail.temp-laboratorio .ing-amount,
+#screen-detail.temp-laboratorio .step-dur{font-family:'JetBrains Mono',monospace}
 .detail-hero{padding:8px 24px 22px;position:relative}
 .mode-banner{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 12px;border-radius:12px;background:var(--accent-dim);border:1px solid var(--accent-line);width:fit-content}
 .mode-banner-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
@@ -2686,6 +2703,11 @@ function applyDetailModeUI(){
   document.getElementById('mode-banner-text').textContent = labels[detailMode];
   document.getElementById('mode-banner-text').style.color = dots[detailMode];
   banner.querySelector('.mode-banner-dot').style.background = dots[detailMode];
+  // Temperatura visual según modo: la pantalla entera se calienta o enfría
+  const screen = document.getElementById('screen-detail');
+  screen.classList.remove('temp-sos', 'temp-laboratorio');
+  if (detailMode === 'sos') screen.classList.add('temp-sos');
+  else if (detailMode === 'laboratorio') screen.classList.add('temp-laboratorio');
 }
 
 function renderModeContent(){
