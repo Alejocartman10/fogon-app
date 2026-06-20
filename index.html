@@ -739,7 +739,12 @@ const PAISES = {
     {id:'amatriciana', emoji:'🍅', nombre:'Amatriciana', desc:'Guanciale y tomate, la prima picante de la carbonara.'},
     {id:'puttanesca', emoji:'🫒', nombre:'Puttanesca', desc:'Aceitunas, alcaparras y anchoas. Lista en el tiempo de la pasta.'},
     {id:'aglio-e-olio', emoji:'🧄', nombre:'Aglio e Olio', desc:'Ajo, aceite y chile. La pasta más simple que existe.'},
-    {id:'pasta-norma', emoji:'🍆', nombre:'Pasta alla Norma', desc:'Berenjena frita y ricotta salata, orgullo de Sicilia.'}
+    {id:'pasta-norma', emoji:'🍆', nombre:'Pasta alla Norma', desc:'Berenjena frita y ricotta salata, orgullo de Sicilia.'},
+    {id:'bolognese', emoji:'🍖', nombre:'Ragú alla Bolognese', desc:'Carne, leche y horas de cocción lenta. El auténtico ragú.'},
+    {id:'marinara', emoji:'🍅', nombre:'Marinara', desc:'La salsa de tomate madre: simple, rápida, base de todas las demás.'},
+    {id:'arrabbiata', emoji:'🌶️', nombre:'Arrabbiata', desc:'Tomate "enojado" — picante, ajo y un toque de profundidad.'},
+    {id:'napoletana', emoji:'🍝', nombre:'Salsa Napoletana', desc:'Tomate cocido a fuego lento con albahaca, la base napolitana clásica.'},
+    {id:'pomodoro', emoji:'🍅', nombre:'Pomodoro Fresco', desc:'Tomate fresco de temporada, cocción corta, sabor limpio y directo.'}
   ]},
   francia:{nombre:'Francia', bandera:'🇫🇷', desc:'La técnica clásica que fundó la cocina moderna.', platos:[
     {id:'ratatouille', emoji:'🍆', nombre:'Ratatouille', desc:'Verduras de temporada, cocción lenta y respetuosa.'},
@@ -1106,6 +1111,137 @@ const RECETAS_PASAPORTE = {
       {t:'Cocina la pasta al dente, escurre reservando agua de cocción.', s:480},
       {t:'Mezcla la pasta con la salsa de tomate y la mitad de la berenjena frita.', s:90},
       {t:'Sirve coronado con el resto de la berenjena, ricotta salata rallada y hojas de albahaca fresca.', s:60}
+    ]
+  },
+
+  'bolognese':{
+    nombre:'Ragú alla Bolognese', pais:'Italia', emoji:'🍖',
+    desc:'Carne, leche, vino y horas de cocción lenta. El auténtico ragú boloñés no es solo "carne con tomate" — es paciencia convertida en sabor.',
+    pills:['3h','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Carne de res molida', c:400, u:'g'},{n:'Panceta o tocineta', c:100, u:'g'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Zanahoria', c:1, u:'unidad'},
+      {n:'Apio', c:1, u:'tallo'},{n:'Tomate triturado', c:400, u:'g'},
+      {n:'Vino tinto', c:120, u:'ml'},{n:'Leche entera', c:150, u:'ml'},
+      {n:'Caldo de res', c:300, u:'ml'},{n:'Tagliatelle', c:320, u:'g'}
+    ],
+    sustituciones:[{falta:'Vino tinto', usa:'Caldo de res adicional, aunque se pierde la profundidad ácida que aporta el vino'},{falta:'Tagliatelle', usa:'Pappardelle o cualquier pasta plana ancha — el ragú no se sirve tradicionalmente con espagueti'}],
+    sosVideo:{emoji:'🍖', tag:'TÉCNICA EN BUCLE', titulo:'Por qué el ragú necesita horas, no minutos'},
+    laboratorio:{
+      notas:'El ragú boloñés es un ejercicio de extracción lenta: el colágeno del tejido conectivo de la carne se hidroliza en gelatina solo con tiempo prolongado a baja temperatura, dando esa textura untuosa característica que ningún ragú rápido puede replicar. La leche, agregada después del vino, neutraliza parte de la acidez del tomate y suaviza el conjunto mediante sus proteínas y grasas, una técnica clásica boloñesa poco conocida fuera de Italia.',
+      tips:['El sofrito base (cebolla, zanahoria, apio finamente picados) se llama "soffritto" y debe cocinarse hasta estar muy blando antes de agregar la carne, nunca crudo','Cocinar con la olla parcialmente tapada y a fuego muy bajo durante mínimo 2-3 horas es lo que transforma una salsa de carne común en un verdadero ragú']
+    },
+    pasos:[
+      {t:'Pica finamente {1|unidad} cebolla, {1|unidad} zanahoria y {1|tallo} de apio. Pica también {100|g} de panceta.', s:300},
+      {t:'Sofríe la panceta a fuego medio hasta que suelte grasa. Agrega el sofrito de verduras y cocina hasta que esté muy blando, unos 10 minutos.', s:600},
+      {t:'Agrega {400|g} de carne molida. Cocina a fuego medio-alto, rompiendo grumos, hasta que dore bien por todos lados.', s:480},
+      {t:'Agrega {120|ml} de vino tinto y deja que se evapore casi por completo, raspando el fondo de la olla.', s:300},
+      {t:'Agrega {150|ml} de leche y deja que reduzca a la mitad — esto suaviza la acidez que vendrá del tomate.', s:300},
+      {t:'Agrega {400|g} de tomate triturado y {300|ml} de caldo de res. Lleva a hervor suave.', s:180},
+      {t:'Baja el fuego al mínimo, tapa parcialmente, y cocina mínimo 2.5 horas, revolviendo de vez en cuando y agregando caldo si se seca demasiado.', s:9000},
+      {t:'Cocina la pasta al dente. Mezcla con el ragú y sirve con parmesano rallado.', s:480}
+    ]
+  },
+
+  'marinara':{
+    nombre:'Marinara', pais:'Italia', emoji:'🍅',
+    desc:'La salsa de tomate madre de la cocina italiana: simple, rápida, sin carne. Base de incontables platos, perfecta por sí sola.',
+    pills:['25 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Tomate triturado', c:800, u:'g'},{n:'Ajo', c:4, u:'diente'},
+      {n:'Aceite de oliva', c:60, u:'ml'},{n:'Orégano seco', c:1, u:'cucharadita'},
+      {n:'Albahaca fresca', c:0, u:'al gusto'},{n:'Sal', c:0, u:'al gusto'},{n:'Espagueti', c:320, u:'g'}
+    ],
+    sustituciones:[{falta:'Tomate triturado', usa:'Tomates enteros de lata, triturados a mano o con tenedor — da más textura'}],
+    sosVideo:{emoji:'🍅', tag:'TÉCNICA EN BUCLE', titulo:'El ajo entero infusiona, no se deshace en la salsa'},
+    laboratorio:{
+      notas:'A diferencia de salsas más elaboradas, la marinara depende de la calidad del tomate, no de técnicas complejas: su tiempo de cocción corto (20-25 minutos) preserva la frescura ácida y dulce natural del tomate sin caramelizar sus azúcares ni desarrollar las notas profundas de una cocción larga. Los dientes de ajo enteros (no picados) infusionan su aceite esencial en el aceite de oliva durante la cocción y se retiran o se dejan enteros, evitando el sabor más intenso y a veces amargo del ajo picado y cocido por mucho tiempo.',
+      tips:['Usar tomates de buena calidad es más determinante en esta receta que en cualquier otra de la lista — con solo 5 ingredientes, no hay forma de disimular un tomate mediocre','Agregar la albahaca al final, fuera del fuego, preserva sus aceites esenciales volátiles que se perderían con cocción prolongada']
+    },
+    pasos:[
+      {t:'Calienta {60|ml} de aceite de oliva a fuego medio. Agrega {4|diente} de ajo enteros, ligeramente machacados pero sin picar.', s:60},
+      {t:'Cocina el ajo hasta que esté dorado y aromático, sin quemar, unos 2 minutos.', s:120},
+      {t:'Agrega {800|g} de tomate triturado y el orégano seco. Sube el fuego a medio y deja hervir suave.', s:60},
+      {t:'Baja el fuego y cocina sin tapar 20 minutos, revolviendo ocasionalmente, hasta que espese ligeramente.', s:1200},
+      {t:'Retira los dientes de ajo si prefieres una salsa más suave, o déjalos para más intensidad. Ajusta sal.', s:60},
+      {t:'Cocina la pasta al dente, escurre y mezcla con la salsa.', s:480},
+      {t:'Sirve con hojas de albahaca fresca añadidas justo al final, fuera del fuego.', s:30}
+    ]
+  },
+
+  'arrabbiata':{
+    nombre:'Arrabbiata', pais:'Italia', emoji:'🌶️',
+    desc:'Tomate "enojado" — el nombre viene del picante del chile. Profundidad y fuego en una salsa que se prepara casi tan rápido como la pasta.',
+    pills:['20 min','3 porciones','Fácil'], porcionesBase:3,
+    ingredientes:[
+      {n:'Tomate triturado', c:500, u:'g'},{n:'Ajo', c:3, u:'diente'},
+      {n:'Chile rojo seco', c:3, u:'unidad'},{n:'Aceite de oliva', c:50, u:'ml'},
+      {n:'Perejil fresco', c:0, u:'al gusto'},{n:'Penne', c:300, u:'g'}
+    ],
+    sustituciones:[{falta:'Chile rojo seco', usa:'Hojuelas de chile (red pepper flakes), ajusta cantidad al gusto de picor'}],
+    sosVideo:{emoji:'🌶️', tag:'TÉCNICA EN BUCLE', titulo:'Liberar el picor del chile sin quemarlo'},
+    laboratorio:{
+      notas:'La capsaicina del chile (responsable del picor) es soluble en grasa, no en agua — por eso se fríe en aceite de oliva al inicio, lo que extrae y distribuye el compuesto picante de forma uniforme por toda la salsa, en vez de quedar concentrado en trozos de chile que pegarían picor desigual en cada bocado.',
+      tips:['Retirar las semillas del chile seco antes de usarlo reduce el picor sin perder el sabor ahumado característico, si prefieres una versión más suave','El penne es la pasta tradicional para arrabbiata porque sus surcos y hueco interior atrapan bien la salsa espesa de tomate']
+    },
+    pasos:[
+      {t:'Pica {3|diente} de ajo finamente. Machaca {3|unidad} de chile seco, con o sin semillas según el picor que busques.', s:120},
+      {t:'Calienta {50|ml} de aceite de oliva a fuego medio. Agrega el ajo y el chile, fríe 30-45 segundos hasta liberar aroma, sin quemar el ajo.', s:45},
+      {t:'Agrega {500|g} de tomate triturado. Sube el fuego a medio-alto y deja hervir.', s:60},
+      {t:'Baja el fuego y cocina 12-15 minutos sin tapar, hasta que la salsa espese y concentre sabor.', s:840},
+      {t:'Cocina la pasta al dente, escurre reservando un poco de agua de cocción.', s:480},
+      {t:'Mezcla la pasta con la salsa, agregando agua de cocción si necesita aflojar. Sirve con perejil fresco picado.', s:60}
+    ]
+  },
+
+  'napoletana':{
+    nombre:'Salsa Napoletana', pais:'Italia', emoji:'🍝',
+    desc:'Tomate cocido a fuego lento con albahaca y aceite de oliva. La base clásica napolitana, más profunda que la marinara pero igual de honesta.',
+    pills:['45 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Tomate triturado', c:800, u:'g'},{n:'Cebolla', c:1, u:'unidad'},
+      {n:'Ajo', c:2, u:'diente'},{n:'Aceite de oliva extra virgen', c:70, u:'ml'},
+      {n:'Albahaca fresca', c:0, u:'al gusto'},{n:'Azúcar', c:1, u:'cucharadita'},{n:'Espagueti', c:320, u:'g'}
+    ],
+    sustituciones:[{falta:'Azúcar', usa:'Se puede omitir si tus tomates ya son dulces, solo se usa para equilibrar acidez si es necesario'}],
+    sosVideo:{emoji:'🍝', tag:'TÉCNICA EN BUCLE', titulo:'La cocción lenta que concentra el dulzor del tomate'},
+    laboratorio:{
+      notas:'A diferencia de la marinara (cocción corta) o la arrabbiata (fuego directo), la napoletana se cocina a fuego muy bajo durante 35-40 minutos, permitiendo que el agua del tomate se evapore gradualmente mientras sus azúcares naturales se concentran sin caramelizar de forma agresiva. La cebolla finamente picada y cocida hasta casi disolverse aporta dulzor de fondo que distingue esta salsa de versiones más rápidas y ácidas.',
+      tips:['Una pizca de azúcar ayuda solo si el tomate usado es muy ácido — con tomates de buena calidad y maduros no debería ser necesaria','Pasar la salsa terminada por un colador o licuarla brevemente da una textura más uniforme, tradicional en muchas casas napolitanas']
+    },
+    pasos:[
+      {t:'Pica muy finamente {1|unidad} cebolla y {2|diente} de ajo.', s:180},
+      {t:'Calienta {70|ml} de aceite de oliva a fuego bajo. Sofríe la cebolla hasta que esté muy blanda y casi transparente, sin dorar, unos 10 minutos.', s:600},
+      {t:'Agrega el ajo y cocina 1 minuto más, sin dorar.', s:60},
+      {t:'Agrega {800|g} de tomate triturado y la cucharadita de azúcar si decides usarla.', s:60},
+      {t:'Baja el fuego al mínimo y cocina sin tapar 35-40 minutos, revolviendo cada tanto, hasta que reduzca y espese notablemente.', s:2200},
+      {t:'Agrega hojas de albahaca fresca los últimos 5 minutos de cocción.', s:300},
+      {t:'Cocina la pasta al dente, escurre y mezcla con la salsa. Sirve con más albahaca fresca encima.', s:480}
+    ]
+  },
+
+  'pomodoro':{
+    nombre:'Pomodoro Fresco', pais:'Italia', emoji:'🍅',
+    desc:'Tomate fresco de temporada, cocción corta, sabor limpio y directo. La salsa que solo funciona cuando el tomate es realmente bueno.',
+    pills:['20 min','3 porciones','Fácil'], porcionesBase:3,
+    ingredientes:[
+      {n:'Tomates frescos maduros', c:600, u:'g'},{n:'Ajo', c:2, u:'diente'},
+      {n:'Aceite de oliva extra virgen', c:60, u:'ml'},{n:'Albahaca fresca', c:0, u:'al gusto'},
+      {n:'Sal', c:0, u:'al gusto'},{n:'Espagueti', c:300, u:'g'}
+    ],
+    sustituciones:[{falta:'Tomates frescos maduros', usa:'Tomate triturado de lata de buena calidad, aunque se pierde la frescura característica de esta receta'}],
+    sosVideo:{emoji:'🍅', tag:'TÉCNICA EN BUCLE', titulo:'Pelar el tomate con agua hirviendo, sin cuchillo'},
+    laboratorio:{
+      notas:'El escaldado (sumergir el tomate en agua hirviendo 30-60 segundos y luego en agua helada) separa la piel de la pulpa por choque térmico, sin necesidad de pelarlo con cuchillo y sin perder pulpa en el proceso. La cocción corta de esta salsa (apenas 10-12 minutos) es intencional: busca preservar la frescura del tomate de temporada, a diferencia de salsas de cocción larga que priorizan concentración sobre frescura.',
+      tips:['Retirar las semillas del tomate antes de cocinar reduce el exceso de líquido acuoso y da una salsa con cuerpo, no aguada','Esta receta depende enteramente de la calidad del tomate — fuera de temporada, es mejor optar por la marinara o la napoletana con tomate de lata']
+    },
+    pasos:[
+      {t:'Marca una cruz en la base de cada tomate. Sumérgelos en agua hirviendo 45 segundos, luego en agua helada.', s:75},
+      {t:'Pela los tomates (la piel se desprende fácilmente) y retira las semillas. Pica la pulpa en trozos.', s:300},
+      {t:'Pica {2|diente} de ajo finamente. Calienta {60|ml} de aceite de oliva a fuego medio y sofríe el ajo 30 segundos sin dorar.', s:30},
+      {t:'Agrega el tomate fresco picado. Cocina a fuego medio 10-12 minutos hasta que se ablande y suelte sus jugos, sin deshacerse del todo.', s:660},
+      {t:'Ajusta sal. Agrega hojas de albahaca fresca rotas con la mano al final.', s:60},
+      {t:'Cocina la pasta al dente, escurre y mezcla con la salsa fresca. Sirve de inmediato.', s:480}
     ]
   },
 
