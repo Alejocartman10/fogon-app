@@ -1150,7 +1150,7 @@ const RECETAS = {
 const CONTINENTES = {
   europa:{nombre:'Europa', emoji:'🏰', paises:['espana','italia','francia','grecia']},
   asia:{nombre:'Asia', emoji:'🏯', paises:['japon','tailandia','india']},
-  americas:{nombre:'Américas', emoji:'🌎', paises:['mexico','peru','colombia']},
+  americas:{nombre:'Américas', emoji:'🌎', paises:['mexico','peru','colombia','usa','argentina']},
   africa:{nombre:'África', emoji:'🐪', paises:['marruecos']}
 };
 
@@ -1230,6 +1230,20 @@ const PAISES = {
     {id:'bandeja-paisa', emoji:'🍖', nombre:'Bandeja Paisa', desc:'El plato más completo del país, cada componente cocido por separado.'},
     {id:'ajiaco', emoji:'🍲', nombre:'Ajiaco Santafereño', desc:'Tres papas distintas y guascas — el caldo que define a Bogotá.'},
     {id:'arepas-huevo', emoji:'🫓', nombre:'Arepa de Huevo', desc:'Doble fritura: la arepa primero, el huevo dentro después.'}
+  ]},
+  usa:{nombre:'Estados Unidos', bandera:'🇺🇸', desc:'Fuego directo, queso fundido y comida callejera con identidad propia.', platos:[
+    {id:'hamburguesa-clasica', emoji:'🍔', nombre:'Hamburguesa Clásica', desc:'El sellado correcto, no el smash a medias, define la jugosidad.'},
+    {id:'bbq-ribs', emoji:'🍖', nombre:'BBQ Ribs', desc:'Low and slow: horas de humo bajo, no fuego alto con prisa.'},
+    {id:'mac-and-cheese', emoji:'🧀', nombre:'Mac and Cheese', desc:'La salsa de queso que no se separa ni se vuelve granulosa.'},
+    {id:'hot-dog-chicago', emoji:'🌭', nombre:'Hot Dog Chicago Style', desc:'Sin ketchup, nunca — los toppings van en un orden muy específico.'},
+    {id:'buffalo-wings', emoji:'🍗', nombre:'Buffalo Wings', desc:'Doble fritura y una salsa que se adhiere sin escurrir.'}
+  ]},
+  argentina:{nombre:'Argentina', bandera:'🇦🇷', desc:'Fuego, carne y paciencia — la parrilla como ritual, no como técnica rápida.', platos:[
+    {id:'asado-argentino', emoji:'🥩', nombre:'Asado Argentino', desc:'El fuego se prepara antes que la carne — brasa, no llama.'},
+    {id:'empanadas-criollas', emoji:'🥟', nombre:'Empanadas Criollas', desc:'El repulgue que sella sin que se escape el jugo del relleno.'},
+    {id:'milanesa-napolitana', emoji:'🍖', nombre:'Milanesa a la Napolitana', desc:'Empanizado frito, luego horneado con queso y jamón encima.'},
+    {id:'choripan', emoji:'🌭', nombre:'Choripán', desc:'Chorizo a la parrilla partido en mariposa, comida callejera de cancha.'},
+    {id:'provoleta', emoji:'🧀', nombre:'Provoleta', desc:'Queso provolone a la parrilla, directo del fuego al pan.'}
   ]},
   marruecos:{nombre:'Marruecos', bandera:'🇲🇦', desc:'Cocción lenta bajo cono de barro, especias profundas.', platos:[
     {id:'tagine-cordero', emoji:'🍖', nombre:'Tagine de Cordero', desc:'Cocción lentísima en barro, ciruelas y especias dulces.'},
@@ -2769,6 +2783,251 @@ const RECETAS_PASAPORTE = {
       {t:'Agrega lentejas, garbanzos remojados (si usas secos) y caldo de pollo o vegetal. Hierve a fuego medio.', s:2400},
       {t:'Cocina hasta que las legumbres estén completamente blandas, removiendo de vez en cuando, alrededor de 40 minutos.', s:2400},
       {t:'Agrega cilantro y perejil picados al final. Ajusta sal y un toque de limón antes de servir.', s:120}
+    ]
+  },
+
+  // ESTADOS UNIDOS
+  'hamburguesa-clasica':{
+    nombre:'Hamburguesa Clásica', pais:'Estados Unidos', emoji:'🍔',
+    desc:'El sellado correcto en sartén o plancha caliente, no un asado lento, define una hamburguesa jugosa de verdad.',
+    pills:['20 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Carne molida (80/20)', c:600, u:'g'},{n:'Pan para hamburguesa', c:4, u:'unidad'},
+      {n:'Queso cheddar', c:4, u:'rebanada'},{n:'Cebolla', c:0.5, u:'unidad'},
+      {n:'Lechuga', c:4, u:'hoja'},{n:'Tomate', c:1, u:'unidad'},
+      {n:'Mantequilla', c:20, u:'g'},{n:'Sal y pimienta', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Carne 80/20', usa:'Carne molida con al menos 15% de grasa — menos grasa da una hamburguesa seca y dura'}],
+    sosVideo:{emoji:'🍔', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se presiona la carne solo una vez, al principio'},
+    laboratorio:{
+      notas:'El método "smash" funciona por contacto máximo: presionar la carne contra una superficie muy caliente maximiza la reacción de Maillard en toda la superficie de contacto, creando una corteza dorada y crujiente. Presionar repetidamente después de ese sellado inicial exprime los jugos internos y reseca la carne — la presión debe ser una sola vez, al colocar la carne, no durante toda la cocción.',
+      tips:['La proporción de grasa (80% carne magra, 20% grasa) es la que da jugosidad real — menos grasa nunca compensa con más tiempo de cocción','Tostar el pan en la misma sartén con mantequilla, no en tostadora, le da una base con sabor que sostiene mejor los jugos de la carne']
+    },
+    pasos:[
+      {t:'Forma las hamburguesas con la carne molida, sin compactar de más. Sazona generosamente con sal y pimienta justo antes de cocinar, no antes.', s:300},
+      {t:'Calienta una sartén o plancha a fuego alto hasta que esté muy caliente, casi humeante.', s:120},
+      {t:'Coloca la carne y presiona firmemente una sola vez con una espátula para maximizar el contacto. No vuelvas a presionar después.', s:30},
+      {t:'Cocina 2-3 minutos sin mover hasta que se forme una corteza dorada profunda. Voltea.', s:180},
+      {t:'Agrega el queso encima inmediatamente después de voltear para que se funda con el calor residual. Cocina 2 minutos más.', s:120},
+      {t:'Tuesta el pan en la misma sartén con un poco de mantequilla. Monta con lechuga, tomate, cebolla y la hamburguesa con queso.', s:180}
+    ]
+  },
+  'bbq-ribs':{
+    nombre:'BBQ Ribs', pais:'Estados Unidos', emoji:'🍖',
+    desc:'Low and slow: horas de calor bajo y humo, no fuego alto con prisa. La paciencia es la técnica entera del BBQ americano.',
+    pills:['4-5 horas','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Costillas de cerdo (rack)', c:1.5, u:'kg'},{n:'Pimentón ahumado', c:2, u:'cucharada'},
+      {n:'Azúcar morena', c:3, u:'cucharada'},{n:'Sal', c:1, u:'cucharada'},
+      {n:'Ajo en polvo', c:1, u:'cucharadita'},{n:'Salsa BBQ', c:200, u:'ml'}
+    ],
+    sustituciones:[{falta:'Ahumador', usa:'Horno convencional a temperatura muy baja (120°C) con una bandeja de agua dentro, aunque se pierde el sabor a humo real'}],
+    sosVideo:{emoji:'🍖', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se retira la membrana antes de cocinar'},
+    laboratorio:{
+      notas:'La cocción "low and slow" (110-120°C durante varias horas) hidroliza el colágeno del tejido conectivo en gelatina sin que las proteínas musculares se contraigan tanto como lo harían a alta temperatura, dando una carne que se separa del hueso sin necesidad de cuchillo. La membrana plateada en la cara interna de las costillas es impermeable a los condimentos y al humo, por eso se retira siempre antes de sazonar.',
+      tips:['El "rub" seco (mezcla de especias) debe aplicarse con varias horas de anticipación, idealmente la noche anterior, para que penetre más allá de la superficie','La salsa BBQ se aplica solo en los últimos 20-30 minutos de cocción — aplicada antes, sus azúcares se queman con el calor prolongado']
+    },
+    pasos:[
+      {t:'Retira la membrana plateada de la cara interna de las costillas, ayudándote con un cuchillo y un paño para sujetarla.', s:300},
+      {t:'Mezcla pimentón, azúcar morena, sal y ajo en polvo. Frota generosamente por toda la superficie de las costillas. Refrigera mínimo 2 horas, idealmente toda la noche.', s:7200},
+      {t:'Precalienta el horno o ahumador a 120°C. Coloca las costillas con una bandeja de agua debajo para mantener humedad.', s:300},
+      {t:'Cocina 3.5-4 horas a temperatura baja y constante, sin abrir el horno innecesariamente.', s:13500},
+      {t:'En los últimos 20 minutos, pincela generosamente con salsa BBQ y sube un poco la temperatura para caramelizar.', s:1200},
+      {t:'Deja reposar 10 minutos antes de cortar entre los huesos.', s:600}
+    ]
+  },
+  'mac-and-cheese':{
+    nombre:'Mac and Cheese', pais:'Estados Unidos', emoji:'🧀',
+    desc:'La salsa de queso que no se separa ni se vuelve granulosa. El secreto está en la base de roux, no en derretir queso directo.',
+    pills:['30 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Pasta corta (macarrones)', c:350, u:'g'},{n:'Queso cheddar', c:250, u:'g'},
+      {n:'Leche', c:500, u:'ml'},{n:'Mantequilla', c:40, u:'g'},
+      {n:'Harina', c:40, u:'g'},{n:'Mostaza en polvo', c:1, u:'cucharadita'},{n:'Pan molido', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Queso cheddar', usa:'Mezcla de cheddar con un queso que funda bien como Gruyère o Monterey Jack, para mejor textura'}],
+    sosVideo:{emoji:'🧀', tag:'TÉCNICA EN BUCLE', titulo:'Por qué el queso se agrega fuera del fuego, no hirviendo'},
+    laboratorio:{
+      notas:'Derretir queso directo en leche caliente sin una base de roux (mantequilla y harina cocidas juntas) frecuentemente separa la grasa de las proteínas del queso, dando una salsa grasosa y granulosa. El roux actúa como emulsionante: el almidón gelatinizado mantiene la grasa del queso dispersa de forma estable incluso después de enfriarse parcialmente.',
+      tips:['Rallar el queso en vez de usarlo en bloque o rebanadas acelera su fusión uniforme y reduce el riesgo de que se sobrecaliente y se separe','Agregar el queso fuera del fuego, en tandas pequeñas mientras se mezcla, evita el calor excesivo que rompe la emulsión']
+    },
+    pasos:[
+      {t:'Cocina la pasta en agua con sal hasta que esté al dente. Escurre.', s:600},
+      {t:'En una olla, derrite la mantequilla a fuego medio. Agrega la harina y cocina 2 minutos revolviendo, sin dejar dorar mucho.', s:120},
+      {t:'Agrega la leche poco a poco, batiendo constante para evitar grumos, hasta lograr una salsa espesa y lisa.', s:300},
+      {t:'Retira del fuego. Agrega el queso rallado en tandas pequeñas, mezclando hasta que se funda por completo entre cada tanda.', s:180},
+      {t:'Agrega la mostaza en polvo y ajusta sal. Mezcla con la pasta escurrida.', s:60},
+      {t:'Opcional: vierte en un molde, cubre con pan molido y gratina en horno a 200°C hasta dorar, 10 minutos.', s:600}
+    ]
+  },
+  'hot-dog-chicago':{
+    nombre:'Hot Dog Chicago Style', pais:'Estados Unidos', emoji:'🌭',
+    desc:'Sin ketchup, nunca — regla no escrita pero sagrada. Los toppings van en un orden muy específico, no al azar.',
+    pills:['15 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Salchichas tipo Vienna', c:4, u:'unidad'},{n:'Pan para hot dog (con semillas de amapola)', c:4, u:'unidad'},
+      {n:'Mostaza amarilla', c:0, u:'al gusto'},{n:'Cebolla blanca picada', c:1, u:'unidad'},
+      {n:'Relish verde', c:60, u:'g'},{n:'Tomate', c:1, u:'unidad'},
+      {n:'Pepinillo en rodajas', c:4, u:'unidad'},{n:'Chiles picantes (sport peppers)', c:4, u:'unidad'},{n:'Sal de apio', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Sport peppers', usa:'Chiles jalapeños en rodajas o cualquier chile encurtido pequeño'},{falta:'Sal de apio', usa:'Sal normal con una pizca de semillas de apio molidas'}],
+    sosVideo:{emoji:'🌭', tag:'TÉCNICA EN BUCLE', titulo:'El orden de los toppings, de fondo a superficie'},
+    laboratorio:{
+      notas:'El hot dog estilo Chicago es tanto una receta como una convención cultural estricta: el orden de los toppings (mostaza, cebolla, relish, tomate, pepinillo, chiles, sal de apio) no es arbitrario — busca que cada sabor se perciba en capas sucesivas al morder, en vez de mezclarse todo de una vez. El ketchup se considera una falta grave porque su dulzor compite con el balance ácido-salado cuidadosamente equilibrado de los demás ingredientes.',
+      tips:['Cocinar la salchicha al vapor o hervida (no a la parrilla) es la versión clásica de Chicago, a diferencia de otros estilos americanos','El pan con semillas de amapola es específico de esta versión — sin él, técnicamente no es un "Chicago style" auténtico']
+    },
+    pasos:[
+      {t:'Cocina las salchichas al vapor o en agua caliente (sin hervir fuerte) durante 5 minutos hasta que estén calientes.', s:300},
+      {t:'Calienta los panes al vapor o ligeramente tostados, sin dorar demasiado.', s:120},
+      {t:'Coloca la salchicha en el pan. Agrega mostaza en línea sobre la salchicha.', s:60},
+      {t:'Agrega cebolla picada, luego relish verde, en ese orden.', s:60},
+      {t:'Agrega rodajas de tomate a un lado, pepinillo al otro, y los chiles picantes encima.', s:60},
+      {t:'Termina con una pizca de sal de apio. Nunca agregues ketchup.', s:30}
+    ]
+  },
+  'buffalo-wings':{
+    nombre:'Buffalo Wings', pais:'Estados Unidos', emoji:'🍗',
+    desc:'Doble fritura para la corteza correcta, y una salsa emulsionada que se adhiere sin escurrir todo al plato.',
+    pills:['40 min','4 porciones','Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Alitas de pollo', c:1, u:'kg'},{n:'Harina', c:100, u:'g'},
+      {n:'Salsa picante (tipo Frank\'s)', c:150, u:'ml'},{n:'Mantequilla', c:80, u:'g'},
+      {n:'Vinagre blanco', c:1, u:'cucharadita'},{n:'Aceite para freír', c:1, u:'litro'},{n:'Sal y pimienta', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Salsa Frank\'s', usa:'Cualquier salsa picante a base de chile cayena funciona, ajusta la cantidad de mantequilla según la acidez'}],
+    sosVideo:{emoji:'🍗', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se fríen dos veces, no una'},
+    laboratorio:{
+      notas:'La doble fritura (una a temperatura media para cocinar por dentro, otra a temperatura alta para la corteza final) elimina más humedad superficial en la primera pasada, permitiendo que la segunda fritura cree una corteza más crujiente y duradera que resista la humedad de la salsa sin reblandecerse de inmediato. La salsa buffalo es una emulsión de grasa (mantequilla) y agua (salsa picante) — sin agitar bien, se separa y la salsa se ve aceitosa en vez de cremosa.',
+      tips:['Secar muy bien las alitas con papel absorbente antes de la primera fritura reduce salpicaduras y mejora el dorado','Batir la mantequilla derretida con la salsa picante fuera del fuego, en lugar de hervir juntas, mantiene la emulsión estable más tiempo']
+    },
+    pasos:[
+      {t:'Seca bien las alitas con papel absorbente. Sazona con sal y pimienta, luego pasa por harina sacudiendo el exceso.', s:300},
+      {t:'Fríe las alitas en aceite a 160°C durante 8 minutos. Retira y deja reposar sobre papel absorbente 5 minutos.', s:780},
+      {t:'Sube la temperatura del aceite a 190°C. Fríe las alitas de nuevo 4-5 minutos hasta dorar intensamente y quedar muy crujientes.', s:300},
+      {t:'Mientras fríen, derrite la mantequilla y bate fuera del fuego con la salsa picante y el vinagre hasta emulsionar.', s:120},
+      {t:'Escurre las alitas y mézclalas con la salsa en un bowl grande, moviendo bien para cubrir parejo.', s:90},
+      {t:'Sirve de inmediato con apio, zanahoria y aderezo ranch o blue cheese.', s:60}
+    ]
+  },
+
+  // ARGENTINA
+  'asado-argentino':{
+    nombre:'Asado Argentino', pais:'Argentina', emoji:'🥩',
+    desc:'El fuego se prepara antes que la carne — brasa pareja, no llama directa. El asado es ritual y paciencia, no una parrillada rápida.',
+    pills:['2-3 horas','6 porciones','Intermedio'], porcionesBase:6,
+    ingredientes:[
+      {n:'Asado de tira o vacío', c:1.5, u:'kg'},{n:'Chorizo criollo', c:4, u:'unidad'},
+      {n:'Morcilla', c:4, u:'unidad'},{n:'Sal gruesa (parrillera)', c:0, u:'al gusto'},{n:'Carbón o leña', c:3, u:'kg'}
+    ],
+    sustituciones:[{falta:'Carbón o leña', usa:'Parrilla a gas funciona, aunque el sabor ahumado característico se pierde'}],
+    sosVideo:{emoji:'🥩', tag:'TÉCNICA EN BUCLE', titulo:'Brasa pareja, nunca llama directa sobre la carne'},
+    laboratorio:{
+      notas:'El asado argentino se cocina sobre brasa (carbón ya sin llama, con calor radiante uniforme), nunca sobre llama directa, que quemaría la superficie antes de cocinar el interior de forma pareja. El tiempo prolongado a temperatura moderada permite que el colágeno del tejido conectivo se hidrolice gradualmente, dando ternura sin necesidad de cortes finos ni marinados — la sal gruesa aplicada justo antes de cocinar extrae humedad superficial que ayuda a formar la costra característica.',
+      tips:['Encender el fuego al menos 45 minutos antes de empezar a cocinar es esencial — el carbón necesita tiempo para formar brasa uniforme sin llama','Voltear la carne pocas veces (no constantemente) permite que cada lado desarrolle una costra completa antes de exponerse al calor del otro lado']
+    },
+    pasos:[
+      {t:'Enciende el carbón o leña con al menos 45 minutos de anticipación, hasta que se forme brasa pareja sin llama visible.', s:2700},
+      {t:'Distribuye la brasa de forma uniforme bajo la parrilla. Ajusta la altura de la parrilla según la intensidad del calor.', s:300},
+      {t:'Sala la carne generosamente con sal gruesa justo antes de colocarla en la parrilla.', s:120},
+      {t:'Coloca primero los cortes que requieren más tiempo (asado de tira, vacío). Cocina sin voltear constantemente, dejando que cada lado forme costra.', s:5400},
+      {t:'Agrega el chorizo y la morcilla cuando la carne esté a la mitad de cocción — necesitan menos tiempo.', s:1200},
+      {t:'Verifica el punto de la carne cortando un poco en la parte más gruesa. Retira y deja reposar 5 minutos antes de cortar y servir.', s:300}
+    ]
+  },
+  'empanadas-criollas':{
+    nombre:'Empanadas Criollas', pais:'Argentina', emoji:'🥟',
+    desc:'El repulgue que sella sin que se escape el jugo del relleno. Cada región argentina tiene su variante, pero la técnica de cierre es universal.',
+    pills:['1h','12 piezas','Intermedio'], porcionesBase:12,
+    ingredientes:[
+      {n:'Tapas para empanadas', c:12, u:'unidad'},{n:'Carne molida', c:400, u:'g'},
+      {n:'Cebolla', c:2, u:'unidad'},{n:'Huevo duro', c:2, u:'unidad'},
+      {n:'Aceitunas verdes', c:60, u:'g'},{n:'Pimentón dulce', c:1, u:'cucharadita'},
+      {n:'Comino', c:1, u:'cucharadita'},{n:'Huevo batido (para sellar)', c:1, u:'unidad'}
+    ],
+    sustituciones:[{falta:'Tapas para empanadas', usa:'Masa casera de harina, agua, sal y grasa, aunque las tapas comerciales son más prácticas para empezar'}],
+    sosVideo:{emoji:'🥟', tag:'TÉCNICA EN BUCLE', titulo:'El repulgue: el trenzado que sella sin escapar jugo'},
+    laboratorio:{
+      notas:'El repulgue (el doblado trenzado del borde) no es solo decorativo: crea múltiples capas de masa superpuestas que actúan como sello mecánico resistente a la presión del relleno jugoso durante el horneado o fritura. Un simple doblez sin repulgue es más propenso a abrirse por los puntos débiles de unión simple. Enfriar el relleno antes de rellenar evita que la grasa derretida humedezca la masa antes de cocinar.',
+      tips:['Dejar enfriar completamente el relleno de carne antes de armar las empanadas evita que la masa se ablande y se rompa al manipularla','Pincelar con huevo batido antes de hornear (no antes de freír) da el brillo dorado característico de las empanadas al horno']
+    },
+    pasos:[
+      {t:'Sofríe la cebolla picada en aceite hasta transparentar. Agrega la carne molida y cocina hasta dorar.', s:600},
+      {t:'Agrega pimentón y comino. Cocina 2 minutos más. Retira del fuego y deja enfriar por completo.', s:1800},
+      {t:'Mezcla la carne fría con huevo duro picado y aceitunas en rodajas.', s:180},
+      {t:'Coloca una cucharada de relleno en el centro de cada tapa. Humedece el borde con agua.', s:600},
+      {t:'Dobla por la mitad y sella presionando. Forma el repulgue doblando pequeños triángulos del borde hacia adentro, uno sobre otro, en forma de trenza.', s:1200},
+      {t:'Pincela con huevo batido y hornea a 200°C durante 20-25 minutos hasta dorar. (O fríe en aceite caliente si prefieres la versión frita.)', s:1500}
+    ]
+  },
+  'milanesa-napolitana':{
+    nombre:'Milanesa a la Napolitana', pais:'Argentina', emoji:'🍖',
+    desc:'Milanesa empanizada frita, luego horneada con salsa de tomate, jamón y queso encima. A pesar del nombre, es una invención porteña, no italiana.',
+    pills:['40 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Bifes de carne (nalga o paleta)', c:4, u:'unidad'},{n:'Pan molido', c:150, u:'g'},
+      {n:'Huevo', c:2, u:'unidad'},{n:'Salsa de tomate', c:200, u:'g'},
+      {n:'Jamón', c:4, u:'rebanada'},{n:'Queso muzzarella', c:150, u:'g'},{n:'Aceite para freír', c:200, u:'ml'}
+    ],
+    sustituciones:[{falta:'Muzzarella', usa:'Mozzarella común o cualquier queso que funda bien'}],
+    sosVideo:{emoji:'🍖', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se gratina después de freír, no junto'},
+    laboratorio:{
+      notas:'Freír la milanesa primero crea la corteza crujiente característica del empanizado; gratinarla después con salsa, jamón y queso en el horno funde el queso sin reblandecer toda la corteza, ya que el contacto directo es solo por arriba, no sumergido en líquido. Hacerlo en un solo paso (hornear todo crudo) nunca lograría la misma corteza dorada y crujiente de la fritura.',
+      tips:['Golpear ligeramente la carne antes de empanizar la afina y ablanda, ayudando a una cocción más uniforme y rápida','Gratinar solo el tiempo necesario para fundir el queso (no más) evita que la milanesa se reseque por exceso de calor del horno']
+    },
+    pasos:[
+      {t:'Golpea ligeramente los bifes de carne para afinarlos un poco. Sazona con sal y pimienta.', s:300},
+      {t:'Pasa cada bife por huevo batido, luego por pan molido, presionando para que se adhiera bien.', s:300},
+      {t:'Fríe en aceite caliente 3-4 minutos por lado hasta dorar y quedar crujiente. Escurre sobre papel absorbente.', s:480},
+      {t:'Coloca las milanesas fritas en una bandeja para horno. Cubre cada una con salsa de tomate, una rebanada de jamón y queso muzzarella.', s:300},
+      {t:'Gratina en horno a 200°C, o con el grill del horno, hasta que el queso se funda y dore ligeramente, unos 8-10 minutos.', s:600},
+      {t:'Sirve caliente, tradicionalmente con puré de papa o papas fritas.', s:60}
+    ]
+  },
+  'choripan':{
+    nombre:'Choripán', pais:'Argentina', emoji:'🌭',
+    desc:'Chorizo a la parrilla partido en mariposa, servido en pan con chimichurri. La comida callejera y de cancha por excelencia en Argentina.',
+    pills:['20 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Chorizo criollo', c:4, u:'unidad'},{n:'Pan de chacra o baguette', c:4, u:'unidad'},
+      {n:'Perejil fresco', c:1, u:'manojo'},{n:'Ajo', c:3, u:'diente'},
+      {n:'Vinagre', c:60, u:'ml'},{n:'Aceite de oliva', c:100, u:'ml'},{n:'Orégano', c:1, u:'cucharadita'}
+    ],
+    sustituciones:[{falta:'Chorizo criollo argentino', usa:'Chorizo fresco para parrilla de cualquier tipo, evita los muy curados o secos'}],
+    sosVideo:{emoji:'🌭', tag:'TÉCNICA EN BUCLE', titulo:'Partir el chorizo en mariposa antes de la parrilla'},
+    laboratorio:{
+      notas:'Partir el chorizo en mariposa (corte longitudinal sin separar del todo) aumenta la superficie de contacto con la parrilla, logrando un dorado más rápido y uniforme que cocinarlo entero, donde el centro tardaría mucho más en cocinarse que el exterior. El chimichurri es una emulsión simple de aceite, vinagre y hierbas que se prepara con anticipación para que los sabores se integren — nunca se cocina, se usa siempre crudo como condimento final.',
+      tips:['Dejar reposar el chimichurri al menos 30 minutos antes de usarlo permite que el ajo y las hierbas suelten sus aceites en la mezcla de aceite y vinagre','Tostar el pan ligeramente en la parrilla, con el calor y grasa residual del chorizo, le da más sabor que un pan simplemente fresco']
+    },
+    pasos:[
+      {t:'Prepara el chimichurri: pica finamente perejil y ajo, mezcla con vinagre, aceite de oliva y orégano. Deja reposar mínimo 30 minutos.', s:1800},
+      {t:'Parte cada chorizo en mariposa, cortando longitudinalmente sin separar las dos mitades por completo.', s:300},
+      {t:'Cocina los chorizos en la parrilla a fuego medio, con el lado cortado hacia abajo primero, hasta dorar.', s:480},
+      {t:'Voltea y termina de cocinar por el otro lado hasta que estén bien cocidos por dentro, unos 4-5 minutos más.', s:300},
+      {t:'Tuesta el pan ligeramente en la parrilla, aprovechando el calor residual.', s:120},
+      {t:'Coloca el chorizo en el pan y baña generosamente con chimichurri.', s:60}
+    ]
+  },
+  'provoleta':{
+    nombre:'Provoleta', pais:'Argentina', emoji:'🧀',
+    desc:'Queso provolone grueso a la parrilla, directo del fuego al pan. Simple, contundente, y el aperitivo obligado de cualquier asado.',
+    pills:['15 min','2 porciones','Fácil'], porcionesBase:2,
+    ingredientes:[
+      {n:'Queso provolone (en rodaja gruesa)', c:300, u:'g'},{n:'Orégano', c:1, u:'cucharadita'},
+      {n:'Aceite de oliva', c:1, u:'cucharada'},{n:'Pimienta', c:0, u:'al gusto'},{n:'Pan', c:4, u:'rebanada'}
+    ],
+    sustituciones:[{falta:'Provolone', usa:'Cualquier queso semiduro que no se derrita por completo, como un queso de cabra firme o un queso fresco curado'}],
+    sosVideo:{emoji:'🧀', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se usa una rodaja gruesa, no fina'},
+    laboratorio:{
+      notas:'El provolone tiene una estructura proteica que, al calentarse, funde por dentro pero mantiene cierta firmeza superficial si el corte es grueso (mínimo 2cm) — un corte fino se derretiría por completo y se escurriría entre la parrilla antes de dorar. Usar una sartén de hierro o plancha pequeña directamente sobre el fuego controla mejor el derretimiento que la parrilla abierta, donde el queso líquido se perdería entre las rejillas.',
+      tips:['Cocinar en una sartén de hierro pequeña (o directamente sobre papel aluminio doblado) evita que el queso fundido se escurra y se pierda en la parrilla','El orégano y la pimienta se agregan después de cocinar, no antes — el calor directo quemaría las hierbas secas y les daría sabor amargo']
+    },
+    pasos:[
+      {t:'Corta el provolone en una rodaja gruesa, de al menos 2 centímetros de espesor.', s:120},
+      {t:'Calienta una sartén pequeña de hierro (o papel aluminio doblado en forma de plato) directo sobre el fuego de la parrilla.', s:180},
+      {t:'Coloca la rodaja de queso en la sartén caliente. Cocina 3-4 minutos hasta que la base esté dorada y derretida por dentro.', s:240},
+      {t:'Con cuidado, voltea con una espátula y cocina el otro lado 2-3 minutos más.', s:180},
+      {t:'Retira del fuego, rocía con aceite de oliva y espolvorea orégano y pimienta por encima.', s:60},
+      {t:'Sirve de inmediato, muy caliente, acompañado de pan para untar.', s:60}
     ]
   }
 };
