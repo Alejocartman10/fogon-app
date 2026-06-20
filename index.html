@@ -1199,7 +1199,12 @@ const PAISES = {
   japon:{nombre:'Japón', bandera:'🇯🇵', desc:'Precisión, respeto al ingrediente, mínima intervención.', platos:[
     {id:'onigiri', emoji:'🍙', nombre:'Onigiri', desc:'Bolas de arroz, la técnica de moldeado con las manos.'},
     {id:'ramen-casero', emoji:'🍜', nombre:'Ramen Casero', desc:'Caldo profundo construido en capas durante horas.'},
-    {id:'tempura', emoji:'🍤', nombre:'Tempura', desc:'La fritura ligera depende del agua helada y la mezcla mínima.'}
+    {id:'tempura', emoji:'🍤', nombre:'Tempura', desc:'La fritura ligera depende del agua helada y la mezcla mínima.'},
+    {id:'katsu-curry', emoji:'🍛', nombre:'Katsu Curry', desc:'Cerdo empanizado crujiente bañado en curry japonés suave y espeso.'},
+    {id:'okonomiyaki', emoji:'🥞', nombre:'Okonomiyaki', desc:'El panqueque salado de col y salsa, "como tú quieras" en japonés.'},
+    {id:'gyoza', emoji:'🥟', nombre:'Gyoza', desc:'Dumplings que se cocinan dos veces: vapor por dentro, crujiente por fuera.'},
+    {id:'miso-shiru', emoji:'🍲', nombre:'Miso Shiru', desc:'Sopa de miso real: el dashi y la temperatura lo son todo.'},
+    {id:'yakitori', emoji:'🍢', nombre:'Yakitori', desc:'Pollo a la parrilla glaseado en tare, brocheta por brocheta.'}
   ]},
   tailandia:{nombre:'Tailandia', bandera:'🇹🇭', desc:'El equilibrio entre dulce, ácido, salado y picante.', platos:[
     {id:'pad-thai', emoji:'🍤', nombre:'Pad Thai', desc:'Fideos de arroz, el balance exacto de tamarindo y lima.'},
@@ -2170,6 +2175,136 @@ const RECETAS_PASAPORTE = {
       {t:'Pasa cada pieza por la masa, sacudiendo el exceso, y fríe en pequeños lotes sin amontonar.', s:480},
       {t:'Fríe 1-2 minutos hasta que esté dorado claro, no oscuro — el tempura tradicional es pálido y crujiente, no tostado.', s:120},
       {t:'Escurre sobre papel absorbente y sirve de inmediato con salsa tentsuyu (caldo dashi con soya y mirin).', s:60}
+    ]
+  },
+
+  'katsu-curry':{
+    nombre:'Katsu Curry', pais:'Japón', emoji:'🍛',
+    desc:'Cerdo empanizado crujiente bañado en un curry japonés suave, espeso y ligeramente dulce. La fusión que conquistó Japón en el siglo XIX.',
+    pills:['40 min','3 porciones','Intermedio'], porcionesBase:3,
+    ingredientes:[
+      {n:'Chuletas de cerdo', c:3, u:'unidad'},{n:'Pan molido (panko)', c:150, u:'g'},
+      {n:'Huevo', c:1, u:'unidad'},{n:'Harina', c:50, u:'g'},
+      {n:'Cebolla', c:1, u:'unidad'},{n:'Zanahoria', c:1, u:'unidad'},
+      {n:'Papa', c:1, u:'unidad'},{n:'Curry en bloque japonés', c:100, u:'g'},
+      {n:'Caldo o agua', c:600, u:'ml'},{n:'Aceite para freír', c:1, u:'litro'},{n:'Arroz blanco', c:300, u:'g'}
+    ],
+    sustituciones:[{falta:'Curry en bloque japonés', usa:'Curry en polvo japonés (no indio) mezclado con un poco de harina y mantequilla para espesar de forma similar'},{falta:'Panko', usa:'Pan molido normal, aunque queda menos crujiente y aireado'}],
+    sosVideo:{emoji:'🍛', tag:'TÉCNICA EN BUCLE', titulo:'Por qué el panko da una corteza más crujiente que el pan molido común'},
+    laboratorio:{
+      notas:'El panko se hace de pan sin corteza procesado en escamas grandes e irregulares, con menor densidad que el pan molido fino tradicional. Esa estructura abierta retiene menos aceite durante la fritura y crea más superficie de contacto crujiente, mientras que el pan molido fino se compacta y absorbe más grasa, dando una corteza más pesada y menos aireada.',
+      tips:['El curry japonés en bloque contiene harina y grasa precocidas que actúan como espesante natural, por eso espesa solo, sin necesidad de roux aparte','Golpear ligeramente la chuleta antes de empanizar rompe parte del tejido conectivo, dando una textura más tierna después de freír']
+    },
+    pasos:[
+      {t:'Sofríe cebolla, zanahoria y papa en trozos en un poco de aceite hasta que la cebolla esté transparente.', s:300},
+      {t:'Agrega el caldo o agua y cocina a fuego medio hasta que las verduras estén tiernas, unos 15 minutos.', s:900},
+      {t:'Retira del fuego, agrega el curry en bloque troceado y mezcla hasta disolver por completo. Regresa a fuego bajo y cocina 5 minutos más hasta espesar.', s:300},
+      {t:'Sazona las chuletas con sal y pimienta. Pásalas por harina, luego huevo batido, luego panko, presionando para que se adhiera bien.', s:300},
+      {t:'Fríe las chuletas empanizadas en aceite a 170-180°C, 3-4 minutos por lado, hasta dorar intensamente.', s:480},
+      {t:'Escurre sobre papel absorbente, corta en tiras. Sirve sobre arroz blanco con el curry bañando la mitad del plato.', s:120}
+    ]
+  },
+
+  'okonomiyaki':{
+    nombre:'Okonomiyaki', pais:'Japón', emoji:'🥞',
+    desc:'El nombre significa "como tú quieras" — un panqueque salado de col que se adapta a lo que tengas, coronado con salsa dulce-salada y mayonesa.',
+    pills:['30 min','2 porciones','Fácil'], porcionesBase:2,
+    ingredientes:[
+      {n:'Col verde', c:300, u:'g'},{n:'Harina', c:100, u:'g'},
+      {n:'Huevos', c:2, u:'unidad'},{n:'Caldo dashi o agua', c:120, u:'ml'},
+      {n:'Panceta en láminas', c:100, u:'g'},{n:'Salsa okonomiyaki o salsa inglesa', c:0, u:'al gusto'},
+      {n:'Mayonesa', c:0, u:'al gusto'},{n:'Alga nori en polvo', c:0, u:'al gusto'}
+    ],
+    sustituciones:[{falta:'Salsa okonomiyaki', usa:'Mezcla salsa inglesa con un poco de ketchup y salsa de soya en proporciones iguales'},{falta:'Caldo dashi', usa:'Agua simple, el sabor será más plano pero funcional'}],
+    sosVideo:{emoji:'🥞', tag:'TÉCNICA EN BUCLE', titulo:'Por qué se pica la col gruesa, no fina'},
+    laboratorio:{
+      notas:'La col cortada en trozos gruesos (no rallada fina) retiene más estructura celular durante la cocción, dando textura y un crujido sutil dentro del panqueque terminado, en vez de disolverse en la masa. La proporción de harina:líquido:huevo crea una masa lo suficientemente espesa para que la col se mantenga suspendida sin hundirse al fondo de la sartén.',
+      tips:['Presionar firmemente con la espátula mientras se cocina ayuda a que el panqueque se compacte y no se desarme al voltear','El alga nori en polvo (aonori) y los copos de katsuobushi (bonito seco) son el toque final tradicional, aportando umami marino sin necesidad de más sal']
+    },
+    pasos:[
+      {t:'Corta la col en trozos gruesos, no muy finos. Mézclala con harina, huevos y caldo dashi hasta lograr una masa espesa que cubra bien la col.', s:300},
+      {t:'Calienta una sartén o plancha a fuego medio con un poco de aceite. Vierte la masa formando un disco grueso.', s:60},
+      {t:'Coloca las láminas de panceta encima del disco, presionando ligeramente para que se adhieran a la masa.', s:120},
+      {t:'Cocina 5-6 minutos hasta que la base esté dorada y firme. Voltea con cuidado usando dos espátulas.', s:360},
+      {t:'Cocina el segundo lado 5-6 minutos más, presionando ocasionalmente para compactar.', s:360},
+      {t:'Sirve coronado con salsa okonomiyaki en líneas, mayonesa, alga nori en polvo y, si tienes, copos de katsuobushi.', s:120}
+    ]
+  },
+
+  'gyoza':{
+    nombre:'Gyoza', pais:'Japón', emoji:'🥟',
+    desc:'Dumplings de cerdo y col que se cocinan en dos etapas: vapor por dentro, base crujiente por fuera. La versión japonesa de los jiaozi chinos.',
+    pills:['45 min','24 piezas', 'Intermedio'], porcionesBase:4,
+    ingredientes:[
+      {n:'Carne de cerdo molida', c:300, u:'g'},{n:'Col china', c:200, u:'g'},
+      {n:'Cebollín', c:1, u:'manojo'},{n:'Ajo', c:2, u:'diente'},
+      {n:'Jengibre', c:1, u:'cucharadita'},{n:'Salsa de soya', c:2, u:'cucharada'},
+      {n:'Aceite de sésamo', c:1, u:'cucharada'},{n:'Obleas para gyoza', c:24, u:'unidad'},{n:'Aceite vegetal', c:30, u:'ml'}
+    ],
+    sustituciones:[{falta:'Obleas para gyoza', usa:'Obleas para wonton, son casi idénticas en grosor y composición'},{falta:'Col china', usa:'Col verde común, pica más fina ya que es más fibrosa'}],
+    sosVideo:{emoji:'🥟', tag:'TÉCNICA EN BUCLE', titulo:'El plegado en abanico que sella el relleno'},
+    laboratorio:{
+      notas:'La técnica de cocción híbrida (sellar en sartén, agregar agua, tapar al vapor, luego destapar para crujir la base) aprovecha dos métodos de transferencia de calor: el vapor cocina el relleno crudo de forma uniforme y rápida sin quemar la masa, mientras que el contacto directo final con la sartén seca y carameliza solo la base, dando el contraste de texturas característico.',
+      tips:['Picar la col y salarla brevemente antes de mezclar con la carne extrae exceso de agua que de otro modo humedecería demasiado el relleno','No sobrecargar las obleas es clave — demasiado relleno dificulta sellar bien los bordes y puede romperse durante la cocción al vapor']
+    },
+    pasos:[
+      {t:'Pica finamente la col china, sálala ligeramente y deja reposar 10 minutos. Exprime el exceso de agua con las manos.', s:600},
+      {t:'Mezcla la col exprimida con la carne molida, cebollín picado, ajo, jengibre, salsa de soya y aceite de sésamo hasta integrar bien.', s:300},
+      {t:'Coloca una cucharadita de relleno en el centro de cada oblea. Humedece el borde con agua y pliega en abanico, sellando bien las puntas.', s:900},
+      {t:'Calienta aceite en una sartén antiadherente a fuego medio. Coloca los gyoza de pie, base hacia abajo, y dora 2 minutos.', s:120},
+      {t:'Agrega un poco de agua a la sartén (suficiente para cubrir el fondo) y tapa de inmediato. Cocina al vapor 5 minutos.', s:300},
+      {t:'Destapa y deja que el agua restante se evapore por completo, dejando que la base vuelva a dorar y quede crujiente.', s:180},
+      {t:'Sirve con salsa de soya, vinagre de arroz y un poco de aceite picante al gusto.', s:60}
+    ]
+  },
+
+  'miso-shiru':{
+    nombre:'Miso Shiru', pais:'Japón', emoji:'🍲',
+    desc:'La sopa de miso real, no la versión diluida de restaurante. El dashi como base y la temperatura exacta del miso son la técnica entera.',
+    pills:['20 min','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Alga kombu', c:10, u:'g'},{n:'Hojuelas de bonito (katsuobushi)', c:20, u:'g'},
+      {n:'Agua', c:1000, u:'ml'},{n:'Pasta de miso', c:60, u:'g'},
+      {n:'Tofu suave', c:200, u:'g'},{n:'Cebollín', c:0, u:'al gusto'},{n:'Algas wakame secas', c:5, u:'g'}
+    ],
+    sustituciones:[{falta:'Hojuelas de bonito', usa:'Caldo dashi en polvo instantáneo, aunque el sabor es menos profundo que el dashi hecho desde cero'},{falta:'Alga kombu', usa:'No hay sustituto real para el umami base — sin ella, el caldo queda plano'}],
+    sosVideo:{emoji:'🍲', tag:'TÉCNICA EN BUCLE', titulo:'Por qué el miso nunca se hierve'},
+    laboratorio:{
+      notas:'El miso es una pasta fermentada rica en enzimas y microorganismos vivos que aportan sabor y aroma complejo; hervirlo destruye esos compuestos volátiles y produce un sabor plano y a veces amargo. Por eso se diluye en un poco de caldo tibio aparte y se incorpora al final, fuera del hervor activo, preservando su perfil aromático completo.',
+      tips:['El dashi (caldo base de kombu y bonito) nunca debe hervir fuerte — el kombu se retira justo antes de que el agua hierva, o libera compuestos mucilaginosos que enturbian y amargan el caldo','Disolver el miso en un colador pequeño sumergido en el caldo, presionando con una cuchara, evita grumos sin necesidad de batir agresivamente']
+    },
+    pasos:[
+      {t:'Remoja el alga kombu en agua fría 30 minutos (o toda la noche para más sabor). Calienta a fuego bajo, retirando el kombu justo antes de que hierva.', s:1800},
+      {t:'Agrega las hojuelas de bonito al agua caliente, deja reposar 5 minutos sin hervir. Cuela para obtener el dashi limpio.', s:300},
+      {t:'Regresa el dashi a la olla a fuego bajo. Agrega el tofu cortado en cubos y las algas wakame rehidratadas.', s:180},
+      {t:'Disuelve el miso en un colador pequeño sumergido en el caldo caliente, presionando con una cuchara hasta que se integre.', s:120},
+      {t:'Apaga el fuego de inmediato después de agregar el miso — nunca debe volver a hervir.', s:30},
+      {t:'Sirve caliente con cebollín picado encima.', s:30}
+    ]
+  },
+
+  'yakitori':{
+    nombre:'Yakitori', pais:'Japón', emoji:'🍢',
+    desc:'Pollo a la parrilla en brochetas, glaseado en capas sucesivas de tare (salsa dulce-salada). Comida de izakaya por excelencia.',
+    pills:['30 min + marinado','4 porciones','Fácil'], porcionesBase:4,
+    ingredientes:[
+      {n:'Muslo de pollo sin hueso', c:600, u:'g'},{n:'Cebollín o poro', c:2, u:'unidad'},
+      {n:'Salsa de soya', c:100, u:'ml'},{n:'Mirin', c:100, u:'ml'},
+      {n:'Sake', c:50, u:'ml'},{n:'Azúcar', c:40, u:'g'}
+    ],
+    sustituciones:[{falta:'Mirin', usa:'Vino blanco dulce con una pizca de azúcar extra, aunque el sabor no es idéntico'},{falta:'Sake', usa:'Se puede omitir, el tare quedará un poco menos complejo pero funcional'}],
+    sosVideo:{emoji:'🍢', tag:'TÉCNICA EN BUCLE', titulo:'Glasear en capas, nunca de una sola vez'},
+    laboratorio:{
+      notas:'El tare (salsa de soya, mirin, sake y azúcar reducidos) se aplica en múltiples capas finas durante la cocción, no de una sola vez: cada capa se carameliza parcialmente por el calor de la parrilla antes de la siguiente, construyendo una glaseado lacado y brillante. Aplicar toda la salsa de golpe quema los azúcares antes de que penetren, dando un sabor quemado en vez de un glaseado profundo.',
+      tips:['Reducir el tare aparte en una olla pequeña hasta que espese ligeramente concentra su sabor antes de usarlo para glasear','Intercalar trozos de pollo con cebollín o poro en la misma brocheta (yakitori negima) es la combinación tradicional más común']
+    },
+    pasos:[
+      {t:'Hierve salsa de soya, mirin, sake y azúcar en una olla pequeña hasta que reduzca y espese ligeramente, formando el tare.', s:600},
+      {t:'Corta el pollo en cubos uniformes. Ensarta en brochetas alternando con trozos de cebollín o poro.', s:600},
+      {t:'Cocina las brochetas a la parrilla o sartén a fuego medio-alto, girando cada 2 minutos.', s:480},
+      {t:'Cuando el pollo esté casi listo, pincela con una capa fina de tare y deja caramelizar 30 segundos antes de voltear.', s:30},
+      {t:'Repite el glaseado en 2-3 capas más, dejando caramelizar cada una antes de aplicar la siguiente.', s:120},
+      {t:'Sirve caliente, opcionalmente con un toque extra de tare y sésamo tostado.', s:60}
     ]
   },
 
