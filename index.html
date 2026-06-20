@@ -418,6 +418,25 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 .finish-sub{font-size:.68em;color:var(--tinta-dim);margin-top:4px;letter-spacing:.5px}
 
 /* ── PASAPORTE GASTRONÓMICO ── */
+/* ── ONBOARDING ── */
+.onboard-screen{display:none;position:fixed;inset:0;background:var(--crema);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px}
+.onboard-screen.active{display:flex}
+.onboard-slides{width:100%;max-width:380px}
+.onboard-slide{display:none;animation:fadeUp .35s ease both;text-align:center}
+.onboard-slide.active{display:block}
+.onboard-flame{width:64px;height:84px;margin:0 auto 28px}
+.onboard-flame svg{width:100%;height:100%}
+.onboard-emoji{font-size:3em;text-align:center;margin-bottom:24px;letter-spacing:4px}
+.onboard-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.7em;color:var(--tinta);line-height:1.2;margin-bottom:18px}
+.onboard-body{font-size:.88em;color:var(--tinta-dim);line-height:1.7}
+.onboard-body strong{color:var(--terracota);font-weight:700}
+.onboard-dots{display:flex;justify-content:center;gap:7px;margin:36px 0 28px}
+.onboard-dot{width:7px;height:7px;border-radius:50%;background:var(--linea);transition:background .3s,width .3s}
+.onboard-dot.active{background:var(--terracota);width:20px;border-radius:4px}
+.onboard-btns{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
+.onboard-next{width:100%;padding:16px;background:var(--terracota);border:none;border-radius:16px;color:#fff;font-weight:700;font-size:.8em;letter-spacing:1.5px;cursor:pointer}
+.onboard-skip{background:none;border:none;font-size:.74em;color:var(--tinta-faint);cursor:pointer;text-align:center;text-decoration:underline;text-underline-offset:3px;padding:6px}
+
 .passport-link{margin:0 22px 8px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#2B2620,#3D372E);border-radius:20px;padding:18px 18px;cursor:pointer;position:relative;overflow:hidden}
 .passport-link::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(232,185,74,0.22),transparent 70%)}
 .passport-link-icon{font-size:1.8em;flex-shrink:0;z-index:1}
@@ -495,8 +514,46 @@ body{min-height:100%;background:#FBF6EE!important;color:#2B2620!important;font-f
 </head>
 <body>
 
+<!-- ══ ONBOARDING ══ -->
+<div id="screen-onboarding" class="onboard-screen active">
+  <div class="onboard-slides">
+    <div class="onboard-slide active" id="ob-0">
+      <div class="onboard-flame">
+        <svg viewBox="0 0 24 32" fill="none"><path d="M12 1C12 1 4 11 4 19C4 25 8 30 12 30C16 30 20 25 20 19C20 14 17 11 16 9C16 13 13 14 13 17C13 19 14 20 14 20C12 20 10 17 10 14C10 9 12 5 12 1Z" fill="#C4633F"/></svg>
+      </div>
+      <div class="onboard-title">Bienvenido a Fogón</div>
+      <div class="onboard-body">Cocina que se adapta a cómo estás hoy.<br><br>No eres el mismo cocinero un martes agotado que un domingo con tiempo de sobra. Fogón tampoco debería serlo.</div>
+    </div>
+    <div class="onboard-slide" id="ob-1">
+      <div class="onboard-emoji">🆘🧭🔬</div>
+      <div class="onboard-title">Tres modos, una sola receta</div>
+      <div class="onboard-body"><strong>S.O.S.</strong> te guía paso a paso sin tecnicismos cuando tienes prisa.<br><br><strong>Copiloto</strong> te da datos útiles si ya sabes cocinar.<br><br><strong>Laboratorio</strong> te da precisión y el porqué científico de cada técnica.</div>
+    </div>
+    <div class="onboard-slide" id="ob-2">
+      <div class="onboard-emoji">🌍</div>
+      <div class="onboard-title">Viaja sin salir de tu cocina</div>
+      <div class="onboard-body">El Pasaporte Gastronómico tiene decenas de platos emblemáticos de países reales.<br><br>Cada receta que termines te gana un sello. Colecciónalos todos.</div>
+    </div>
+    <div class="onboard-slide" id="ob-3">
+      <div class="onboard-emoji">🔥</div>
+      <div class="onboard-title">Listo para empezar</div>
+      <div class="onboard-body">Elige tu modo, escoge una receta, y deja que Fogón se adapte a ti — no al revés.</div>
+    </div>
+  </div>
+  <div class="onboard-dots">
+    <div class="onboard-dot active" id="odot-0"></div>
+    <div class="onboard-dot" id="odot-1"></div>
+    <div class="onboard-dot" id="odot-2"></div>
+    <div class="onboard-dot" id="odot-3"></div>
+  </div>
+  <div class="onboard-btns">
+    <button class="onboard-next" id="onboard-next-btn" onclick="onboardNext()">SIGUIENTE →</button>
+    <button class="onboard-skip" onclick="finishOnboarding()">Saltar</button>
+  </div>
+</div>
+
 <!-- ══ HOME ══ -->
-<div class="screen active" id="screen-home">
+<div class="screen" id="screen-home">
   <div class="home-hero">
     <div class="brand-mark">
       <svg class="flame" viewBox="0 0 24 32" fill="none"><path d="M12 1C12 1 4 11 4 19C4 25 8 30 12 30C16 30 20 25 20 19C20 14 17 11 16 9C16 13 13 14 13 17C13 19 14 20 14 20C12 20 10 17 10 14C10 9 12 5 12 1Z" fill="#C4633F"/></svg>
@@ -3795,11 +3852,35 @@ function openTrigo(){
 }
 
 // ════════════════════════════════════════════════
+// ONBOARDING
+// ════════════════════════════════════════════════
+let onboardSlide = 0;
+const ONBOARD_TOTAL = 4;
+
+function onboardNext(){
+  onboardSlide++;
+  if (onboardSlide >= ONBOARD_TOTAL){ finishOnboarding(); return; }
+  document.querySelectorAll('.onboard-slide').forEach((s,i)=>s.classList.toggle('active', i===onboardSlide));
+  document.querySelectorAll('.onboard-dot').forEach((d,i)=>d.classList.toggle('active', i===onboardSlide));
+  if (onboardSlide === ONBOARD_TOTAL-1) document.getElementById('onboard-next-btn').textContent = 'EMPEZAR A COCINAR →';
+}
+
+function finishOnboarding(){
+  localStorage.setItem('fogon_onboarded', '1');
+  document.getElementById('screen-onboarding').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+}
+
+// ════════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════════
 renderHomeCats();
 updateMyRecLinkSub();
 document.querySelector('#mode-rail .mode-card[data-mode="copiloto"]').classList.add('active');
+if (localStorage.getItem('fogon_onboarded')){
+  document.getElementById('screen-onboarding').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+}
 </script>
 </body>
 </html>
