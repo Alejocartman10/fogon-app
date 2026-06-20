@@ -2282,6 +2282,18 @@ function renderHomeCats(){
   document.getElementById('cat-sal').innerHTML = groups.sal.map(([id,r])=>chip(id,r)).join('');
   document.getElementById('cat-pan').innerHTML = groups.pan.map(([id,r])=>chip(id,r)).join('');
   document.getElementById('cat-postre').innerHTML = groups.postre.map(([id,r])=>chip(id,r)).join('');
+  updatePassportLinkSub();
+}
+
+function updatePassportLinkSub(){
+  const earned = getStamps().length;
+  const total = totalDishes();
+  const nPaises = Object.keys(PAISES).length;
+  const el = document.getElementById('passport-link-sub');
+  if (!el) return;
+  el.textContent = earned > 0
+    ? `${earned} de ${total} sellos conseguidos`
+    : `${total} recetas de ${nPaises} países, esperando`;
 }
 
 function setGlobalMode(mode, btn){
@@ -2621,7 +2633,7 @@ function goTo(id){
 function openPassport(){
   const earned = getStamps().length;
   const total = totalDishes();
-  document.getElementById('passport-link-sub').textContent = earned>0 ? `${earned} de ${total} sellos conseguidos` : 'Viaja por el mundo, un plato a la vez';
+  updatePassportLinkSub();
   document.getElementById('stamp-count').textContent = earned;
   document.getElementById('stamp-total').textContent = total;
   renderContinents();
